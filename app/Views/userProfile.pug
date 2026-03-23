@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  if user
+    h1 👤 #{user.name}'s Profile
+    .card
+      p Email: #{user.email}
+      p 
+        span Skill Level: 
+        span(class='badge badge-' + user.skill_level)= user.skill_level
+      p Member since: #{new Date(user.created_at).toDateString()}
+    
+    h2 Learning Progress
+    if progress.length === 0
+      .card
+        p No lessons started yet.
+    else
+      each item in progress
+        .card
+          h3= item.title
+          if item.completed
+            p ✅ Completed on #{new Date(item.completed_at).toDateString()}
+          else
+            p ⏳ In progress
+    
+    a.btn(href="/users") ← Back to all learners
+  else
+    h1 User not found
+    a.btn(href="/users") ← Back to all learners

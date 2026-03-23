@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  if category
+    h1  #{category.name}
+    p= category.description
+    
+    h2 Lessons in this category
+    if lessons.length === 0
+      .card
+        p No lessons in this category yet.
+    else
+      each lesson in lessons
+        .card
+          h3= lesson.title
+          p= lesson.description
+          a.btn(href='/lessons/' + lesson.id) View Lesson
+    
+    a.btn(href="/categories") ← Back to categories
+  
+  else
+    h1 📂 All Categories
+    p Browse lessons by skill level and topic.
+    
+    each cat in categories
+      .card
+        h2= cat.name
+        p= cat.description
+        a.btn(href='/categories/' + cat.id) Browse #{cat.name} Lessons

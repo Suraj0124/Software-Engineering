@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  if lesson
+    h1  #{lesson.title}
+    .card
+      p= lesson.description
+      p 
+        span Category: 
+        span(class='badge badge-' + lesson.category_name.toLowerCase())= lesson.category_name
+      p Added: #{new Date(lesson.created_at).toDateString()}
+      
+      if lesson.video_url
+        h3 Video Lesson
+        p
+          a(href=lesson.video_url target='_blank').btn ▶ Watch Video
+    
+    a.btn(href="/lessons") ← Back to all lessons
+  else
+    h1 Lesson not found
+    a.btn(href="/lessons") ← Back to all lessons

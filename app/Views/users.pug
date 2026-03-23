@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1 👥 All Learners
+  p Meet the guitar learners on our platform.
+  
+  each user in users
+    .card
+      h2= user.name
+      p Email: #{user.email}
+      p 
+        span Skill Level: 
+        span(class='badge badge-' + user.skill_level)= user.skill_level
+      p Joined: #{new Date(user.created_at).toDateString()}
+      a.btn(href='/users/' + user.id) View Profile

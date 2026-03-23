@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1 🎵 All Lessons
+  p Browse all our guitar lessons below.
+  
+  each lesson in lessons
+    .card
+      h2= lesson.title
+      p= lesson.description
+      p 
+        span Category: 
+        span(class='badge badge-' + lesson.category_name.toLowerCase())= lesson.category_name
+      a.btn(href='/lessons/' + lesson.id) View Lesson
