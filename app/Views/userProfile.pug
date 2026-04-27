@@ -2,7 +2,7 @@ extends layout
 
 block content
   if user
-    h1 👤 #{user.name}'s Profile
+    h1  #{user.name}'s Profile
     .card
       p Email: #{user.email}
       p 
@@ -19,9 +19,9 @@ block content
         .card
           h3= item.title
           if item.completed
-            p ✅ Completed on #{new Date(item.completed_at).toDateString()}
+            p  Completed on #{new Date(item.completed_at).toDateString()}
           else
-            p ⏳ In progress
+            p  In progress
     
     a.btn(href="/users") ← Back to all learners
   else
