@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
 COPY package*.json ./
 
 # Install dependencies (this is the key change)
-RUN npm ci --legacy-peer-deps
+RUN npm install --legacy-peer-deps
 
 # Install supervisor (only once, globally)
 RUN npm i -g supervisor

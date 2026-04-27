@@ -14,6 +14,80 @@ app.set('views', '/src/app/Views');
 // Get the functions in the db.js file to use
 const db = require('./services/db');
 
+// Session and auth
+const session = require('express-session');
+const bcrypt = require('bcryptjs');
+
+// Middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(session({
+    secret: 'nepali-hami-secret',
+    resave: false,
+    saveUninitialized: false
+}));
+
+// Make session user available in all views
+app.use((req, res, next) => {
+    res.locals.sessionUser = req.session.user;
+    next();
+});
+
+// =======================================
+// AUTH ROUTES
+// =======================================
+
+// Login page
+app.get("/login", function(req, res) {
+    if (req.session.user) return res.redirect('/');
+    res.render("login", { error: null });
+});
+
+// Login form submit
+app.post("/login", function(req, res) {
+    const { email, password } = req.body;
+    const sql = 'SELECT * FROM users WHERE email = ?';
+    db.query(sql, [email]).then(results => {
+        if (results.length === 0) {
+            return res.render("login", { error: "Invalid email or password" });
+        }
+        const user = results[0];
+        const match = bcrypt.compareSync(password, user.password);
+        if (!match) {
+            return res.render("login", { error: "Invalid email or password" });
+        }
+        req.session.user = { id: user.id, name: user.name, email: user.email };
+        res.redirect('/');
+    });
+});
+
+// Logout
+app.get("/logout", function(req, res) {
+    req.session.destroy();
+    res.redirect('/login');
+});
+
+// Register page
+app.get("/register", function(req, res) {
+    if (req.session.user) return res.redirect('/');
+    res.render("register", { error: null });
+});
+
+// Register form submit
+app.post("/register", function(req, res) {
+    const { name, email, password } = req.body;
+    const hashedPassword = bcrypt.hashSync(password, 10);
+    const sql = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
+    db.query(sql, [name, email, hashedPassword]).then(results => {
+        res.redirect('/login');
+    }).catch(err => {
+        res.render("register", { error: "Email already exists" });
+    });
+});
+
+// =======================================
+// ORIGINAL ROUTES
+// =======================================
+
 // Create a route for root - /
 app.get("/", function(req, res) {
     res.render("index");
