@@ -33,7 +33,18 @@ app.use((req, res, next) => {
 });
 
 // =======================================
-// AUTH ROUTES
+// PROTECT ROUTES MIDDLEWARE
+// =======================================
+function requireLogin(req, res, next) {
+    if (req.session.user) {
+        next();
+    } else {
+        res.redirect('/login');
+    }
+}
+
+// =======================================
+// AUTH ROUTES (no login required)
 // =======================================
 
 // Login page
@@ -85,16 +96,16 @@ app.post("/register", function(req, res) {
 });
 
 // =======================================
-// ORIGINAL ROUTES
+// PROTECTED ROUTES (login required)
 // =======================================
 
-// Create a route for root - /
-app.get("/", function(req, res) {
+// Home page
+app.get("/", requireLogin, function(req, res) {
     res.render("index");
 });
 
-// Create a route for testing the db
-app.get("/db_test", function(req, res) {
+// DB test
+app.get("/db_test", requireLogin, function(req, res) {
     sql = 'select * from test_table';
     db.query(sql).then(results => {
         console.log(results);
@@ -102,31 +113,16 @@ app.get("/db_test", function(req, res) {
     });
 });
 
-// Create a route for /goodbye
-app.get("/goodbye", function(req, res) {
-    res.send("Goodbye world!");
-});
-
-// Create a dynamic route for /hello/<name>
-app.get("/hello/:name", function(req, res) {
-    console.log(req.params);
-    res.send("Hello " + req.params.name);
-});
-
-// =======================================
-// SPRINT 3 ROUTES
-// =======================================
-
-// 1. USERS LIST PAGE - shows all users
-app.get("/users", function(req, res) {
+// 1. USERS LIST PAGE
+app.get("/users", requireLogin, function(req, res) {
     sql = 'SELECT * FROM users';
     db.query(sql).then(results => {
         res.render("users", { users: results });
     });
 });
 
-// 2. USER PROFILE PAGE - shows a single user
-app.get("/users/:id", function(req, res) {
+// 2. USER PROFILE PAGE
+app.get("/users/:id", requireLogin, function(req, res) {
     const userId = req.params.id;
     const userSql = 'SELECT * FROM users WHERE id = ?';
     const progressSql = `
@@ -145,8 +141,8 @@ app.get("/users/:id", function(req, res) {
     });
 });
 
-// 3. LESSONS LISTING PAGE - shows all lessons
-app.get("/lessons", function(req, res) {
+// 3. LESSONS LISTING PAGE
+app.get("/lessons", requireLogin, function(req, res) {
     sql = `SELECT lessons.*, categories.name AS category_name 
            FROM lessons 
            JOIN categories ON lessons.category_id = categories.id`;
@@ -155,8 +151,8 @@ app.get("/lessons", function(req, res) {
     });
 });
 
-// 4. LESSON DETAIL PAGE - shows a single lesson
-app.get("/lessons/:id", function(req, res) {
+// 4. LESSON DETAIL PAGE
+app.get("/lessons/:id", requireLogin, function(req, res) {
     const lessonId = req.params.id;
     sql = `SELECT lessons.*, categories.name AS category_name 
            FROM lessons 
@@ -167,8 +163,8 @@ app.get("/lessons/:id", function(req, res) {
     });
 });
 
-// 5. CATEGORIES PAGE - shows all categories
-app.get("/categories", function(req, res) {
+// 5. CATEGORIES PAGE
+app.get("/categories", requireLogin, function(req, res) {
     sql = 'SELECT * FROM categories';
     db.query(sql).then(results => {
         res.render("categories", { categories: results });
@@ -176,7 +172,7 @@ app.get("/categories", function(req, res) {
 });
 
 // 6. LESSONS BY CATEGORY
-app.get("/categories/:id", function(req, res) {
+app.get("/categories/:id", requireLogin, function(req, res) {
     const categoryId = req.params.id;
     const catSql = 'SELECT * FROM categories WHERE id = ?';
     const lessonSql = 'SELECT * FROM lessons WHERE category_id = ?';
@@ -192,6 +188,6 @@ app.get("/categories/:id", function(req, res) {
 });
 
 // Start server on port 3000
-app.listen(3000,function(){
+app.listen(3000, function(){
     console.log(`Server running at http://127.0.0.1:3000/`);
 });
