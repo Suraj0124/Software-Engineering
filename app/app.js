@@ -164,6 +164,11 @@ app.get("/", requireLogin, function(req, res) {
     res.render("index");
 });
 
+// Practice tools page
+app.get("/practice", requireLogin, function(req, res) {
+    res.render("practice");
+});
+
 // DB test
 app.get("/db_test", requireLogin, function(req, res) {
     sql = 'select * from test_table';
