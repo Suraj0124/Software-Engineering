@@ -1,14 +1,147 @@
 extends layout
 
 block content
-  h1  All Lessons
-  p Browse all our guitar lessons below.
-  
-  each lesson in lessons
-    .card
-      h2= lesson.title
-      p= lesson.description
-      p 
-        span Category: 
-        span(class='badge badge-' + lesson.category_name.toLowerCase())= lesson.category_name
-      a.btn(href='/lessons/' + lesson.id) View Lesson
+  .container
+    .lessons-header
+      h1 🎵 All Lessons
+      p Browse our guitar lessons below — from beginner to advanced!
+
+    .lessons-filter
+      a.filter-btn.active(href='/lessons') All
+      a.filter-btn(href='/categories/1') Beginner
+      a.filter-btn(href='/categories/2') Intermediate
+      a.filter-btn(href='/categories/3') Advanced
+
+    .lessons-grid
+      each lesson in lessons
+        .lesson-card
+          .lesson-card-header
+            .lesson-emoji 🎸
+            span(class='badge badge-' + lesson.category_name.toLowerCase())= lesson.category_name
+          .lesson-card-body
+            h3= lesson.title
+            p= lesson.description
+          .lesson-card-footer
+            a.view-btn(href='/lessons/' + lesson.id) Watch Lesson →
+
+  style.
+    .lessons-header {
+      text-align: center;
+      padding: 2.5rem 2rem 1rem;
+    }
+    .lessons-header h1 {
+      font-size: 2.2rem;
+      color: #1a1a2e;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+    .lessons-header p {
+      color: #666;
+      font-size: 1rem;
+    }
+
+    .lessons-filter {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      padding: 1rem 2rem;
+      margin-bottom: 1rem;
+    }
+    .filter-btn {
+      padding: 0.5rem 1.2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      background: #f0f0f0;
+      color: #333;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: #2d6a4f;
+      color: white;
+      border-color: #2d6a4f;
+    }
+
+    .lessons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 3rem;
+    }
+
+    .lesson-card {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.07);
+      border: 1px solid #f0f0f0;
+      overflow: hidden;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .lesson-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      border-color: #2d6a4f;
+    }
+
+    .lesson-card-header {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      padding: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .lesson-emoji { font-size: 2.5rem; }
+
+    .lesson-card-body {
+      padding: 1.2rem 1.5rem;
+      flex: 1;
+    }
+    .lesson-card-body h3 {
+      font-size: 1.1rem;
+      color: #1a1a2e;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .lesson-card-body p {
+      color: #666;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .lesson-card-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid #f0f0f0;
+    }
+    .view-btn {
+      display: block;
+      text-align: center;
+      background: #2d6a4f;
+      color: white;
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background 0.2s;
+    }
+    .view-btn:hover { background: #1b4332; color: white; }
+
+    .badge {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .badge-beginner { background: #d5f5e3; color: #1e8449; }
+    .badge-intermediate { background: #fef9e7; color: #d4ac0d; }
+    .badge-advanced { background: #fadbd8; color: #c0392b; }
+    .badge-music.theory { background: #e8daef; color: #7d3c98; }
+    .badge-songs { background: #d6eaf8; color: #1a5276; }

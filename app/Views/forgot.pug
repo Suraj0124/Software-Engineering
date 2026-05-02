@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  .login-container
+    h1 Reset Password
+    if error
+      .error-msg= error
+    form(method='POST' action='/forgot')
+      .form-group
+        label Email
+        input(type='email' name='email' required)
+      .form-group
+        label New Password
+        input(type='password' name='newPassword' required)
+      button.btn-login(type='submit') Reset Password
+    p
+      a(href='/login') Back to login

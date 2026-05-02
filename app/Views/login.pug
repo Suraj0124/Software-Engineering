@@ -13,8 +13,18 @@ block content
         label Password
         input(type='password' name='password' required)
       button.btn-login(type='submit') Login
-    p.register-link Don't have an account? 
+    p.register-link Don't have an account?
       a(href='/register') Register here
+    p.forgot-link
+      a(href='/forgot') Forgot password?
+
+    .divider
+      span OR
+
+    .admin-box
+      p.admin-title 🔑 Admin Access
+      p.admin-desc Login as administrator to manage users and platform content.
+      a.btn-admin(href='/admin-login') Login as Admin
 
   style.
     .login-container { max-width: 400px; margin: 3rem auto; padding: 2rem; background: #fff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
@@ -26,3 +36,12 @@ block content
     .btn-login:hover { background: #2b2d42; }
     .error-msg { background: #ffe0e0; color: #c00; padding: 0.75rem; border-radius: 8px; margin-bottom: 1rem; }
     .register-link { text-align: center; margin-top: 1rem; font-size: 0.9rem; }
+    .forgot-link { text-align: center; font-size: 0.9rem; margin-top: 0.5rem; }
+    .divider { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #ddd; }
+    .divider span { color: #aaa; font-size: 0.85rem; }
+    .admin-box { background: #f0f4ff; border: 2px dashed #1a1a2e; border-radius: 12px; padding: 1.2rem; text-align: center; }
+    .admin-title { font-weight: 700; color: #1a1a2e; margin-bottom: 0.3rem; font-size: 1rem; }
+    .admin-desc { font-size: 0.85rem; color: #666; margin-bottom: 1rem; }
+    .btn-admin { display: block; background: #1a1a2e; color: #fff; padding: 0.7rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: background 0.2s; }
+    .btn-admin:hover { background: #2d6a4f; color: #fff; }

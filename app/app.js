@@ -43,6 +43,14 @@ function requireLogin(req, res, next) {
     }
 }
 
+function requireAdmin(req, res, next) {
+    if (req.session.user && req.session.user.is_admin) {
+        next();
+    } else {
+        res.redirect('/');
+    }
+}
+
 // =======================================
 // AUTH ROUTES (no login required)
 // =======================================
@@ -66,7 +74,12 @@ app.post("/login", function(req, res) {
         if (!match) {
             return res.render("login", { error: "Invalid email or password" });
         }
-        req.session.user = { id: user.id, name: user.name, email: user.email };
+        req.session.user = { 
+            id: user.id, 
+            name: user.name, 
+            email: user.email,
+            is_admin: user.is_admin 
+        };
         res.redirect('/');
     });
 });
@@ -95,6 +108,53 @@ app.post("/register", function(req, res) {
     });
 });
 
+// Forgot password page
+app.get("/forgot", function(req, res) {
+    res.render("forgot", { error: null });
+});
+
+// Handle reset password
+app.post("/forgot", function(req, res) {
+    const { email, newPassword } = req.body;
+    const hashedPassword = bcrypt.hashSync(newPassword, 10);
+    const sql = 'UPDATE users SET password = ? WHERE email = ?';
+    db.query(sql, [hashedPassword, email]).then(result => {
+        if (result.affectedRows === 0) {
+            return res.render("forgot", { error: "Email not found" });
+        }
+        res.redirect('/login');
+    });
+});
+
+// Admin login page
+app.get("/admin-login", function(req, res) {
+    if (req.session.user) return res.redirect('/');
+    res.render("adminLogin", { error: null });
+});
+
+// Admin login form submit
+app.post("/admin-login", function(req, res) {
+    const { email, password } = req.body;
+    const sql = 'SELECT * FROM users WHERE email = ? AND is_admin = TRUE';
+    db.query(sql, [email]).then(results => {
+        if (results.length === 0) {
+            return res.render("adminLogin", { error: "Invalid admin credentials" });
+        }
+        const user = results[0];
+        const match = bcrypt.compareSync(password, user.password);
+        if (!match) {
+            return res.render("adminLogin", { error: "Invalid admin credentials" });
+        }
+        req.session.user = {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            is_admin: user.is_admin
+        };
+        res.redirect('/users');
+    });
+});
+
 // =======================================
 // PROTECTED ROUTES (login required)
 // =======================================
@@ -113,16 +173,16 @@ app.get("/db_test", requireLogin, function(req, res) {
     });
 });
 
-// 1. USERS LIST PAGE
-app.get("/users", requireLogin, function(req, res) {
+// 1. USERS LIST PAGE - ADMIN ONLY
+app.get("/users", requireLogin, requireAdmin, function(req, res) {
     sql = 'SELECT * FROM users';
     db.query(sql).then(results => {
         res.render("users", { users: results });
     });
 });
 
-// 2. USER PROFILE PAGE
-app.get("/users/:id", requireLogin, function(req, res) {
+// 2. USER PROFILE PAGE - ADMIN ONLY
+app.get("/users/:id", requireLogin, requireAdmin, function(req, res) {
     const userId = req.params.id;
     const userSql = 'SELECT * FROM users WHERE id = ?';
     const progressSql = `
@@ -154,12 +214,25 @@ app.get("/lessons", requireLogin, function(req, res) {
 // 4. LESSON DETAIL PAGE
 app.get("/lessons/:id", requireLogin, function(req, res) {
     const lessonId = req.params.id;
-    sql = `SELECT lessons.*, categories.name AS category_name 
+    const lessonSql = `SELECT lessons.*, categories.name AS category_name 
            FROM lessons 
            JOIN categories ON lessons.category_id = categories.id
            WHERE lessons.id = ?`;
-    db.query(sql, [lessonId]).then(results => {
-        res.render("lessonDetail", { lesson: results[0] });
+    const ratingSql = `SELECT AVG(rating) AS avg_rating, COUNT(*) AS total_ratings 
+                       FROM ratings WHERE lesson_id = ?`;
+    const userRatingSql = `SELECT rating FROM ratings WHERE user_id = ? AND lesson_id = ?`;
+
+    db.query(lessonSql, [lessonId]).then(results => {
+        db.query(ratingSql, [lessonId]).then(ratingResults => {
+            db.query(userRatingSql, [req.session.user.id, lessonId]).then(userRating => {
+                res.render("lessonDetail", { 
+                    lesson: results[0],
+                    avgRating: ratingResults[0].avg_rating ? parseFloat(ratingResults[0].avg_rating).toFixed(1) : null,
+                    totalRatings: ratingResults[0].total_ratings,
+                    userRating: userRating.length > 0 ? userRating[0].rating : null
+                });
+            });
+        });
     });
 });
 
@@ -184,6 +257,19 @@ app.get("/categories/:id", requireLogin, function(req, res) {
                 lessons: lessonResults 
             });
         });
+    });
+});
+
+// 7. RATE A LESSON
+app.post("/lessons/:id/rate", requireLogin, function(req, res) {
+    const lessonId = req.params.id;
+    const userId = req.session.user.id;
+    const rating = req.body.rating;
+    const sql = `INSERT INTO ratings (user_id, lesson_id, rating) 
+                 VALUES (?, ?, ?) 
+                 ON DUPLICATE KEY UPDATE rating = ?`;
+    db.query(sql, [userId, lessonId, rating, rating]).then(results => {
+        res.redirect('/lessons/' + lessonId);
     });
 });
 

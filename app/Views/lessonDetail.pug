@@ -2,17 +2,221 @@ extends layout
 
 block content
   if lesson
-    h1 #{lesson.title}
-    .card
-      p= lesson.description
-      p
-        span Category:
-        span(class='badge badge-' + lesson.category_name.toLowerCase())= lesson.category_name
-      p Added: #{new Date(lesson.created_at).toDateString()}
+    .lesson-detail-container
 
-      a.youtube-btn(href='https://www.youtube.com/@shaktiacharya3422' target='_blank')  Watch on YouTube
+      //- BACK BUTTON
+      a.back-btn(href="/lessons") ← Back to Lessons
 
-    a.btn(href="/lessons") ← Back to all lessons
+      //- LESSON HEADER
+      .lesson-header
+        .lesson-meta
+          span(class='badge badge-' + lesson.category_name.toLowerCase())= lesson.category_name
+          span.lesson-date 📅 #{new Date(lesson.created_at).toDateString()}
+        h1= lesson.title
+        p.lesson-desc= lesson.description
+
+      //- VIDEO SECTION
+      .video-section
+        if lesson.video_url
+          .video-wrapper
+            iframe(src=lesson.video_url frameborder="0" allowfullscreen)
+          .video-actions
+            a.youtube-btn(href='https://www.youtube.com/@shaktiacharya3422' target='_blank') 🎬 Watch on YouTube
+        else
+          .video-placeholder
+            span.placeholder-icon 🎬
+            p Video coming soon!
+            p.placeholder-sub Our instructor is working on this lesson video.
+          .video-actions
+            a.youtube-btn(href='https://www.youtube.com/@shaktiacharya3422' target='_blank') 🎬 Watch on YouTube
+
+      //- RATING SECTION
+      .rating-section
+        h3 ⭐ Rate this Lesson
+        if avgRating
+          .avg-rating
+            span.avg-number #{avgRating}
+            span.avg-stars ⭐
+            span.avg-count (#{totalRatings} rating#{totalRatings !== 1 ? 's' : ''})
+        else
+          p.no-rating No ratings yet — be the first!
+
+        form.rating-form(method='POST' action='/lessons/' + lesson.id + '/rate')
+          p.rating-label Your rating:
+          .star-buttons
+            each val in [1, 2, 3, 4, 5]
+              button.star-btn(
+                type='submit'
+                name='rating'
+                value=val
+                class=userRating === val ? 'star-btn selected' : 'star-btn'
+              ) #{val === 1 ? '⭐' : val === 2 ? '⭐⭐' : val === 3 ? '⭐⭐⭐' : val === 4 ? '⭐⭐⭐⭐' : '⭐⭐⭐⭐⭐'}
+
   else
-    h1 Lesson not found
-    a.btn(href="/lessons") ← Back to all lessons
+    .error-container
+      h1 😕 Lesson Not Found
+      p Sorry, we couldn't find that lesson.
+      a.back-btn(href="/lessons") ← Back to Lessons
+
+  style.
+    .lesson-detail-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    .back-btn {
+      display: inline-block;
+      color: #2d6a4f;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+    .back-btn:hover { color: #1b4332; }
+
+    .lesson-header {
+      margin-bottom: 2rem;
+    }
+    .lesson-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .lesson-date {
+      color: #888;
+      font-size: 0.9rem;
+    }
+    .lesson-header h1 {
+      font-size: 2rem;
+      color: #1a1a2e;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+    }
+    .lesson-desc {
+      color: #555;
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    .video-section {
+      background: white;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+    }
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .video-actions {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid #f0f0f0;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    .youtube-btn {
+      display: inline-block;
+      background: #ff0000;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    .youtube-btn:hover { background: #cc0000; color: white; }
+
+    .video-placeholder {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      padding: 4rem 2rem;
+      text-align: center;
+      color: white;
+    }
+    .placeholder-icon { font-size: 4rem; display: block; margin-bottom: 1rem; }
+    .video-placeholder p { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .placeholder-sub { font-size: 0.9rem; color: #aaa; }
+
+    .rating-section {
+      background: white;
+      border-radius: 14px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    .rating-section h3 {
+      font-size: 1.3rem;
+      color: #1a1a2e;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .avg-rating {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      background: #f0faf5;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border-left: 4px solid #2d6a4f;
+    }
+    .avg-number { font-size: 2rem; font-weight: 800; color: #1a1a2e; }
+    .avg-stars { font-size: 1.2rem; }
+    .avg-count { color: #666; font-size: 0.9rem; }
+    .no-rating { color: #888; font-size: 0.95rem; margin-bottom: 1rem; }
+
+    .rating-label { font-weight: 600; color: #333; margin-bottom: 0.75rem; }
+    .star-buttons {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .star-btn {
+      background: #f0f0f0;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .star-btn:hover {
+      background: #fff3cd;
+      border-color: #ffc107;
+    }
+    .star-btn.selected {
+      background: #fff3cd;
+      border-color: #ffc107;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .badge-beginner { background: #d5f5e3; color: #1e8449; }
+    .badge-intermediate { background: #fef9e7; color: #d4ac0d; }
+    .badge-advanced { background: #fadbd8; color: #c0392b; }
+    .badge-music.theory { background: #e8daef; color: #7d3c98; }
+    .badge-songs { background: #d6eaf8; color: #1a5276; }
+
+    .error-container {
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+    .error-container h1 { font-size: 2rem; color: #1a1a2e; margin-bottom: 1rem; }
+    .error-container p { color: #666; margin-bottom: 1.5rem; }

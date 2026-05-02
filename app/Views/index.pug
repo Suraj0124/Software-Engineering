@@ -1,20 +1,194 @@
 extends layout
 
 block content
-  h1 Welcome to Nepali Hami 
-  p The guitar learning platform for everyone!
-  
-  .card
-    h2 Start Learning Today
-    p Whether you are a complete beginner or looking to improve your skills, we have lessons for you.
-    a.btn(href="/lessons") Browse Lessons
-  
-  .card
-    h2 Practice Tools
-    p Access chord diagrams, tablature, metronome and tuner tools.
-    a.btn(href="/categories") View Categories
-  
-  .card
-    h2 Community
-    p Join other learners and track your progress.
-    a.btn(href="/users") View Learners
+
+  //- HERO BANNER IMAGE
+  .hero-banner
+    img.hero-img(src='/Images/image.png' alt='Nepali Hami Guitar Learning')
+
+  //- CTA BUTTONS STRIP
+  .hero-cta
+    a.btn-primary(href="/lessons") 🎵 Browse Lessons
+    a.btn-secondary(href="/practice") 🥁 Practice Tools
+
+  //- STATS BAR
+  .stats-bar
+    .stat
+      span.stat-number 10+
+      span.stat-label Lessons
+    .stat
+      span.stat-number 5
+      span.stat-label Categories
+    .stat
+      span.stat-number 3
+      span.stat-label Skill Levels
+    .stat
+      span.stat-number 🎸
+      span.stat-label Free Forever
+
+  //- FEATURES SECTION
+  .section-title
+    h2 Everything You Need to Learn Guitar
+    p Start your musical journey today
+
+  .features-grid
+    .feature-card
+      .feature-icon 📚
+      h3 Structured Lessons
+      p Learn guitar step by step with our carefully structured lessons covering beginner to advanced techniques.
+      a.feature-btn(href="/lessons") Browse Lessons →
+
+    .feature-card
+      .feature-icon 🥁
+      h3 Practice Tools
+      p Use our interactive metronome with BPM control and guitar tuner with all 6 strings to perfect your playing.
+      a.feature-btn(href="/practice") Open Practice Tools →
+
+    .feature-card
+      .feature-icon 🏷️
+      h3 Browse by Category
+      p Find lessons that match your skill level — Beginner, Intermediate, Advanced, Music Theory and more.
+      a.feature-btn(href="/categories") View Categories →
+
+    .feature-card
+      .feature-icon ⭐
+      h3 Rate & Review
+      p Help the community by rating lessons and sharing your feedback to guide other learners.
+      a.feature-btn(href="/lessons") Rate Lessons →
+
+    .feature-card
+      .feature-icon 🎵
+      h3 Video Lessons
+      p Watch real guitar tutorial videos recorded by our instructors for each lesson topic.
+      a.feature-btn(href="/lessons") Watch Lessons →
+
+    .feature-card
+      .feature-icon 📊
+      h3 Track Progress
+      p Monitor your learning journey and see which lessons you have completed over time.
+      a.feature-btn(href="/lessons") View Lessons →
+
+  //- CTA SECTION
+  .cta-section
+    h2 Ready to Start Playing? 🎸
+    p Join Nepali Hami today and start your guitar learning journey for free.
+    a.btn-primary(href="/lessons") Start Learning Now
+
+  style.
+    * { box-sizing: border-box; }
+
+    .hero-banner {
+      width: 100%;
+      line-height: 0;
+      display: block;
+    }
+    .hero-img {
+      width: 100%;
+      height: 440px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 1.5rem 2rem;
+      background: #16213e;
+      border-bottom: 3px solid #2d6a4f;
+    }
+
+    .btn-primary {
+      background: #2d6a4f;
+      color: white;
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: #1b4332; transform: translateY(-2px); color: white; }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.2s;
+      display: inline-block;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); color: white; }
+
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      background: #ffffff;
+      border-bottom: 3px solid #2d6a4f;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+    .stat {
+      flex: 1;
+      max-width: 200px;
+      text-align: center;
+      padding: 1.5rem 1rem;
+      border-right: 1px solid #f0f0f0;
+    }
+    .stat:last-child { border-right: none; }
+    .stat-number { display: block; font-size: 1.8rem; font-weight: 800; color: #1a1a2e; }
+    .stat-label { display: block; font-size: 0.85rem; color: #666; margin-top: 0.2rem; }
+
+    .section-title {
+      text-align: center;
+      padding: 3rem 2rem 1rem;
+    }
+    .section-title h2 { font-size: 2rem; color: #1a1a2e; font-weight: 700; margin-bottom: 0.5rem; }
+    .section-title p { color: #666; font-size: 1rem; }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1rem 2rem 3rem;
+    }
+    .feature-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.07);
+      border: 1px solid #f0f0f0;
+      transition: all 0.2s;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+      border-color: #2d6a4f;
+    }
+    .feature-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+    .feature-card h3 { font-size: 1.2rem; color: #1a1a2e; font-weight: 700; margin-bottom: 0.75rem; }
+    .feature-card p { color: #555; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.2rem; }
+    .feature-btn {
+      color: #2d6a4f;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .feature-btn:hover { color: #1b4332; }
+
+    .cta-section {
+      background: linear-gradient(135deg, #1a1a2e, #2d6a4f);
+      text-align: center;
+      padding: 4rem 2rem;
+      margin-top: 1rem;
+    }
+    .cta-section h2 { color: white; font-size: 2rem; margin-bottom: 1rem; }
+    .cta-section p { color: #a0aec0; margin-bottom: 2rem; font-size: 1.05rem; }

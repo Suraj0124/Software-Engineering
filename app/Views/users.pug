@@ -1,15 +1,194 @@
 extends layout
 
 block content
-  h1  All Learners
-  p Meet the guitar learners on our platform.
-  
-  each user in users
-    .card
-      h2= user.name
-      p Email: #{user.email}
-      p 
-        span Skill Level: 
-        span(class='badge badge-' + user.skill_level)= user.skill_level
-      p Joined: #{new Date(user.created_at).toDateString()}
-      a.btn(href='/users/' + user.id) View Profile
+  .admin-container
+
+    //- ADMIN HEADER
+    .admin-header
+      .admin-header-left
+        h1 👥 User Management
+        p Manage all registered users on the Nepali Hami platform
+      .admin-stats
+        .admin-stat
+          span.admin-stat-number= users.length
+          span.admin-stat-label Total Users
+        .admin-stat
+          span.admin-stat-number= users.filter(u => u.skill_level === 'beginner').length
+          span.admin-stat-label Beginners
+        .admin-stat
+          span.admin-stat-number= users.filter(u => u.skill_level === 'intermediate').length
+          span.admin-stat-label Intermediate
+        .admin-stat
+          span.admin-stat-number= users.filter(u => u.skill_level === 'advanced').length
+          span.admin-stat-label Advanced
+
+    //- ADMIN BADGE
+    .admin-badge 🔑 Admin Panel — Viewing all registered users
+
+    //- USERS TABLE
+    .table-container
+      table.users-table
+        thead
+          tr
+            th #
+            th Name
+            th Email
+            th Skill Level
+            th Joined
+            th Action
+        tbody
+          each user, index in users
+            tr
+              td.td-index= index + 1
+              td.td-name
+                .user-avatar= user.name.charAt(0).toUpperCase()
+                span= user.name
+              td.td-email= user.email
+              td
+                span(class='badge badge-' + user.skill_level)= user.skill_level
+              td= new Date(user.created_at).toDateString()
+              td
+                a.profile-btn(href='/users/' + user.id) View Profile
+
+  style.
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .admin-header-left h1 {
+      font-size: 2rem;
+      color: #1a1a2e;
+      font-weight: 800;
+      margin-bottom: 0.3rem;
+    }
+    .admin-header-left p { color: #666; font-size: 0.95rem; }
+
+    .admin-stats {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .admin-stat {
+      background: white;
+      border-radius: 10px;
+      padding: 0.75rem 1.2rem;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      border: 1px solid #f0f0f0;
+      min-width: 90px;
+    }
+    .admin-stat-number {
+      display: block;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #1a1a2e;
+    }
+    .admin-stat-label {
+      display: block;
+      font-size: 0.75rem;
+      color: #888;
+      margin-top: 0.2rem;
+    }
+
+    .admin-badge {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 8px;
+      padding: 0.6rem 1rem;
+      font-size: 0.9rem;
+      color: #856404;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    .table-container {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .users-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .users-table thead {
+      background: #1a1a2e;
+      color: white;
+    }
+    .users-table thead th {
+      padding: 1rem 1.2rem;
+      text-align: left;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .users-table tbody tr {
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.15s;
+    }
+    .users-table tbody tr:last-child { border-bottom: none; }
+    .users-table tbody tr:hover { background: #f8fffe; }
+    .users-table td {
+      padding: 1rem 1.2rem;
+      font-size: 0.95rem;
+      color: #333;
+      vertical-align: middle;
+    }
+
+    .td-index { color: #aaa; font-size: 0.85rem; width: 40px; }
+    .td-name {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 600;
+    }
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #1a1a2e, #2d6a4f);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+    .td-email { color: #555; font-size: 0.9rem; }
+
+    .profile-btn {
+      display: inline-block;
+      background: #2d6a4f;
+      color: white;
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .profile-btn:hover { background: #1b4332; color: white; }
+
+    .badge {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .badge-beginner { background: #d5f5e3; color: #1e8449; }
+    .badge-intermediate { background: #fef9e7; color: #d4ac0d; }
+    .badge-advanced { background: #fadbd8; color: #c0392b; }

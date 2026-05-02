@@ -2,28 +2,189 @@ extends layout
 
 block content
   if category
-    h1  #{category.name}
-    p= category.description
-    
-    h2 Lessons in this category
+    //- SINGLE CATEGORY VIEW
+    .category-header
+      a.back-btn(href="/categories") ← Back to Categories
+      h1 #{category.name} Lessons
+      p= category.description
+
     if lessons.length === 0
-      .card
-        p No lessons in this category yet.
+      .empty-state
+        p.empty-icon 🎸
+        p No lessons in this category yet. Check back soon!
+        a.view-btn(href="/categories") Browse Other Categories
     else
-      each lesson in lessons
-        .card
-          h3= lesson.title
-          p= lesson.description
-          a.btn(href='/lessons/' + lesson.id) View Lesson
-    
-    a.btn(href="/categories") ← Back to categories
-  
+      .lessons-grid
+        each lesson in lessons
+          .lesson-card
+            .lesson-card-header
+              .lesson-emoji 🎸
+            .lesson-card-body
+              h3= lesson.title
+              p= lesson.description
+            .lesson-card-footer
+              a.view-btn(href='/lessons/' + lesson.id) Watch Lesson →
+
   else
-    h1 📂 All Categories
-    p Browse lessons by skill level and topic.
-    
-    each cat in categories
-      .card
-        h2= cat.name
-        p= cat.description
-        a.btn(href='/categories/' + cat.id) Browse #{cat.name} Lessons
+    //- ALL CATEGORIES VIEW
+    .lessons-header
+      h1 📂 All Categories
+      p Browse lessons by skill level and topic.
+
+    .categories-grid
+      each cat in categories
+        .cat-card
+          .cat-icon= cat.name === 'Beginner' ? '🌱' : cat.name === 'Intermediate' ? '🎯' : cat.name === 'Advanced' ? '🔥' : cat.name === 'Music Theory' ? '📖' : cat.name === 'Songs' ? '🎵' : '🎸'
+          h3= cat.name
+          p= cat.description
+          a.cat-btn(href='/categories/' + cat.id) Browse #{cat.name} →
+
+  style.
+    .lessons-header {
+      text-align: center;
+      padding: 2.5rem 2rem 1rem;
+    }
+    .lessons-header h1 {
+      font-size: 2.2rem;
+      color: #1a1a2e;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+    .lessons-header p { color: #666; font-size: 1rem; }
+
+    .category-header {
+      padding: 2rem 2rem 1rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .category-header h1 {
+      font-size: 2rem;
+      color: #1a1a2e;
+      font-weight: 800;
+      margin: 0.5rem 0;
+    }
+    .category-header p { color: #666; }
+    .back-btn {
+      display: inline-block;
+      color: #2d6a4f;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+    .back-btn:hover { color: #1b4332; }
+
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1rem 2rem 3rem;
+    }
+    .cat-card {
+      background: white;
+      border-radius: 14px;
+      padding: 2rem;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.07);
+      border: 1px solid #f0f0f0;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .cat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      border-color: #2d6a4f;
+    }
+    .cat-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .cat-card h3 {
+      font-size: 1.3rem;
+      color: #1a1a2e;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .cat-card p {
+      color: #666;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 1.2rem;
+    }
+    .cat-btn {
+      display: inline-block;
+      background: #1a1a2e;
+      color: white;
+      padding: 0.65rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    .cat-btn:hover { background: #2d6a4f; color: white; }
+
+    .lessons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 3rem;
+    }
+    .lesson-card {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.07);
+      border: 1px solid #f0f0f0;
+      overflow: hidden;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .lesson-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      border-color: #2d6a4f;
+    }
+    .lesson-card-header {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      padding: 1.5rem;
+    }
+    .lesson-emoji { font-size: 2.5rem; }
+    .lesson-card-body {
+      padding: 1.2rem 1.5rem;
+      flex: 1;
+    }
+    .lesson-card-body h3 {
+      font-size: 1.1rem;
+      color: #1a1a2e;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .lesson-card-body p { color: #666; font-size: 0.9rem; line-height: 1.6; }
+    .lesson-card-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid #f0f0f0;
+    }
+    .view-btn {
+      display: block;
+      text-align: center;
+      background: #2d6a4f;
+      color: white;
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background 0.2s;
+    }
+    .view-btn:hover { background: #1b4332; color: white; }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+    .empty-icon { font-size: 4rem; margin-bottom: 1rem; }
