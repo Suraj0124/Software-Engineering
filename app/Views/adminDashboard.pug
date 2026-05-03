@@ -1,0 +1,227 @@
+extends layout
+
+block content
+  .dashboard-container
+
+    //- HEADER
+    .dashboard-header
+      .dashboard-header-left
+        h1 📊 Admin Dashboard
+        p Welcome back, #{sessionUser.name}! Here's your platform overview.
+      .dashboard-actions
+        a.dash-btn(href="/users") 👥 Manage Users
+        a.dash-btn(href="/lessons") 📚 View Lessons
+
+    //- STATS CARDS
+    .stats-grid
+      .stat-card.stat-blue
+        .stat-card-icon 👥
+        .stat-card-info
+          span.stat-card-number= totalUsers
+          span.stat-card-label Total Users
+      .stat-card.stat-green
+        .stat-card-icon 📚
+        .stat-card-info
+          span.stat-card-number= totalLessons
+          span.stat-card-label Total Lessons
+      .stat-card.stat-purple
+        .stat-card-icon 🏷️
+        .stat-card-info
+          span.stat-card-number= totalCategories
+          span.stat-card-label Categories
+      .stat-card.stat-orange
+        .stat-card-icon ⭐
+        .stat-card-info
+          span.stat-card-number= topRated.length
+          span.stat-card-label Rated Lessons
+
+    //- MAIN CONTENT
+    .dashboard-grid
+
+      //- RECENT USERS
+      .dash-card
+        .dash-card-header
+          h3 👥 Recent Users
+          a(href="/users") View All →
+        .dash-card-body
+          each user in recentUsers
+            .user-row
+              .user-row-avatar= user.name.charAt(0).toUpperCase()
+              .user-row-info
+                span.user-row-name= user.name
+                span.user-row-email= user.email
+              span(class='badge badge-' + user.skill_level)= user.skill_level
+
+      //- TOP RATED LESSONS
+      .dash-card
+        .dash-card-header
+          h3 ⭐ Top Rated Lessons
+          a(href="/lessons") View All →
+        .dash-card-body
+          each lesson, index in topRated
+            .lesson-row
+              .lesson-row-rank #{index + 1}
+              .lesson-row-info
+                span.lesson-row-title= lesson.title
+                span.lesson-row-stats
+                  if lesson.avg_rating
+                    | ⭐ #{parseFloat(lesson.avg_rating).toFixed(1)} (#{lesson.total_ratings} ratings)
+                  else
+                    | No ratings yet
+
+    //- QUICK LINKS
+    .quick-links
+      h3 🔗 Quick Links
+      .quick-links-grid
+        a.quick-link(href="/users") 👥 All Users
+        a.quick-link(href="/lessons") 📚 All Lessons
+        a.quick-link(href="/categories") 🏷️ Categories
+        a.quick-link(href="/practice") 🥁 Practice Tools
+        a.quick-link(href="/admin/dashboard") 📊 Dashboard
+        a.quick-link(href="/logout") 🚪 Logout
+
+  style.
+    .dashboard-container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .dashboard-header h1 { font-size: 2rem; color: #1a1a2e; font-weight: 800; margin-bottom: 0.3rem; }
+    .dashboard-header p { color: #666; font-size: 0.95rem; }
+    .dashboard-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .dash-btn {
+      background: #1a1a2e;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    .dash-btn:hover { background: #2d6a4f; color: white; }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: white;
+      border-radius: 14px;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+      border-left: 4px solid transparent;
+    }
+    .stat-blue { border-left-color: #3b82f6; }
+    .stat-green { border-left-color: #2d6a4f; }
+    .stat-purple { border-left-color: #7b2d8b; }
+    .stat-orange { border-left-color: #f39c12; }
+    .stat-card-icon { font-size: 2.5rem; }
+    .stat-card-number { display: block; font-size: 2.2rem; font-weight: 800; color: #1a1a2e; }
+    .stat-card-label { display: block; font-size: 0.85rem; color: #888; margin-top: 0.2rem; }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .dash-card {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+      overflow: hidden;
+    }
+    .dash-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid #f0f0f0;
+      background: #f8f9fa;
+    }
+    .dash-card-header h3 { font-size: 1rem; color: #1a1a2e; font-weight: 700; margin: 0; }
+    .dash-card-header a { color: #2d6a4f; font-size: 0.85rem; text-decoration: none; font-weight: 600; }
+    .dash-card-body { padding: 0.5rem 0; }
+
+    .user-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1.5rem;
+      border-bottom: 1px solid #f8f9fa;
+      transition: background 0.15s;
+    }
+    .user-row:hover { background: #f8fffe; }
+    .user-row:last-child { border-bottom: none; }
+    .user-row-avatar {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #1a1a2e, #2d6a4f);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .user-row-info { flex: 1; }
+    .user-row-name { display: block; font-weight: 600; color: #1a1a2e; font-size: 0.9rem; }
+    .user-row-email { display: block; color: #888; font-size: 0.8rem; }
+
+    .lesson-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1.5rem;
+      border-bottom: 1px solid #f8f9fa;
+      transition: background 0.15s;
+    }
+    .lesson-row:hover { background: #f8fffe; }
+    .lesson-row:last-child { border-bottom: none; }
+    .lesson-row-rank {
+      width: 28px;
+      height: 28px;
+      background: #1a1a2e;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+    .lesson-row-info { flex: 1; }
+    .lesson-row-title { display: block; font-weight: 600; color: #1a1a2e; font-size: 0.9rem; }
+    .lesson-row-stats { display: block; color: #888; font-size: 0.8rem; }
+
+    .quick-links { background: white; border-radius: 14px; padding: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.07); }
+    .quick-links h3 { font-size: 1rem; color: #1a1a2e; font-weight: 700; margin-bottom: 1rem; }
+    .quick-links-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.75rem; }
+    .quick-link {
+      background: #f8f9fa;
+      border: 1px solid #e0e0e0;
+      color: #333;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .quick-link:hover { background: #1a1a2e; color: white; border-color: #1a1a2e; }

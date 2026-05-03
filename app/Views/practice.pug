@@ -36,7 +36,28 @@ block content
         .tool-footer
           p Adjust BPM and volume, then press Start
 
-      //- ── TUNER ──
+      //- ── LIVE PITCH DETECTOR ──
+      .tool-card
+        .tool-header
+          span.tool-icon 🎤
+          h2 Live Note Detector
+        .tool-body
+          .pitch-display
+            .pitch-note#pitch-note --
+            .pitch-cents#pitch-cents Play a string...
+          .pitch-indicator
+            .pitch-bar
+              .pitch-needle#pitch-needle
+            .pitch-labels
+              span Flat ♭
+              span In Tune ✓
+              span Sharp ♯
+          .pitch-status#pitch-status 🎤 Press Start to detect your note
+          button#pitch-btn.start-btn 🎤 Start Listening
+        .tool-footer
+          p Play any string on your guitar and we will detect the note!
+
+      //- ── GUITAR TUNER ──
       .tool-card
         .tool-header
           span.tool-icon 🎵
@@ -55,131 +76,478 @@ block content
         .tool-footer
           p Play each string on your guitar and match the sound
 
+    //- ── CHORD LIBRARY ──
+    .chord-section
+      .chord-section-header
+        h2 🎸 Chord Library
+        p Learn the most common guitar chords — click any chord to see finger positions
+      .chords-grid
+        .chord-card(data-chord="G")
+          .chord-name G
+          svg.chord-diagram(viewBox="0 0 100 120")
+            line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
+            line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
+            line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
+            line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
+            line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
+            line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
+            line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
+            line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
+            line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
+            line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
+            line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
+            circle(cx="10" cy="30" r="7" fill="#2d6a4f")
+            circle(cx="42" cy="50" r="7" fill="#2d6a4f")
+            circle(cx="90" cy="30" r="7" fill="#2d6a4f")
+          .chord-fingers
+            span 2-1-0-0-0-3
+          .chord-label G Major
+
+        .chord-card(data-chord="C")
+          .chord-name C
+          svg.chord-diagram(viewBox="0 0 100 120")
+            line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
+            line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
+            line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
+            line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
+            line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
+            line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
+            line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
+            line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
+            line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
+            line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
+            line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
+            circle(cx="26" cy="30" r="7" fill="#2d6a4f")
+            circle(cx="58" cy="50" r="7" fill="#2d6a4f")
+            circle(cx="74" cy="30" r="7" fill="#2d6a4f")
+            text(x="10" y="115" font-size="8" fill="#888") x
+          .chord-fingers
+            span x-3-2-0-1-0
+          .chord-label C Major
+
+        .chord-card(data-chord="D")
+          .chord-name D
+          svg.chord-diagram(viewBox="0 0 100 120")
+            line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
+            line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
+            line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
+            line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
+            line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
+            line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
+            line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
+            line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
+            line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
+            line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
+            line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
+            circle(cx="58" cy="30" r="7" fill="#2d6a4f")
+            circle(cx="74" cy="50" r="7" fill="#2d6a4f")
+            circle(cx="90" cy="30" r="7" fill="#2d6a4f")
+          .chord-fingers
+            span x-x-0-2-3-2
+          .chord-label D Major
+
+        .chord-card(data-chord="Am")
+          .chord-name Am
+          svg.chord-diagram(viewBox="0 0 100 120")
+            line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
+            line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
+            line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
+            line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
+            line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
+            line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
+            line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
+            line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
+            line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
+            line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
+            line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
+            circle(cx="26" cy="30" r="7" fill="#e63946")
+            circle(cx="42" cy="50" r="7" fill="#e63946")
+            circle(cx="58" cy="30" r="7" fill="#e63946")
+          .chord-fingers
+            span x-0-2-2-1-0
+          .chord-label A Minor
+
+        .chord-card(data-chord="Em")
+          .chord-name Em
+          svg.chord-diagram(viewBox="0 0 100 120")
+            line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
+            line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
+            line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
+            line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
+            line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
+            line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
+            line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
+            line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
+            line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
+            line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
+            line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
+            circle(cx="42" cy="30" r="7" fill="#e63946")
+            circle(cx="58" cy="30" r="7" fill="#e63946")
+          .chord-fingers
+            span 0-2-2-0-0-0
+          .chord-label E Minor
+
+        .chord-card(data-chord="F")
+          .chord-name F
+          svg.chord-diagram(viewBox="0 0 100 120")
+            line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
+            line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
+            line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
+            line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
+            line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
+            line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
+            line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
+            line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
+            line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
+            line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
+            line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
+            rect(x="3" y="23" width="94" height="14" rx="7" fill="#1a1a2e" opacity="0.8")
+            circle(cx="42" cy="50" r="7" fill="#1a1a2e")
+            circle(cx="58" cy="50" r="7" fill="#1a1a2e")
+            circle(cx="74" cy="30" r="7" fill="#1a1a2e")
+          .chord-fingers
+            span 1-1-2-3-3-1
+          .chord-label F Major
+
+    //- ── YOUSICIAN-STYLE FRETBOARD GAME ──
+    .fretboard-section
+      .fretboard-header
+        h2 🎸 String Challenge
+        p Play the string shown — microphone detects your guitar in real time!
+      .fretboard-wrapper
+        .fb-topbar
+          .fb-left
+            span.fb-multiplier#fb-multiplier 1×
+            .fb-lives
+              span.fb-heart#heart1 ♥
+              span.fb-heart#heart2 ♥
+              span.fb-heart#heart3 ♥
+              span.fb-heart#heart4 ♥
+              span.fb-heart#heart5 ♥
+          .fb-center
+            span.fb-instruction#fb-instruction Press Start to Play!
+          .fb-right
+            .fb-score-box
+              span.fb-score-label SCORE
+              span.fb-score#fb-score 0
+        canvas#fretboard-canvas
+        .fb-bottombar
+          button#fb-pause-btn.fb-icon-btn ⏸
+          .fb-progress-track
+            .fb-progress-fill#fb-progress-fill
+          button#fb-hand-btn.fb-icon-btn 🖐
+      .fb-controls
+        button#fb-start-btn.fb-start-button 🎸 Start Game
+        button#fb-stop-btn.fb-stop-button(style="display:none") ⏹ Stop Game
+        .fb-mic-status#fb-mic-status 🎤 Microphone not active
+      .fb-string-guide
+        h3 String Reference Guide
+        .fb-strings-ref
+          each s in [{n:'6',name:'E',note:'Low E — 82 Hz'},{n:'5',name:'A',note:'A — 110 Hz'},{n:'4',name:'D',note:'D — 147 Hz'},{n:'3',name:'G',note:'G — 196 Hz'},{n:'2',name:'B',note:'B — 247 Hz'},{n:'1',name:'E',note:'High E — 330 Hz'}]
+            .fb-str-item
+              span.fb-str-num= s.n
+              span.fb-str-name= s.name
+              span.fb-str-note= s.note
+
+    //- ── STRING NAMING QUIZ ──
+    .quiz-section
+      .quiz-header
+        h2 📚 String Naming Quiz
+        p Test your knowledge — identify the correct string name!
+      .quiz-container
+        .quiz-score-bar
+          .quiz-stat
+            span.quiz-stat-label Score
+            span.quiz-stat-value#quiz-score 0
+          .quiz-stat
+            span.quiz-stat-label Streak
+            span.quiz-stat-value#quiz-streak 🔥 0
+          .quiz-stat
+            span.quiz-stat-label Best
+            span.quiz-stat-value#quiz-best 0
+        .quiz-question#quiz-question
+          .quiz-q-label Which string is this?
+          .quiz-q-number#quiz-q-number 3
+          .quiz-q-sub String number
+          svg#quiz-string-diagram(viewBox="0 0 260 90" width="260" height="90")
+        .quiz-options#quiz-options
+        .quiz-feedback#quiz-feedback
+        button#quiz-start-btn.quiz-start-btn 🎮 Start Quiz
+
+    //- ── CHORD PROGRESSION PRACTICE ──
+    .progression-section
+      .progression-header
+        h2 🎶 Chord Progression Practice
+        p Practice switching between chords in time with the beat!
+      .progression-container
+        .prog-controls
+          .prog-control-group
+            label BPM
+            input#prog-bpm(type="range" min="40" max="120" value="60")
+            span#prog-bpm-label 60 BPM
+          .prog-control-group
+            label Progression
+            select#prog-select
+              option(value="G-C-D-Em") G → C → D → Em (Beginner)
+              option(value="Am-F-C-G") Am → F → C → G (Pop)
+              option(value="E-A-D-A") E → A → D → A (Rock)
+              option(value="C-G-Am-F") C → G → Am → F (Classic)
+        .prog-display
+          .prog-current
+            span.prog-label NOW PLAYING
+            span.prog-chord#prog-current-chord G
+          .prog-next
+            span.prog-label UP NEXT
+            span.prog-chord-next#prog-next-chord C
+        .prog-beats
+          .prog-beat#pb1
+          .prog-beat#pb2
+          .prog-beat#pb3
+          .prog-beat#pb4
+        .prog-progress-bar
+          .prog-progress-fill#prog-progress-fill
+        button#prog-start-btn.prog-start-btn 🎵 Start Practice
+        button#prog-stop-btn.prog-stop-btn(style="display:none") ⏹ Stop
+
+    //- ── SCALE PRACTICE ──
+    .scale-section
+      .scale-header
+        h2 🎵 Scale Practice
+        p Learn guitar scales — follow the highlighted notes!
+      .scale-container
+        .scale-controls
+          select#scale-select
+            option(value="C") C Major
+            option(value="G") G Major
+            option(value="Am") A Minor
+            option(value="Em") E Minor
+          select#scale-speed
+            option(value="slow") Slow
+            option(value="medium") Medium
+            option(value="fast") Fast
+          button#scale-start-btn.scale-start-btn 🎵 Start Scale
+          button#scale-stop-btn.scale-stop-btn(style="display:none") ⏹ Stop
+        .scale-display
+          .scale-note-display
+            .scale-current-note#scale-current-note --
+            .scale-note-label#scale-note-label Press Start
+        .scale-notes-row#scale-notes-row
+
+    //- ── RHYTHM TAPPING GAME ──
+    .rhythm-section
+      .rhythm-header
+        h2 🥁 Rhythm Tapping Game
+        p Tap the spacebar or button in time with the rhythm pattern!
+      .rhythm-container
+        .rhythm-score-bar
+          .rhythm-stat
+            span.rhythm-stat-label Score
+            span.rhythm-stat-value#rhythm-score 0
+          .rhythm-stat
+            span.rhythm-stat-label Accuracy
+            span.rhythm-stat-value#rhythm-accuracy 0%
+          .rhythm-stat
+            span.rhythm-stat-label Level
+            span.rhythm-stat-value#rhythm-level 1
+        .rhythm-pattern#rhythm-pattern
+        .rhythm-feedback#rhythm-feedback
+        button#rhythm-tap-btn.rhythm-tap-btn 🥁 TAP (or Spacebar)
+        .rhythm-controls
+          button#rhythm-start-btn.rhythm-start-btn 🎮 Start Rhythm Game
+          button#rhythm-stop-btn.rhythm-stop-btn(style="display:none") ⏹ Stop
+
+    //- ── FREE STRUM MODE ──
+    .strum-section
+      .strum-header
+        h2 🎤 Free Strum — Chord Recogniser
+        p Strum your guitar and we will try to identify the chord!
+      .strum-container
+        .strum-display
+          .strum-chord-detected#strum-chord --
+          .strum-chord-label Detected Chord
+          .strum-freq-info#strum-freq-info Play your guitar...
+        .strum-history
+          h3 Recent Chords
+          .strum-history-list#strum-history-list
+            p.strum-no-history No chords detected yet
+        button#strum-start-btn.strum-start-btn 🎤 Start Listening
+        button#strum-stop-btn.strum-stop-btn(style="display:none") ⏹ Stop
+
   style.
-    .practice-container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
-
-    .practice-header { text-align: center; margin-bottom: 2.5rem; }
-    .practice-header h1 { font-size: 2.2rem; color: #1a1a2e; font-weight: 800; margin-bottom: 0.5rem; }
-    .practice-header p { color: #666; font-size: 1rem; }
-
-    .tools-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-      gap: 2rem;
-    }
-
-    .tool-card {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      overflow: hidden;
-      border: 1px solid #f0f0f0;
-    }
-
-    .tool-header {
-      background: linear-gradient(135deg, #1a1a2e, #16213e);
-      padding: 1.2rem 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
+    * { box-sizing: border-box; }
+    .practice-container { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem; }
+    .practice-header { text-align: center; margin-bottom: 2.5rem; padding: 2rem; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 20px; border: 1px solid #2d6a4f; }
+    .practice-header h1 { font-size: 2.4rem; color: #ffffff; font-weight: 800; margin-bottom: 0.5rem; }
+    .practice-header p { color: #52b788; font-size: 1rem; }
+    .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+    .tool-card { background: white; border-radius: 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.1); overflow: hidden; border: 1px solid #e8f5e9; transition: transform 0.2s, box-shadow 0.2s; }
+    .tool-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(45,106,79,0.15); }
+    .tool-header { background: linear-gradient(135deg, #1a1a2e, #2d6a4f); padding: 1.3rem 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
     .tool-icon { font-size: 1.8rem; }
-    .tool-header h2 { color: white; font-size: 1.3rem; font-weight: 700; margin: 0; }
-
+    .tool-header h2 { color: white; font-size: 1.2rem; font-weight: 700; margin: 0; }
     .tool-body { padding: 1.5rem; }
-    .tool-footer {
-      background: #f8f9fa;
-      padding: 0.75rem 1.5rem;
-      border-top: 1px solid #f0f0f0;
-    }
-    .tool-footer p { font-size: 0.85rem; color: #888; margin: 0; }
-
-    .bpm-display {
-      text-align: center;
-      background: #1a1a2e;
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-    #bpm-value { font-size: 4rem; font-weight: 800; color: white; }
-    .bpm-label { font-size: 1rem; color: #52b788; margin-left: 0.5rem; font-weight: 600; }
-
+    .tool-footer { background: #f0faf5; padding: 0.75rem 1.5rem; border-top: 1px solid #e8f5e9; }
+    .tool-footer p { font-size: 0.82rem; color: #2d6a4f; margin: 0; font-weight: 500; }
+    .bpm-display { text-align: center; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; border: 2px solid #2d6a4f; }
+    #bpm-value { font-size: 4rem; font-weight: 900; color: #52b788; }
+    .bpm-label { font-size: 1rem; color: #a0aec0; margin-left: 0.5rem; font-weight: 600; }
     .control-group { margin-bottom: 1.2rem; }
-    .control-group label { display: block; font-weight: 600; color: #333; margin-bottom: 0.5rem; font-size: 0.9rem; }
-    input[type=range] { width: 100%; accent-color: #2d6a4f; cursor: pointer; height: 6px; }
-    .range-labels { display: flex; justify-content: space-between; font-size: 0.78rem; color: #aaa; margin-top: 4px; }
-    #metro-vol-label, #tuner-vol-label { font-size: 0.85rem; color: #2d6a4f; font-weight: 600; float: right; margin-top: -1.4rem; }
-
-    .beat-dots {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin: 1.5rem 0;
-    }
-    .dot {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: #e0e0e0;
-      transition: all 0.05s;
-    }
-    .dot.active {
-      background: #e63946;
-      box-shadow: 0 0 12px rgba(230,57,70,0.6);
-      transform: scale(1.2);
-    }
-
-    .start-btn {
-      width: 100%;
-      background: #2d6a4f;
-      color: white;
-      border: none;
-      padding: 0.85rem;
-      border-radius: 10px;
-      font-size: 1.1rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin-top: 0.5rem;
-    }
-    .start-btn:hover { background: #1b4332; transform: translateY(-2px); }
-    .start-btn.running { background: #e63946; }
-    .start-btn.running:hover { background: #c1121f; }
-
-    .tuner-hint {
-      text-align: center;
-      color: #888;
-      font-size: 0.9rem;
-      margin-bottom: 1.2rem;
-      background: #f8f9fa;
-      padding: 0.6rem;
-      border-radius: 8px;
-    }
-
-    .strings-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.6rem;
-      margin-bottom: 1.2rem;
-    }
-    .string-btn {
-      background: #f8f9fa;
-      border: 2px solid #e0e0e0;
-      border-radius: 10px;
-      padding: 0.7rem 0.4rem;
-      cursor: pointer;
-      transition: all 0.15s;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
-    }
-    .string-btn:hover { background: #1a1a2e; border-color: #1a1a2e; }
+    .control-group label { display: block; font-weight: 700; color: #1a1a2e; margin-bottom: 0.5rem; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    input[type=range] { width: 100%; accent-color: #2d6a4f; cursor: pointer; }
+    .range-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: #aaa; margin-top: 4px; }
+    #metro-vol-label, #tuner-vol-label { font-size: 0.85rem; color: #2d6a4f; font-weight: 700; float: right; margin-top: -1.4rem; }
+    .beat-dots { display: flex; justify-content: center; gap: 1rem; margin: 1.5rem 0; }
+    .dot { width: 28px; height: 28px; border-radius: 50%; background: #e8f5e9; border: 2px solid #c8e6c9; transition: all 0.05s; }
+    .dot.active { background: #e63946; border-color: #e63946; box-shadow: 0 0 16px rgba(230,57,70,0.6); transform: scale(1.3); }
+    .start-btn { width: 100%; background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; border: none; padding: 0.9rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; margin-top: 0.5rem; }
+    .start-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(45,106,79,0.4); }
+    .start-btn.running { background: linear-gradient(135deg, #e63946, #c1121f); }
+    .pitch-display { text-align: center; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.2rem; border: 2px solid #2d6a4f; }
+    .pitch-note { font-size: 4rem; font-weight: 900; color: #52b788; line-height: 1; }
+    .pitch-cents { font-size: 0.9rem; color: #a0aec0; margin-top: 0.3rem; }
+    .pitch-indicator { margin-bottom: 1.2rem; }
+    .pitch-bar { position: relative; height: 14px; background: linear-gradient(to right, #3498db, #2d6a4f, #e63946); border-radius: 7px; margin-bottom: 0.4rem; }
+    .pitch-needle { position: absolute; top: -5px; left: 50%; transform: translateX(-50%); width: 4px; height: 24px; background: white; border-radius: 2px; box-shadow: 0 0 8px rgba(0,0,0,0.4); transition: left 0.1s; }
+    .pitch-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: #888; font-weight: 600; }
+    .pitch-status { text-align: center; font-size: 0.88rem; color: #2d6a4f; margin-bottom: 1rem; padding: 0.6rem; background: #f0faf5; border-radius: 10px; font-weight: 600; border: 1px solid #c8e6c9; }
+    .tuner-hint { text-align: center; color: #2d6a4f; font-size: 0.88rem; margin-bottom: 1.2rem; background: #f0faf5; padding: 0.6rem; border-radius: 10px; font-weight: 600; border: 1px solid #c8e6c9; }
+    .strings-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 1.2rem; }
+    .string-btn { background: #f8f9fa; border: 2px solid #e8f5e9; border-radius: 12px; padding: 0.8rem 0.4rem; cursor: pointer; transition: all 0.15s; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .string-btn:hover { background: #1a1a2e; border-color: #1a1a2e; transform: translateY(-2px); }
     .string-btn:hover .string-note, .string-btn:hover .string-label { color: white; }
-    .string-btn.playing { background: #2d6a4f; border-color: #2d6a4f; }
+    .string-btn.playing { background: #2d6a4f; border-color: #2d6a4f; box-shadow: 0 4px 15px rgba(45,106,79,0.4); }
     .string-btn.playing .string-note, .string-btn.playing .string-label { color: white; }
-    .string-note { font-size: 1.3rem; font-weight: 800; color: #1a1a2e; }
-    .string-label { font-size: 0.68rem; color: #888; }
+    .string-note { font-size: 1.4rem; font-weight: 900; color: #1a1a2e; }
+    .string-label { font-size: 0.65rem; color: #888; font-weight: 600; }
+    .chord-section { margin-top: 2.5rem; }
+    .chord-section-header { text-align: center; margin-bottom: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; border: 1px solid #2d6a4f; }
+    .chord-section-header h2 { font-size: 1.8rem; color: white; font-weight: 800; margin-bottom: 0.3rem; }
+    .chord-section-header p { color: #52b788; font-size: 0.95rem; }
+    .chords-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+    .chord-card { background: white; border-radius: 16px; padding: 1.2rem; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.07); border: 2px solid #e8f5e9; cursor: pointer; transition: all 0.2s; }
+    .chord-card:hover { border-color: #2d6a4f; transform: translateY(-5px); box-shadow: 0 10px 30px rgba(45,106,79,0.15); }
+    .chord-card.active { border-color: #2d6a4f; background: #f0faf5; }
+    .chord-name { font-size: 2rem; font-weight: 900; color: #1a1a2e; margin-bottom: 0.5rem; }
+    .chord-diagram { width: 100%; max-width: 100px; margin: 0 auto; display: block; }
+    .chord-fingers { font-size: 0.72rem; color: #999; margin-top: 0.5rem; font-family: monospace; }
+    .chord-label { font-size: 0.82rem; color: #2d6a4f; font-weight: 700; margin-top: 0.3rem; }
+    .fretboard-section { margin-top: 2.5rem; }
+    .fretboard-header { text-align: center; margin-bottom: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; border: 1px solid #2d6a4f; }
+    .fretboard-header h2 { font-size: 1.8rem; color: white; font-weight: 800; margin-bottom: 0.3rem; }
+    .fretboard-header p { color: #52b788; font-size: 0.95rem; }
+    .fretboard-wrapper { background: #1a2a3a; border-radius: 16px; overflow: hidden; border: 2px solid #2d6a4f; box-shadow: 0 8px 40px rgba(0,0,0,0.4); }
+    .fb-topbar { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1.2rem; background: #111a27; border-bottom: 1px solid #2d3748; }
+    .fb-left { display: flex; align-items: center; gap: 1rem; }
+    .fb-multiplier { font-size: 1.4rem; font-weight: 800; color: #52b788; font-family: monospace; }
+    .fb-lives { display: flex; gap: 4px; }
+    .fb-heart { font-size: 1.2rem; color: #e63946; transition: all 0.3s; }
+    .fb-heart.lost { color: #444; }
+    .fb-center { flex: 1; text-align: center; }
+    .fb-instruction { font-size: 1rem; font-weight: 700; color: white; background: rgba(45,106,79,0.3); border: 1px solid rgba(82,183,136,0.4); padding: 0.4rem 1.2rem; border-radius: 20px; }
+    .fb-score-box { text-align: right; }
+    .fb-score-label { display: block; font-size: 0.65rem; color: #52b788; letter-spacing: 2px; font-weight: 700; }
+    .fb-score { display: block; font-size: 1.8rem; font-weight: 900; color: white; font-family: monospace; }
+    #fretboard-canvas { width: 100%; height: 200px; display: block; cursor: default; }
+    .fb-bottombar { display: flex; align-items: center; gap: 1rem; padding: 0.6rem 1rem; background: #111a27; border-top: 1px solid #2d3748; }
+    .fb-icon-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: white; width: 36px; height: 36px; border-radius: 8px; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .fb-progress-track { flex: 1; height: 8px; background: #2d3748; border-radius: 4px; overflow: hidden; }
+    .fb-progress-fill { height: 100%; width: 0%; background: linear-gradient(to right, #2d6a4f, #52b788); border-radius: 4px; transition: width 0.3s ease; }
+    .fb-controls { display: flex; align-items: center; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
+    .fb-start-button { background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; border: none; padding: 0.85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 15px rgba(45,106,79,0.4); }
+    .fb-start-button:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(45,106,79,0.5); }
+    .fb-stop-button { background: linear-gradient(135deg, #e63946, #c1121f); color: white; border: none; padding: 0.85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .fb-stop-button:hover { transform: translateY(-2px); }
+    .fb-mic-status { font-size: 0.85rem; color: #888; font-weight: 600; }
+    .fb-mic-status.active { color: #52b788; }
+    .fb-mic-status.error { color: #e63946; }
+    .fb-string-guide { margin-top: 1.5rem; background: white; border-radius: 16px; padding: 1.5rem; border: 1px solid #e8f5e9; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
+    .fb-string-guide h3 { font-size: 1rem; color: #1a1a2e; font-weight: 800; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+    .fb-strings-ref { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.6rem; }
+    .fb-str-item { display: flex; align-items: center; gap: 0.6rem; background: #f8f9fa; padding: 0.5rem 0.8rem; border-radius: 8px; border: 1px solid #e8f5e9; }
+    .fb-str-num { width: 24px; height: 24px; background: #1a1a2e; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; flex-shrink: 0; }
+    .fb-str-name { font-size: 1.1rem; font-weight: 900; color: #2d6a4f; min-width: 20px; }
+    .fb-str-note { font-size: 0.78rem; color: #888; }
+    .quiz-section, .progression-section, .scale-section, .rhythm-section, .strum-section { margin-top: 2.5rem; }
+    .quiz-header, .progression-header, .scale-header, .rhythm-header, .strum-header { text-align: center; margin-bottom: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; border: 1px solid #2d6a4f; }
+    .quiz-header h2, .progression-header h2, .scale-header h2, .rhythm-header h2, .strum-header h2 { font-size: 1.8rem; color: white; font-weight: 800; margin-bottom: 0.3rem; }
+    .quiz-header p, .progression-header p, .scale-header p, .rhythm-header p, .strum-header p { color: #52b788; font-size: 0.95rem; }
+    .quiz-container, .progression-container, .scale-container, .rhythm-container, .strum-container { background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 8px 30px rgba(0,0,0,0.08); border: 1px solid #e8f5e9; }
+    .quiz-score-bar, .rhythm-score-bar { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .quiz-stat, .rhythm-stat { text-align: center; background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 0.7rem 1.5rem; border-radius: 12px; border: 1px solid #2d6a4f; }
+    .quiz-stat-label, .rhythm-stat-label { display: block; font-size: 0.65rem; color: #52b788; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    .quiz-stat-value, .rhythm-stat-value { display: block; font-size: 1.6rem; font-weight: 900; color: white; }
+    .quiz-question { text-align: center; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; padding: 2rem; margin-bottom: 1.5rem; border: 2px solid #2d6a4f; }
+    .quiz-q-label { font-size: 0.9rem; color: #52b788; margin-bottom: 0.5rem; }
+    .quiz-q-number { font-size: 5rem; font-weight: 900; color: white; font-family: monospace; line-height: 1; }
+    .quiz-q-sub { font-size: 0.85rem; color: #a0aec0; margin-top: 0.3rem; }
+    #quiz-string-diagram { display: block; margin: 1rem auto 0; }
+    .quiz-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem; margin-bottom: 1rem; }
+    .quiz-option { background: #f8f9fa; border: 2px solid #e8f5e9; border-radius: 12px; padding: 1rem; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.15s; color: #1a1a2e; }
+    .quiz-option:hover { background: #1a1a2e; color: white; border-color: #1a1a2e; }
+    .quiz-option.correct { background: #2d6a4f; color: white; border-color: #2d6a4f; }
+    .quiz-option.wrong { background: #e63946; color: white; border-color: #e63946; }
+    .quiz-feedback { text-align: center; min-height: 40px; font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; }
+    .quiz-start-btn { width: 100%; background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; border: none; padding: 0.85rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .quiz-start-btn:hover { transform: translateY(-2px); }
+    .prog-controls { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .prog-control-group { display: flex; flex-direction: column; gap: 0.4rem; flex: 1; }
+    .prog-control-group label { font-size: 0.8rem; font-weight: 700; color: #1a1a2e; text-transform: uppercase; letter-spacing: 0.5px; }
+    .prog-control-group select { padding: 0.5rem; border-radius: 8px; border: 2px solid #e8f5e9; font-size: 0.9rem; color: #1a1a2e; cursor: pointer; }
+    #prog-bpm { accent-color: #2d6a4f; }
+    #prog-bpm-label { font-size: 0.85rem; color: #2d6a4f; font-weight: 700; }
+    .prog-display { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+    .prog-current { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; padding: 1.5rem; text-align: center; border: 2px solid #2d6a4f; }
+    .prog-next { background: #f8f9fa; border-radius: 16px; padding: 1.5rem; text-align: center; border: 2px solid #e8f5e9; }
+    .prog-label { display: block; font-size: 0.65rem; font-weight: 700; letter-spacing: 2px; margin-bottom: 0.5rem; }
+    .prog-current .prog-label { color: #52b788; }
+    .prog-next .prog-label { color: #888; }
+    .prog-chord { display: block; font-size: 3.5rem; font-weight: 900; color: white; font-family: monospace; }
+    .prog-chord-next { display: block; font-size: 2.5rem; font-weight: 900; color: #888; font-family: monospace; }
+    .prog-beats { display: flex; justify-content: center; gap: 1rem; margin-bottom: 1rem; }
+    .prog-beat { width: 32px; height: 32px; border-radius: 50%; background: #e8f5e9; border: 2px solid #c8e6c9; transition: all 0.05s; }
+    .prog-beat.active { background: #2d6a4f; border-color: #2d6a4f; box-shadow: 0 0 16px rgba(45,106,79,0.6); transform: scale(1.3); }
+    .prog-progress-bar { height: 8px; background: #e8f5e9; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; }
+    .prog-progress-fill { height: 100%; width: 0%; background: linear-gradient(to right, #2d6a4f, #52b788); border-radius: 4px; transition: width 0.1s linear; }
+    .prog-start-btn, .prog-stop-btn { display: inline-block; padding: 0.85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; margin-right: 0.5rem; }
+    .prog-start-btn { background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; }
+    .prog-stop-btn { background: linear-gradient(135deg, #e63946, #c1121f); color: white; }
+    .scale-controls { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center; }
+    .scale-controls select { padding: 0.6rem 1rem; border-radius: 8px; border: 2px solid #e8f5e9; font-size: 0.9rem; color: #1a1a2e; cursor: pointer; flex: 1; }
+    .scale-start-btn, .scale-stop-btn { padding: 0.7rem 1.5rem; border-radius: 10px; border: none; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .scale-start-btn { background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; }
+    .scale-stop-btn { background: linear-gradient(135deg, #e63946, #c1121f); color: white; }
+    .scale-display { text-align: center; margin-bottom: 1.5rem; }
+    .scale-note-display { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; padding: 1.5rem; border: 2px solid #2d6a4f; margin-bottom: 1rem; }
+    .scale-current-note { font-size: 4rem; font-weight: 900; color: #52b788; font-family: monospace; }
+    .scale-note-label { font-size: 0.9rem; color: #a0aec0; margin-top: 0.3rem; }
+    .scale-notes-row { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
+    .scale-note-pill { padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; background: #f0faf5; color: #2d6a4f; border: 2px solid #c8e6c9; transition: all 0.2s; }
+    .scale-note-pill.active { background: #2d6a4f; color: white; border-color: #2d6a4f; transform: scale(1.1); }
+    .scale-note-pill.done { background: #e8f5e9; color: #888; border-color: #e8f5e9; }
+    .rhythm-pattern { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1.5rem; flex-wrap: wrap; min-height: 60px; align-items: center; }
+    .rhythm-beat-box { width: 50px; height: 50px; border-radius: 10px; border: 2px solid #e8f5e9; background: #f8f9fa; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: all 0.1s; }
+    .rhythm-beat-box.active { background: #2d6a4f; border-color: #2d6a4f; transform: scale(1.1); color: white; }
+    .rhythm-beat-box.hit { background: #52b788; border-color: #52b788; color: white; }
+    .rhythm-beat-box.miss { background: #e63946; border-color: #e63946; color: white; }
+    .rhythm-feedback { text-align: center; font-size: 1.2rem; font-weight: 700; min-height: 40px; margin-bottom: 1rem; color: #2d6a4f; }
+    .rhythm-tap-btn { width: 100%; background: linear-gradient(135deg, #1a1a2e, #16213e); color: white; border: 2px solid #2d6a4f; padding: 1.2rem; border-radius: 12px; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: all 0.1s; margin-bottom: 1rem; }
+    .rhythm-tap-btn:active { transform: scale(0.97); background: #2d6a4f; }
+    .rhythm-controls { display: flex; gap: 1rem; }
+    .rhythm-start-btn, .rhythm-stop-btn { flex: 1; padding: 0.85rem; border-radius: 12px; border: none; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .rhythm-start-btn { background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; }
+    .rhythm-stop-btn { background: linear-gradient(135deg, #e63946, #c1121f); color: white; }
+    .strum-display { text-align: center; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; padding: 2rem; margin-bottom: 1.5rem; border: 2px solid #2d6a4f; }
+    .strum-chord-detected { font-size: 5rem; font-weight: 900; color: #52b788; font-family: monospace; line-height: 1; }
+    .strum-chord-label { font-size: 0.85rem; color: #52b788; margin-top: 0.3rem; }
+    .strum-freq-info { font-size: 0.8rem; color: #a0aec0; margin-top: 0.5rem; }
+    .strum-history { margin-bottom: 1.5rem; }
+    .strum-history h3 { font-size: 0.9rem; color: #1a1a2e; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.8rem; }
+    .strum-history-list { display: flex; gap: 0.5rem; flex-wrap: wrap; min-height: 40px; }
+    .strum-no-history { color: #888; font-size: 0.85rem; }
+    .strum-history-pill { background: #f0faf5; color: #2d6a4f; border: 1px solid #c8e6c9; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; }
+    .strum-start-btn, .strum-stop-btn { display: inline-block; padding: 0.85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; margin-right: 0.5rem; }
+    .strum-start-btn { background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; }
+    .strum-stop-btn { background: linear-gradient(135deg, #e63946, #c1121f); color: white; }
 
   script.
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -187,23 +555,14 @@ block content
     let metroInterval = null;
     let isRunning = false;
     let currentBeat = 0;
-
     const bpmSlider = document.getElementById('bpm-slider');
     const bpmValue = document.getElementById('bpm-value');
     const metroVolume = document.getElementById('metro-volume');
     const metroVolLabel = document.getElementById('metro-vol-label');
     const metroBtn = document.getElementById('metro-btn');
     const dots = document.querySelectorAll('.dot');
-
-    bpmSlider.addEventListener('input', () => {
-      bpmValue.textContent = bpmSlider.value;
-      if (isRunning) { stopMetro(); startMetro(); }
-    });
-
-    metroVolume.addEventListener('input', () => {
-      metroVolLabel.textContent = metroVolume.value + '%';
-    });
-
+    bpmSlider.addEventListener('input', () => { bpmValue.textContent = bpmSlider.value; if (isRunning) { stopMetro(); startMetro(); } });
+    metroVolume.addEventListener('input', () => { metroVolLabel.textContent = metroVolume.value + '%'; });
     function playClick(isAccent) {
       if (!audioCtx) audioCtx = new AudioCtx();
       const osc = audioCtx.createOscillator();
@@ -214,67 +573,489 @@ block content
       gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
       osc.start(); osc.stop(audioCtx.currentTime + 0.08);
     }
+    function tick() { dots.forEach(d => d.classList.remove('active')); dots[currentBeat].classList.add('active'); playClick(currentBeat === 0); currentBeat = (currentBeat + 1) % 4; }
+    function startMetro() { if (!audioCtx) audioCtx = new AudioCtx(); const bpm = parseInt(bpmSlider.value); metroInterval = setInterval(tick, (60 / bpm) * 1000); currentBeat = 0; tick(); isRunning = true; metroBtn.textContent = '⏹ Stop'; metroBtn.classList.add('running'); }
+    function stopMetro() { clearInterval(metroInterval); isRunning = false; metroBtn.textContent = '▶ Start'; metroBtn.classList.remove('running'); dots.forEach(d => d.classList.remove('active')); }
+    metroBtn.addEventListener('click', () => { isRunning ? stopMetro() : startMetro(); });
 
-    function tick() {
-      dots.forEach(d => d.classList.remove('active'));
-      dots[currentBeat].classList.add('active');
-      playClick(currentBeat === 0);
-      currentBeat = (currentBeat + 1) % 4;
+    let pitchRunning = false, pitchStream = null, pitchAnalyser = null, pitchAnimFrame = null;
+    const pitchBtn = document.getElementById('pitch-btn');
+    const pitchNote = document.getElementById('pitch-note');
+    const pitchCents = document.getElementById('pitch-cents');
+    const pitchStatus = document.getElementById('pitch-status');
+    const pitchNeedle = document.getElementById('pitch-needle');
+    const noteStrings = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+    const guitarNotes = ['E2','A2','D3','G3','B3','E4'];
+    const guitarFreqs = [82.41, 110.00, 146.83, 196.00, 246.94, 329.63];
+    function frequencyToNote(freq) { return Math.round(12 * (Math.log(freq / 440) / Math.log(2))) + 69; }
+    function noteToFreq(note) { return 440 * Math.pow(2, (note - 69) / 12); }
+    function getNoteName(freq) { const note = frequencyToNote(freq); return noteStrings[note % 12] + Math.floor(note / 12 - 1); }
+    function getCents(freq) { const note = frequencyToNote(freq); return Math.floor(1200 * Math.log(freq / noteToFreq(note)) / Math.log(2)); }
+    function autoCorrelate(buf, sampleRate) {
+      let size = buf.length, rms = 0;
+      for (let i = 0; i < size; i++) rms += buf[i] * buf[i];
+      rms = Math.sqrt(rms / size);
+      if (rms < 0.05) return -1;
+      let r1 = 0, r2 = size - 1;
+      for (let i = 0; i < size / 2; i++) { if (Math.abs(buf[i]) < 0.2) { r1 = i; break; } }
+      for (let i = 1; i < size / 2; i++) { if (Math.abs(buf[size - i]) < 0.2) { r2 = size - i; break; } }
+      buf = buf.slice(r1, r2); size = buf.length;
+      const c = new Float32Array(size).fill(0);
+      for (let i = 0; i < size; i++) for (let j = 0; j < size - i; j++) c[i] += buf[j] * buf[j + i];
+      let d = 0; while (c[d] > c[d + 1]) d++;
+      let maxVal = -1, maxPos = -1;
+      for (let i = d; i < size; i++) { if (c[i] > maxVal) { maxVal = c[i]; maxPos = i; } }
+      let T0 = maxPos;
+      const x1 = c[T0-1], x2 = c[T0], x3 = c[T0+1];
+      const a = (x1 + x3 - 2*x2) / 2, b = (x3 - x1) / 2;
+      if (a) T0 = T0 - b / (2*a);
+      return sampleRate / T0;
     }
-
-    function startMetro() {
-      if (!audioCtx) audioCtx = new AudioCtx();
-      const bpm = parseInt(bpmSlider.value);
-      const interval = (60 / bpm) * 1000;
-      currentBeat = 0; tick();
-      metroInterval = setInterval(tick, interval);
-      isRunning = true;
-      metroBtn.textContent = '⏹ Stop';
-      metroBtn.classList.add('running');
+    function detectPitch() {
+      if (!pitchRunning) return;
+      const buf = new Float32Array(pitchAnalyser.fftSize);
+      pitchAnalyser.getFloatTimeDomainData(buf);
+      const freq = autoCorrelate(buf, audioCtx.sampleRate);
+      if (freq > 60 && freq < 1200) {
+        const note = getNoteName(freq); const cents = getCents(freq);
+        pitchNote.textContent = note;
+        pitchCents.textContent = cents === 0 ? '✅ In Tune!' : cents > 0 ? `+${cents} cents sharp` : `${cents} cents flat`;
+        let closest = 0, minDiff = Math.abs(freq - guitarFreqs[0]);
+        for (let i = 1; i < guitarFreqs.length; i++) { const diff = Math.abs(freq - guitarFreqs[i]); if (diff < minDiff) { minDiff = diff; closest = i; } }
+        pitchStatus.textContent = `🎸 Closest string: ${guitarNotes[closest]} — ${freq.toFixed(1)} Hz`;
+        pitchNeedle.style.left = Math.min(Math.max(50 + cents * 0.5, 5), 95) + '%';
+      } else { pitchNote.textContent = '--'; pitchCents.textContent = 'Play a string...'; pitchNeedle.style.left = '50%'; }
+      pitchAnimFrame = requestAnimationFrame(detectPitch);
     }
-
-    function stopMetro() {
-      clearInterval(metroInterval);
-      isRunning = false;
-      metroBtn.textContent = '▶ Start';
-      metroBtn.classList.remove('running');
-      dots.forEach(d => d.classList.remove('active'));
-    }
-
-    metroBtn.addEventListener('click', () => {
-      isRunning ? stopMetro() : startMetro();
+    pitchBtn.addEventListener('click', async () => {
+      if (pitchRunning) {
+        pitchRunning = false; cancelAnimationFrame(pitchAnimFrame);
+        if (pitchStream) pitchStream.getTracks().forEach(t => t.stop());
+        pitchBtn.textContent = '🎤 Start Listening'; pitchBtn.classList.remove('running');
+        pitchNote.textContent = '--'; pitchCents.textContent = 'Play a string...';
+        pitchStatus.textContent = '🎤 Press Start to detect your note'; pitchNeedle.style.left = '50%';
+      } else {
+        try {
+          if (!audioCtx) audioCtx = new AudioCtx();
+          pitchStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          const source = audioCtx.createMediaStreamSource(pitchStream);
+          pitchAnalyser = audioCtx.createAnalyser(); pitchAnalyser.fftSize = 2048;
+          source.connect(pitchAnalyser); pitchRunning = true;
+          pitchBtn.textContent = '⏹ Stop Listening'; pitchBtn.classList.add('running');
+          pitchStatus.textContent = '🎤 Listening... play a string!'; detectPitch();
+        } catch(e) { pitchStatus.textContent = '❌ Microphone access denied!'; }
+      }
     });
 
     const tunerVolume = document.getElementById('tuner-volume');
     const tunerVolLabel = document.getElementById('tuner-vol-label');
     const stringBtns = document.querySelectorAll('.string-btn');
     const tunerHint = document.querySelector('.tuner-hint');
-
     const noteFreqs = { 'E2': 82.41, 'A2': 110.00, 'D3': 146.83, 'G3': 196.00, 'B3': 246.94, 'E4': 329.63 };
-
-    tunerVolume.addEventListener('input', () => {
-      tunerVolLabel.textContent = tunerVolume.value + '%';
-    });
-
+    tunerVolume.addEventListener('input', () => { tunerVolLabel.textContent = tunerVolume.value + '%'; });
     stringBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         if (!audioCtx) audioCtx = new AudioCtx();
         const note = btn.dataset.note;
-        const freq = noteFreqs[note];
-        stringBtns.forEach(b => b.classList.remove('playing'));
-        btn.classList.add('playing');
+        stringBtns.forEach(b => b.classList.remove('playing')); btn.classList.add('playing');
         tunerHint.textContent = '🎵 Playing: ' + note;
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.type = 'triangle';
-        osc.frequency.value = freq;
+        const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination); osc.type = 'triangle';
+        osc.frequency.value = noteFreqs[note];
         gain.gain.setValueAtTime((tunerVolume.value / 100) * 0.4, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.5);
         osc.start(); osc.stop(audioCtx.currentTime + 2.5);
-        setTimeout(() => {
-          btn.classList.remove('playing');
-          tunerHint.textContent = 'Click a string to hear the reference note';
-        }, 2500);
+        setTimeout(() => { btn.classList.remove('playing'); tunerHint.textContent = 'Click a string to hear the reference note'; }, 2500);
       });
+    });
+
+    document.querySelectorAll('.chord-card').forEach(card => {
+      card.addEventListener('click', () => { document.querySelectorAll('.chord-card').forEach(c => c.classList.remove('active')); card.classList.add('active'); });
+    });
+
+    // ── FRETBOARD GAME ──
+    const canvas = document.getElementById('fretboard-canvas');
+    const ctx = canvas.getContext('2d');
+    const fbInstruction = document.getElementById('fb-instruction');
+    const fbScore = document.getElementById('fb-score');
+    const fbMultiplier = document.getElementById('fb-multiplier');
+    const fbProgressFill = document.getElementById('fb-progress-fill');
+    const fbMicStatus = document.getElementById('fb-mic-status');
+    const fbStartBtn = document.getElementById('fb-start-btn');
+    const fbStopBtn = document.getElementById('fb-stop-btn');
+    const fbPauseBtn = document.getElementById('fb-pause-btn');
+    const hearts = [document.getElementById('heart1'),document.getElementById('heart2'),document.getElementById('heart3'),document.getElementById('heart4'),document.getElementById('heart5')];
+    const STRING_FREQS = [329.63, 246.94, 196.00, 146.83, 110.00, 82.41];
+    const STRING_NAMES = ['High E', 'B', 'G', 'D', 'A', 'Low E'];
+    const STRING_SHORT = ['E', 'B', 'G', 'D', 'A', 'E'];
+    const STRING_COLORS = ['#e63946','#f4a261','#52b788','#4cc9f0','#a78bfa','#ffd166'];
+    let gameActive = false, gamePaused = false, score = 0, multiplier = 1, lives = 5;
+    let animFrame = null, notes = [], noteSpawnTimer = 0, currentTargetNote = null;
+    let lastDetectTime = 0, fbStream = null, fbAnalyser = null, audioCtxFB = null, detectFrame = null;
+    function resizeCanvas() { canvas.width = canvas.parentElement.clientWidth; canvas.height = 200; }
+    resizeCanvas(); window.addEventListener('resize', resizeCanvas);
+    function getStringY(i) { return 20 + (i / 5) * (canvas.height - 40); }
+    function drawFretboard() {
+      const W = canvas.width, H = canvas.height;
+      ctx.fillStyle = '#1a2a3a'; ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = 'rgba(100,120,150,0.3)'; ctx.lineWidth = 1;
+      for (let i = 0; i <= 8; i++) { const x = (i / 8) * W; ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+      for (let i = 0; i < 6; i++) {
+        const y = getStringY(i); const t = 1 + (5 - i) * 0.4;
+        ctx.shadowColor = STRING_COLORS[i]; ctx.shadowBlur = 4; ctx.strokeStyle = STRING_COLORS[i]; ctx.lineWidth = t; ctx.globalAlpha = 0.5;
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+        ctx.globalAlpha = 1; ctx.shadowBlur = 0; ctx.strokeStyle = 'rgba(200,200,200,0.6)'; ctx.lineWidth = t * 0.5;
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+      }
+      ctx.fillStyle = '#8b6914'; ctx.fillRect(55, 5, 6, H - 10);
+      ctx.fillStyle = '#d4a017'; ctx.fillRect(56, 5, 2, H - 10);
+    }
+    function roundRect(c, x, y, w, h, r) {
+      c.beginPath(); c.moveTo(x+r,y); c.lineTo(x+w-r,y); c.quadraticCurveTo(x+w,y,x+w,y+r);
+      c.lineTo(x+w,y+h-r); c.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+      c.lineTo(x+r,y+h); c.quadraticCurveTo(x,y+h,x,y+h-r);
+      c.lineTo(x,y+r); c.quadraticCurveTo(x,y,x+r,y); c.closePath();
+    }
+    function drawNotes() {
+      notes.forEach(note => {
+        const y = getStringY(note.stringIndex), x = note.x, w = 64, h = 30;
+        ctx.save(); ctx.globalAlpha = Math.min(1, (canvas.width - x) / 100);
+        ctx.shadowColor = note.hit ? '#52b788' : STRING_COLORS[note.stringIndex]; ctx.shadowBlur = note.hit ? 20 : 8;
+        ctx.fillStyle = note.hit ? '#52b788' : STRING_COLORS[note.stringIndex];
+        roundRect(ctx, x-w/2, y-h/2, w, h, h/2); ctx.fill();
+        ctx.shadowBlur = 0; ctx.fillStyle = '#fff'; ctx.font = 'bold 13px monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(STRING_SHORT[note.stringIndex], x, y); ctx.restore();
+      });
+    }
+    function drawHitZone() {
+      ctx.strokeStyle = 'rgba(82,183,136,0.4)'; ctx.lineWidth = 2; ctx.setLineDash([4,4]);
+      ctx.beginPath(); ctx.moveTo(80,0); ctx.lineTo(80,canvas.height); ctx.stroke(); ctx.setLineDash([]);
+      for (let i = 0; i < 6; i++) { ctx.strokeStyle = 'rgba(82,183,136,0.3)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(80, getStringY(i), 22, 16, 0, 0, Math.PI*2); ctx.stroke(); }
+    }
+    function spawnNote() {
+      const si = Math.floor(Math.random() * 6);
+      notes.push({ stringIndex: si, x: canvas.width + 40, speed: 1.5, hit: false, missed: false });
+      currentTargetNote = notes[notes.length - 1];
+      fbInstruction.textContent = `Play string ${6 - si} — ${STRING_NAMES[si]} open!`;
+    }
+    function updateNotes() {
+      notes.forEach(n => { n.x -= n.speed; });
+      notes.forEach(n => { if (n.x < 55 && !n.hit && !n.missed) { n.missed = true; loseLife(); } });
+      notes = notes.filter(n => n.x > -80);
+      noteSpawnTimer++; if (noteSpawnTimer > 200) { noteSpawnTimer = 0; spawnNote(); }
+      fbProgressFill.style.width = Math.min(100, (score / 500) * 100) + '%';
+    }
+    function loseLife() {
+      lives--; if (lives >= 0 && hearts[lives]) hearts[lives].classList.add('lost');
+      multiplier = 1; fbMultiplier.textContent = '1×'; if (lives <= 0) stopFBGame();
+    }
+    function gameLoop() { ctx.clearRect(0, 0, canvas.width, canvas.height); drawFretboard(); drawHitZone(); if (!gamePaused) updateNotes(); drawNotes(); animFrame = requestAnimationFrame(gameLoop); }
+    function autoCorrelateFB(buf, sampleRate) {
+      let size = buf.length, rms = 0;
+      for (let i = 0; i < size; i++) rms += buf[i] * buf[i];
+      rms = Math.sqrt(rms / size); if (rms < 0.05) return -1;
+      let r1 = 0, r2 = size - 1;
+      for (let i = 0; i < size/2; i++) { if (Math.abs(buf[i]) < 0.2) { r1 = i; break; } }
+      for (let i = 1; i < size/2; i++) { if (Math.abs(buf[size-i]) < 0.2) { r2 = size-i; break; } }
+      buf = buf.slice(r1, r2); size = buf.length;
+      const c = new Float32Array(size).fill(0);
+      for (let i = 0; i < size; i++) for (let j = 0; j < size-i; j++) c[i] += buf[j] * buf[j+i];
+      let d = 0; while (c[d] > c[d+1]) d++;
+      let maxVal = -1, maxPos = -1;
+      for (let i = d; i < size; i++) { if (c[i] > maxVal) { maxVal = c[i]; maxPos = i; } }
+      let T0 = maxPos; const x1 = c[T0-1], x2 = c[T0], x3 = c[T0+1];
+      const a = (x1+x3-2*x2)/2, b = (x3-x1)/2; if (a) T0 = T0 - b/(2*a);
+      return sampleRate / T0;
+    }
+    function detectAndCheck() {
+      if (!gameActive || gamePaused) { detectFrame = requestAnimationFrame(detectAndCheck); return; }
+      const buf = new Float32Array(fbAnalyser.fftSize); fbAnalyser.getFloatTimeDomainData(buf);
+      const freq = autoCorrelateFB(buf, audioCtxFB.sampleRate); const now = Date.now();
+      if (freq > 60 && freq < 400 && now - lastDetectTime > 600) {
+        let closest = 0, minDiff = Infinity;
+        STRING_FREQS.forEach((f, i) => { const d = Math.abs(freq-f); if (d < minDiff) { minDiff = d; closest = i; } });
+        const hitNote = notes.find(n => n.stringIndex === closest && Math.abs(n.x - 80) < 70 && !n.hit && !n.missed);
+        if (hitNote && minDiff < 12) {
+          hitNote.hit = true; lastDetectTime = now; score += 100 * multiplier;
+          multiplier = Math.min(multiplier + 1, 8); fbScore.textContent = score; fbMultiplier.textContent = multiplier + '×';
+          fbInstruction.textContent = '✅ Great job!';
+          setTimeout(() => { if (gameActive) fbInstruction.textContent = `Play string ${6 - (currentTargetNote ? currentTargetNote.stringIndex : 0)} open!`; }, 600);
+        }
+      }
+      detectFrame = requestAnimationFrame(detectAndCheck);
+    }
+    async function startFBGame() {
+      try {
+        audioCtxFB = new (window.AudioContext || window.webkitAudioContext)();
+        fbStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const source = audioCtxFB.createMediaStreamSource(fbStream);
+        fbAnalyser = audioCtxFB.createAnalyser(); fbAnalyser.fftSize = 2048; source.connect(fbAnalyser);
+        fbMicStatus.textContent = '🎤 Microphone active — play your guitar!'; fbMicStatus.className = 'fb-mic-status active';
+      } catch(e) { fbMicStatus.textContent = '❌ Microphone denied — visual only mode'; fbMicStatus.className = 'fb-mic-status error'; }
+      gameActive = true; gamePaused = false; score = 0; multiplier = 1; lives = 5;
+      notes = []; noteSpawnTimer = 150; lastDetectTime = 0;
+      hearts.forEach(h => h.classList.remove('lost')); fbScore.textContent = '0'; fbMultiplier.textContent = '1×';
+      fbProgressFill.style.width = '0%'; fbInstruction.textContent = 'Get ready...';
+      fbStartBtn.style.display = 'none'; fbStopBtn.style.display = 'inline-block';
+      gameLoop(); if (fbAnalyser) detectAndCheck();
+    }
+    function stopFBGame() {
+      gameActive = false; cancelAnimationFrame(animFrame); cancelAnimationFrame(detectFrame);
+      if (fbStream) fbStream.getTracks().forEach(t => t.stop());
+      fbInstruction.textContent = `Game Over! Final Score: ${score} 🎸`;
+      fbStartBtn.style.display = 'inline-block'; fbStopBtn.style.display = 'none';
+      fbMicStatus.textContent = '🎤 Microphone not active'; fbMicStatus.className = 'fb-mic-status';
+      ctx.clearRect(0, 0, canvas.width, canvas.height); drawFretboard(); drawHitZone();
+    }
+    fbStartBtn.addEventListener('click', startFBGame);
+    fbStopBtn.addEventListener('click', stopFBGame);
+    fbPauseBtn.addEventListener('click', () => { gamePaused = !gamePaused; fbPauseBtn.textContent = gamePaused ? '▶' : '⏸'; fbInstruction.textContent = gamePaused ? '⏸ Paused' : 'Keep playing!'; });
+    setTimeout(() => { resizeCanvas(); drawFretboard(); drawHitZone(); }, 100);
+
+    // ── STRING NAMING QUIZ ──
+    const quizData = [
+      { string: 1, answer: 'High E', options: ['High E', 'B', 'G', 'D'] },
+      { string: 2, answer: 'B', options: ['A', 'B', 'G', 'D'] },
+      { string: 3, answer: 'G', options: ['G', 'D', 'A', 'E'] },
+      { string: 4, answer: 'D', options: ['G', 'D', 'A', 'E'] },
+      { string: 5, answer: 'A', options: ['High E', 'B', 'A', 'Low E'] },
+      { string: 6, answer: 'Low E', options: ['High E', 'B', 'A', 'Low E'] },
+    ];
+    const QUIZ_COLORS = ['#e63946','#f4a261','#52b788','#4cc9f0','#a78bfa','#ffd166'];
+    const QUIZ_STRING_NAMES = ['High E','B','G','D','A','Low E'];
+    let quizScore = 0, quizStreak = 0, quizBest = 0;
+    const quizScoreEl = document.getElementById('quiz-score');
+    const quizStreakEl = document.getElementById('quiz-streak');
+    const quizBestEl = document.getElementById('quiz-best');
+    const quizQNum = document.getElementById('quiz-q-number');
+    const quizOptionsEl = document.getElementById('quiz-options');
+    const quizFeedback = document.getElementById('quiz-feedback');
+    const quizStartBtn = document.getElementById('quiz-start-btn');
+    const quizDiagram = document.getElementById('quiz-string-diagram');
+
+    function drawQuizDiagram(stringNumber) {
+      const ns = 'http://www.w3.org/2000/svg';
+      quizDiagram.innerHTML = '';
+      for (let i = 0; i < 6; i++) {
+        const y = 12 + i * 13;
+        const isActive = (i + 1) === stringNumber;
+        const color = isActive ? QUIZ_COLORS[i] : 'rgba(255,255,255,0.2)';
+        const thickness = isActive ? 4 : 1 + (5 - i) * 0.3;
+        const line = document.createElementNS(ns, 'line');
+        line.setAttribute('x1', '10'); line.setAttribute('x2', '200');
+        line.setAttribute('y1', y); line.setAttribute('y2', y);
+        line.setAttribute('stroke', color);
+        line.setAttribute('stroke-width', thickness);
+        quizDiagram.appendChild(line);
+        if (isActive) {
+          const circle = document.createElementNS(ns, 'circle');
+          circle.setAttribute('cx', '105'); circle.setAttribute('cy', y);
+          circle.setAttribute('r', '8'); circle.setAttribute('fill', color);
+          quizDiagram.appendChild(circle);
+          const label = document.createElementNS(ns, 'text');
+          label.setAttribute('x', '215'); label.setAttribute('y', y + 4);
+          label.setAttribute('fill', color); label.setAttribute('font-size', '11');
+          label.setAttribute('font-weight', 'bold'); label.setAttribute('font-family', 'monospace');
+          label.textContent = QUIZ_STRING_NAMES[i];
+          quizDiagram.appendChild(label);
+          const numLabel = document.createElementNS(ns, 'text');
+          numLabel.setAttribute('x', '2'); numLabel.setAttribute('y', y + 4);
+          numLabel.setAttribute('fill', color); numLabel.setAttribute('font-size', '10');
+          numLabel.setAttribute('font-weight', 'bold'); numLabel.setAttribute('font-family', 'monospace');
+          numLabel.textContent = stringNumber;
+          quizDiagram.appendChild(numLabel);
+        }
+      }
+    }
+
+    function shuffleArr(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+    function showQuizQ() {
+      const q = quizData[Math.floor(Math.random() * quizData.length)];
+      quizQNum.textContent = q.string;
+      drawQuizDiagram(q.string);
+      quizFeedback.textContent = ''; quizOptionsEl.innerHTML = '';
+      shuffleArr(q.options).forEach(opt => {
+        const btn = document.createElement('button'); btn.className = 'quiz-option'; btn.textContent = opt;
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.quiz-option').forEach(b => b.disabled = true);
+          if (opt === q.answer) {
+            btn.classList.add('correct'); quizScore += 10; quizStreak++;
+            if (quizStreak > quizBest) { quizBest = quizStreak; quizBestEl.textContent = quizBest; }
+            quizFeedback.textContent = '✅ Correct!'; quizFeedback.style.color = '#2d6a4f';
+          } else {
+            btn.classList.add('wrong');
+            document.querySelectorAll('.quiz-option').forEach(b => { if (b.textContent === q.answer) b.classList.add('correct'); });
+            quizStreak = 0; quizFeedback.textContent = `❌ Wrong! It was ${q.answer}`; quizFeedback.style.color = '#e63946';
+          }
+          quizScoreEl.textContent = quizScore; quizStreakEl.textContent = '🔥 ' + quizStreak;
+          setTimeout(showQuizQ, 1400);
+        });
+        quizOptionsEl.appendChild(btn);
+      });
+    }
+    quizStartBtn.addEventListener('click', () => { quizScore = 0; quizStreak = 0; quizScoreEl.textContent = '0'; quizStreakEl.textContent = '🔥 0'; quizStartBtn.textContent = '🔄 Restart'; showQuizQ(); });
+
+    // ── CHORD PROGRESSION ──
+    const progressions = { 'G-C-D-Em': ['G','C','D','Em'], 'Am-F-C-G': ['Am','F','C','G'], 'E-A-D-A': ['E','A','D','A'], 'C-G-Am-F': ['C','G','Am','F'] };
+    let progRunning = false, progInterval = null, progBeat = 0, progChordIndex = 0, progCurrentBeats = 0;
+    const progBpmSlider = document.getElementById('prog-bpm');
+    const progBpmLabel = document.getElementById('prog-bpm-label');
+    const progSelect = document.getElementById('prog-select');
+    const progCurrentChord = document.getElementById('prog-current-chord');
+    const progNextChord = document.getElementById('prog-next-chord');
+    const progBeats = [document.getElementById('pb1'),document.getElementById('pb2'),document.getElementById('pb3'),document.getElementById('pb4')];
+    const progProgressFill = document.getElementById('prog-progress-fill');
+    const progStartBtn = document.getElementById('prog-start-btn');
+    const progStopBtn = document.getElementById('prog-stop-btn');
+    progBpmSlider.addEventListener('input', () => { progBpmLabel.textContent = progBpmSlider.value + ' BPM'; });
+    function progTick() {
+      progBeats.forEach(b => b.classList.remove('active')); progBeats[progBeat].classList.add('active');
+      progBeat = (progBeat + 1) % 4; progCurrentBeats++;
+      progProgressFill.style.width = Math.min(100, (progCurrentBeats / 4) * 100) + '%';
+      if (progCurrentBeats >= 4) {
+        progCurrentBeats = 0; progProgressFill.style.width = '0%';
+        const chords = progressions[progSelect.value] || ['G','C','D','Em'];
+        progChordIndex = (progChordIndex + 1) % chords.length;
+        progCurrentChord.textContent = chords[progChordIndex];
+        progNextChord.textContent = chords[(progChordIndex + 1) % chords.length];
+      }
+    }
+    progStartBtn.addEventListener('click', () => {
+      const chords = progressions[progSelect.value] || ['G','C','D','Em'];
+      progChordIndex = 0; progBeat = 0; progCurrentBeats = 0;
+      progCurrentChord.textContent = chords[0]; progNextChord.textContent = chords[1];
+      progProgressFill.style.width = '0%'; progRunning = true;
+      progInterval = setInterval(progTick, (60 / parseInt(progBpmSlider.value)) * 1000);
+      progStartBtn.style.display = 'none'; progStopBtn.style.display = 'inline-block';
+    });
+    progStopBtn.addEventListener('click', () => {
+      clearInterval(progInterval); progRunning = false; progBeats.forEach(b => b.classList.remove('active'));
+      progStartBtn.style.display = 'inline-block'; progStopBtn.style.display = 'none';
+      progCurrentChord.textContent = '—'; progNextChord.textContent = '—';
+    });
+
+    // ── SCALE PRACTICE ──
+    const scales = { 'C': ['C','D','E','F','G','A','B','C'], 'G': ['G','A','B','C','D','E','F#','G'], 'Am': ['A','B','C','D','E','F','G','A'], 'Em': ['E','F#','G','A','B','C','D','E'] };
+    const scaleFrets = { 'C': ['Open E','2nd E','Open D','2nd D','Open G','2nd G','Open B','Open E hi'], 'G': ['3rd E','5th E','2nd A','3rd A','Open D','2nd D','4th G','3rd E hi'], 'Am': ['Open A','2nd A','3rd A','Open D','2nd D','Open G','2nd G','Open A hi'], 'Em': ['Open E','2nd E','3rd A','Open A','2nd A','3rd D','Open D','Open E hi'] };
+    const scaleSpeeds = { slow: 1500, medium: 900, fast: 500 };
+    let scaleRunning = false, scaleTimeout = null, scaleIndex = 0;
+    const scaleSelect = document.getElementById('scale-select');
+    const scaleSpeed = document.getElementById('scale-speed');
+    const scaleCurrentNote = document.getElementById('scale-current-note');
+    const scaleNoteLabel = document.getElementById('scale-note-label');
+    const scaleNotesRow = document.getElementById('scale-notes-row');
+    const scaleStartBtn = document.getElementById('scale-start-btn');
+    const scaleStopBtn = document.getElementById('scale-stop-btn');
+    function buildScaleRow(scale) {
+      scaleNotesRow.innerHTML = '';
+      scales[scale].forEach((n, i) => { const pill = document.createElement('div'); pill.className = 'scale-note-pill'; pill.id = 'sp' + i; pill.textContent = n; scaleNotesRow.appendChild(pill); });
+    }
+    scaleStartBtn.addEventListener('click', () => {
+      const scale = scaleSelect.value; const scaleNotes = scales[scale]; const frets = scaleFrets[scale];
+      buildScaleRow(scale); scaleIndex = 0; scaleRunning = true;
+      scaleStartBtn.style.display = 'none'; scaleStopBtn.style.display = 'inline-block';
+      function showNext() {
+        document.querySelectorAll('.scale-note-pill').forEach(p => p.className = 'scale-note-pill');
+        for (let i = 0; i < scaleIndex; i++) { const el = document.getElementById('sp' + i); if (el) el.classList.add('done'); }
+        const el = document.getElementById('sp' + scaleIndex); if (el) el.classList.add('active');
+        scaleCurrentNote.textContent = scaleNotes[scaleIndex]; scaleNoteLabel.textContent = frets[scaleIndex] || '';
+        scaleIndex++; if (scaleIndex >= scaleNotes.length) { setTimeout(() => { scaleIndex = 0; document.querySelectorAll('.scale-note-pill').forEach(p => p.className = 'scale-note-pill'); showNext(); }, scaleSpeeds[scaleSpeed.value]); return; }
+        scaleTimeout = setTimeout(showNext, scaleSpeeds[scaleSpeed.value]);
+      }
+      showNext();
+    });
+    scaleStopBtn.addEventListener('click', () => {
+      clearTimeout(scaleTimeout); scaleRunning = false; scaleCurrentNote.textContent = '--'; scaleNoteLabel.textContent = 'Press Start';
+      document.querySelectorAll('.scale-note-pill').forEach(p => p.className = 'scale-note-pill');
+      scaleStartBtn.style.display = 'inline-block'; scaleStopBtn.style.display = 'none';
+    });
+
+    // ── RHYTHM TAPPING GAME ──
+    const rhythmPatterns = [[1,0,1,0,1,0,1,0],[1,0,0,1,0,0,1,0],[1,1,0,1,1,0,1,0],[1,0,1,1,0,1,0,1],[1,0,0,0,1,0,1,0]];
+    let rhythmActive = false, rhythmScore = 0, rhythmHits = 0, rhythmTotal = 0;
+    let rhythmBeatIndex = 0, rhythmPattern = [], rhythmInterval = null, rhythmLevel = 1;
+    const rhythmScoreEl = document.getElementById('rhythm-score');
+    const rhythmAccuracyEl = document.getElementById('rhythm-accuracy');
+    const rhythmLevelEl = document.getElementById('rhythm-level');
+    const rhythmPatternEl = document.getElementById('rhythm-pattern');
+    const rhythmFeedback = document.getElementById('rhythm-feedback');
+    const rhythmTapBtn = document.getElementById('rhythm-tap-btn');
+    const rhythmStartBtn = document.getElementById('rhythm-start-btn');
+    const rhythmStopBtn = document.getElementById('rhythm-stop-btn');
+    function buildRhythmPattern() {
+      rhythmPattern = rhythmPatterns[Math.floor(Math.random() * rhythmPatterns.length)]; rhythmPatternEl.innerHTML = '';
+      rhythmPattern.forEach((beat, i) => { const box = document.createElement('div'); box.className = 'rhythm-beat-box'; box.id = 'rb' + i; box.textContent = beat === 1 ? '●' : '○'; rhythmPatternEl.appendChild(box); });
+    }
+    function rhythmTick() { document.querySelectorAll('.rhythm-beat-box').forEach(b => b.classList.remove('active')); const box = document.getElementById('rb' + rhythmBeatIndex); if (box) box.classList.add('active'); rhythmBeatIndex = (rhythmBeatIndex + 1) % rhythmPattern.length; }
+    function handleRhythmTap() {
+      if (!rhythmActive) return;
+      const currentBeat = rhythmBeatIndex === 0 ? rhythmPattern.length - 1 : rhythmBeatIndex - 1;
+      const box = document.getElementById('rb' + currentBeat); rhythmTotal++;
+      if (rhythmPattern[currentBeat] === 1) {
+        rhythmHits++; rhythmScore += 10 * rhythmLevel;
+        if (box) { box.classList.add('hit'); setTimeout(() => box && box.classList.remove('hit'), 200); }
+        rhythmFeedback.textContent = '✅ On beat!'; rhythmFeedback.style.color = '#2d6a4f';
+      } else { rhythmFeedback.textContent = '❌ Off beat!'; rhythmFeedback.style.color = '#e63946'; }
+      rhythmScoreEl.textContent = rhythmScore;
+      rhythmAccuracyEl.textContent = Math.round((rhythmHits / rhythmTotal) * 100) + '%';
+      if (rhythmTotal % 16 === 0) { rhythmLevel++; rhythmLevelEl.textContent = rhythmLevel; buildRhythmPattern(); }
+    }
+    rhythmTapBtn.addEventListener('click', handleRhythmTap);
+    document.addEventListener('keydown', (e) => { if (e.code === 'Space' && rhythmActive) { e.preventDefault(); handleRhythmTap(); } });
+    rhythmStartBtn.addEventListener('click', () => {
+      rhythmActive = true; rhythmScore = 0; rhythmHits = 0; rhythmTotal = 0; rhythmBeatIndex = 0; rhythmLevel = 1;
+      rhythmScoreEl.textContent = '0'; rhythmAccuracyEl.textContent = '0%'; rhythmLevelEl.textContent = '1';
+      buildRhythmPattern(); rhythmInterval = setInterval(rhythmTick, 500);
+      rhythmStartBtn.style.display = 'none'; rhythmStopBtn.style.display = 'inline-block';
+      rhythmFeedback.textContent = 'Tap in time with the ● beats!';
+    });
+    rhythmStopBtn.addEventListener('click', () => {
+      rhythmActive = false; clearInterval(rhythmInterval);
+      rhythmStartBtn.style.display = 'inline-block'; rhythmStopBtn.style.display = 'none';
+      rhythmFeedback.textContent = `Final Score: ${rhythmScore} | Accuracy: ${rhythmTotal > 0 ? Math.round((rhythmHits/rhythmTotal)*100) : 0}%`;
+    });
+
+    // ── FREE STRUM CHORD RECOGNISER ──
+    const CHORD_FREQS = { 'E': 82.41, 'A': 110.00, 'D': 146.83, 'G': 196.00, 'B': 246.94, 'F': 174.61, 'Am': 110.00, 'Em': 82.41, 'Dm': 146.83 };
+    let strumRunning = false, strumStream = null, strumAnalyser = null, strumCtx = null;
+    let strumFrame = null, strumHistory = [], lastStrumTime = 0;
+    const strumChordEl = document.getElementById('strum-chord');
+    const strumFreqInfo = document.getElementById('strum-freq-info');
+    const strumHistoryList = document.getElementById('strum-history-list');
+    const strumStartBtn = document.getElementById('strum-start-btn');
+    const strumStopBtn = document.getElementById('strum-stop-btn');
+    function detectStrumChord() {
+      if (!strumRunning) return;
+      const buf = new Float32Array(strumAnalyser.fftSize); strumAnalyser.getFloatTimeDomainData(buf);
+      const freq = autoCorrelate(buf, strumCtx.sampleRate); const now = Date.now();
+      if (freq > 60 && freq < 400 && now - lastStrumTime > 1000) {
+        let closest = 'E', minDiff = Infinity;
+        Object.entries(CHORD_FREQS).forEach(([chord, f]) => { const diff = Math.abs(freq - f); if (diff < minDiff) { minDiff = diff; closest = chord; } });
+        if (minDiff < 20) {
+          lastStrumTime = now; strumChordEl.textContent = closest;
+          strumFreqInfo.textContent = `Detected: ${freq.toFixed(1)} Hz`;
+          strumHistory.unshift(closest); if (strumHistory.length > 8) strumHistory.pop();
+          strumHistoryList.innerHTML = strumHistory.map(c => `<span class="strum-history-pill">${c}</span>`).join('');
+        }
+      }
+      strumFrame = requestAnimationFrame(detectStrumChord);
+    }
+    strumStartBtn.addEventListener('click', async () => {
+      try {
+        strumCtx = new (window.AudioContext || window.webkitAudioContext)();
+        strumStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const source = strumCtx.createMediaStreamSource(strumStream);
+        strumAnalyser = strumCtx.createAnalyser(); strumAnalyser.fftSize = 2048; source.connect(strumAnalyser);
+        strumRunning = true; strumHistory = []; strumChordEl.textContent = '--';
+        strumFreqInfo.textContent = 'Listening... strum your guitar!';
+        strumHistoryList.innerHTML = '<p class="strum-no-history">Waiting for guitar...</p>';
+        strumStartBtn.style.display = 'none'; strumStopBtn.style.display = 'inline-block';
+        detectStrumChord();
+      } catch(e) { strumFreqInfo.textContent = '❌ Microphone access denied!'; }
+    });
+    strumStopBtn.addEventListener('click', () => {
+      strumRunning = false; cancelAnimationFrame(strumFrame);
+      if (strumStream) strumStream.getTracks().forEach(t => t.stop());
+      strumStartBtn.style.display = 'inline-block'; strumStopBtn.style.display = 'none';
+      strumChordEl.textContent = '--'; strumFreqInfo.textContent = 'Play your guitar...';
     });

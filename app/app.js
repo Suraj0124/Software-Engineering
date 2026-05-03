@@ -151,7 +151,7 @@ app.post("/admin-login", function(req, res) {
             email: user.email,
             is_admin: user.is_admin
         };
-        res.redirect('/users');
+        res.redirect('/admin/dashboard');
     });
 });
 
@@ -175,6 +175,37 @@ app.get("/db_test", requireLogin, function(req, res) {
     db.query(sql).then(results => {
         console.log(results);
         res.send(results)
+    });
+});
+
+// ADMIN DASHBOARD
+app.get("/admin/dashboard", requireLogin, requireAdmin, function(req, res) {
+    const usersSql = 'SELECT COUNT(*) AS total FROM users';
+    const lessonsSql = 'SELECT COUNT(*) AS total FROM lessons';
+    const categoriesSql = 'SELECT COUNT(*) AS total FROM categories';
+    const recentUsersSql = 'SELECT * FROM users ORDER BY created_at DESC LIMIT 5';
+    const topRatedSql = `SELECT lessons.title, AVG(ratings.rating) AS avg_rating, COUNT(ratings.id) AS total_ratings 
+                         FROM lessons 
+                         LEFT JOIN ratings ON lessons.id = ratings.lesson_id 
+                         GROUP BY lessons.id 
+                         ORDER BY avg_rating DESC LIMIT 5`;
+
+    db.query(usersSql).then(usersCount => {
+        db.query(lessonsSql).then(lessonsCount => {
+            db.query(categoriesSql).then(categoriesCount => {
+                db.query(recentUsersSql).then(recentUsers => {
+                    db.query(topRatedSql).then(topRated => {
+                        res.render("adminDashboard", {
+                            totalUsers: usersCount[0].total,
+                            totalLessons: lessonsCount[0].total,
+                            totalCategories: categoriesCount[0].total,
+                            recentUsers: recentUsers,
+                            topRated: topRated
+                        });
+                    });
+                });
+            });
+        });
     });
 });
 
