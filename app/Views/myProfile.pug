@@ -4,36 +4,14 @@ block content
   if user
     .profile-container
 
-      //- BACK BUTTON
-      a.back-btn(href="/users") ← Back to Users
-
-      //- PROFILE HEADER
       .profile-header
         .profile-avatar-large= user.name.charAt(0).toUpperCase()
         .profile-header-info
-          h1= user.name
+          h1 👋 Welcome, #{user.name}!
           p.profile-email 📧 #{user.email}
           .profile-meta
             span(class='badge badge-' + user.skill_level)= user.skill_level
             span.profile-joined 📅 Member since #{new Date(user.created_at).toDateString()}
-          button.edit-toggle-btn(onclick="toggleEdit()") ✏️ Edit Profile
-
-      //- EDIT PROFILE FORM
-      .edit-form-container#edit-form(style="display:none")
-        h3 ✏️ Edit Profile
-        form(method='POST' action='/users/' + user.id + '/edit')
-          .form-group
-            label Name
-            input(type='text' name='name' value=user.name required)
-          .form-group
-            label Skill Level
-            select(name='skill_level')
-              option(value='beginner' selected=user.skill_level === 'beginner') Beginner
-              option(value='intermediate' selected=user.skill_level === 'intermediate') Intermediate
-              option(value='advanced' selected=user.skill_level === 'advanced') Advanced
-          .form-buttons
-            button.save-btn(type='submit') 💾 Save Changes
-            button.cancel-btn(type='button' onclick="toggleEdit()") Cancel
 
       //- STATS ROW
       .profile-stats
@@ -54,14 +32,20 @@ block content
               | 0%
           span.profile-stat-label Completion Rate
 
+      //- QUICK ACTIONS
+      .quick-actions
+        a.action-btn(href="/lessons") 📚 Browse Lessons
+        a.action-btn(href="/practice") 🥁 Practice Tools
+        a.action-btn(href="/categories") 🏷️ Categories
+
       //- PROGRESS SECTION
       .profile-section
-        h2 📚 Learning Progress
+        h2 📚 My Learning Progress
         if progress.length === 0
           .empty-progress
             span.empty-icon 🎸
-            p No lessons started yet!
-            a.view-btn(href="/lessons") Browse Lessons →
+            p You haven't started any lessons yet!
+            a.view-btn(href="/lessons") Start Learning →
         else
           .progress-list
             each item in progress
@@ -78,43 +62,24 @@ block content
                 .progress-status(class=item.completed ? 'status-done' : 'status-progress')
                   = item.completed ? 'Done' : 'In Progress'
 
-  else
-    .error-container
-      h1 😕 User Not Found
-      a.back-btn(href="/users") ← Back to Users
-
   style.
     .profile-container { max-width: 900px; margin: 0 auto; padding: 2rem; }
-
-    .back-btn { display: inline-block; color: #2d6a4f; text-decoration: none; font-weight: 600; font-size: 0.9rem; margin-bottom: 1.5rem; }
-    .back-btn:hover { color: #1b4332; }
 
     .profile-header { background: white; border-radius: 16px; padding: 2rem; display: flex; align-items: center; gap: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 1.5rem; flex-wrap: wrap; }
     .profile-avatar-large { width: 80px; height: 80px; background: linear-gradient(135deg, #1a1a2e, #2d6a4f); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 800; flex-shrink: 0; }
     .profile-header-info h1 { font-size: 1.8rem; color: #1a1a2e; font-weight: 800; margin-bottom: 0.3rem; }
     .profile-email { color: #666; font-size: 0.95rem; margin-bottom: 0.75rem; }
-    .profile-meta { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+    .profile-meta { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
     .profile-joined { color: #888; font-size: 0.85rem; }
-
-    .edit-toggle-btn { background: #f0f0f0; border: 1px solid #ddd; color: #333; padding: 0.4rem 0.9rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-    .edit-toggle-btn:hover { background: #1a1a2e; color: white; border-color: #1a1a2e; }
-
-    .edit-form-container { background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 1.5rem; border-left: 4px solid #2d6a4f; }
-    .edit-form-container h3 { font-size: 1.1rem; color: #1a1a2e; font-weight: 700; margin-bottom: 1.2rem; }
-    .form-group { margin-bottom: 1rem; }
-    .form-group label { display: block; font-weight: 600; color: #333; font-size: 0.9rem; margin-bottom: 0.4rem; }
-    .form-group input, .form-group select { width: 100%; padding: 0.65rem 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; box-sizing: border-box; transition: border-color 0.2s; }
-    .form-group input:focus, .form-group select:focus { outline: none; border-color: #2d6a4f; }
-    .form-buttons { display: flex; gap: 0.75rem; margin-top: 1rem; }
-    .save-btn { background: #2d6a4f; color: white; border: none; padding: 0.65rem 1.5rem; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-    .save-btn:hover { background: #1b4332; }
-    .cancel-btn { background: #f0f0f0; color: #333; border: 1px solid #ddd; padding: 0.65rem 1.5rem; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-    .cancel-btn:hover { background: #e0e0e0; }
 
     .profile-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
     .profile-stat { background: white; border-radius: 12px; padding: 1.2rem; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.06); border-bottom: 3px solid #2d6a4f; }
     .profile-stat-number { display: block; font-size: 2rem; font-weight: 800; color: #1a1a2e; }
     .profile-stat-label { display: block; font-size: 0.8rem; color: #888; margin-top: 0.2rem; }
+
+    .quick-actions { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .action-btn { background: white; border: 2px solid #e0e0e0; color: #333; padding: 0.75rem 1.2rem; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; }
+    .action-btn:hover { background: #1a1a2e; color: white; border-color: #1a1a2e; }
 
     .profile-section { background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
     .profile-section h2 { font-size: 1.2rem; color: #1a1a2e; font-weight: 700; margin-bottom: 1.2rem; }
@@ -136,16 +101,7 @@ block content
     .status-done { background: #d5f5e3; color: #1e8449; }
     .status-progress { background: #fef9e7; color: #d4ac0d; }
 
-    .error-container { text-align: center; padding: 4rem 2rem; }
-    .error-container h1 { font-size: 2rem; color: #1a1a2e; margin-bottom: 1rem; }
-
     .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; }
     .badge-beginner { background: #d5f5e3; color: #1e8449; }
     .badge-intermediate { background: #fef9e7; color: #d4ac0d; }
     .badge-advanced { background: #fadbd8; color: #c0392b; }
-
-  script.
-    function toggleEdit() {
-      const form = document.getElementById('edit-form');
-      form.style.display = form.style.display === 'none' ? 'block' : 'none';
-    }

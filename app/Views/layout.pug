@@ -85,6 +85,12 @@ html
         font-weight: 700;
         color: white;
       }
+      .nav-username {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .nav-username:hover { color: #52b788; }
       .nav-admin-badge {
         background: #f39c12;
         color: #1a1a2e;
@@ -181,7 +187,7 @@ html
         if sessionUser
           .nav-user
             .nav-avatar= sessionUser.name.charAt(0).toUpperCase()
-            span= sessionUser.name
+            a.nav-username(href="/my-profile")= sessionUser.name
             if sessionUser.is_admin
               span.nav-admin-badge Admin
           a.nav-logout(href="/logout") Logout

@@ -308,6 +308,25 @@ app.post("/lessons/:id/rate", requireLogin, function(req, res) {
         res.redirect('/lessons/' + lessonId);
     });
 });
+// MY PROFILE PAGE - for logged in user
+app.get("/my-profile", requireLogin, function(req, res) {
+    const userId = req.session.user.id;
+    const userSql = 'SELECT * FROM users WHERE id = ?';
+    const progressSql = `
+        SELECT lessons.title, progress.completed, progress.completed_at 
+        FROM progress 
+        JOIN lessons ON progress.lesson_id = lessons.id 
+        WHERE progress.user_id = ?`;
+    
+    db.query(userSql, [userId]).then(userResults => {
+        db.query(progressSql, [userId]).then(progressResults => {
+            res.render("myProfile", { 
+                user: userResults[0], 
+                progress: progressResults 
+            });
+        });
+    });
+});
 
 // Start server on port 3000
 app.listen(3000, function(){
