@@ -208,6 +208,34 @@ block content
           .chord-fingers
             span 1-1-2-3-3-1
           .chord-label F Major
+          //- ── TUNING MAINTENANCE ──
+    .tuning-section
+      .tuning-header
+        h2 🎛️ Tuning Maintenance
+        p Play each string and see if it is in tune — green means perfect!
+      .tuning-container
+        .tuning-status-bar
+          .tuning-overall#tuning-overall 🎸 Press Start to check your tuning
+        .tuning-strings-list
+          each s in [{id:'ts0',name:'High E',num:'1st',freq:329.63},{id:'ts1',name:'B',num:'2nd',freq:246.94},{id:'ts2',name:'G',num:'3rd',freq:196.00},{id:'ts3',name:'D',num:'4th',freq:146.83},{id:'ts4',name:'A',num:'5th',freq:110.00},{id:'ts5',name:'Low E',num:'6th',freq:82.41}]
+            .tuning-string-row
+              .tuning-string-info
+                span.tuning-string-num= s.num
+                span.tuning-string-name= s.name
+                span.tuning-string-freq= s.freq + ' Hz'
+              .tuning-bar-container
+                .tuning-bar
+                  .tuning-bar-fill(id=s.id + '-fill')
+                  .tuning-center-line
+                .tuning-bar-labels
+                  span ♭ Flat
+                  span ✓ In Tune
+                  span ♯ Sharp
+              .tuning-status-icon(id=s.id + '-status') —
+        .tuning-controls
+          button#tuning-start-btn.tuning-start-btn 🎤 Start Tuning Check
+          button#tuning-stop-btn.tuning-stop-btn(style="display:none") ⏹ Stop
+          .tuning-mic-info#tuning-mic-info Play each string one at a time
 
     //- ── YOUSICIAN-STYLE FRETBOARD GAME ──
     .fretboard-section
@@ -545,6 +573,29 @@ block content
     .strum-history-list { display: flex; gap: 0.5rem; flex-wrap: wrap; min-height: 40px; }
     .strum-no-history { color: #888; font-size: 0.85rem; }
     .strum-history-pill { background: #f0faf5; color: #2d6a4f; border: 1px solid #c8e6c9; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; }
+    .tuning-section { margin-top: 2.5rem; }
+    .tuning-header { text-align: center; margin-bottom: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; border: 1px solid #2d6a4f; }
+    .tuning-header h2 { font-size: 1.8rem; color: white; font-weight: 800; margin-bottom: 0.3rem; }
+    .tuning-header p { color: #52b788; font-size: 0.95rem; }
+    .tuning-container { background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 8px 30px rgba(0,0,0,0.08); border: 1px solid #e8f5e9; }
+    .tuning-status-bar { text-align: center; margin-bottom: 1.5rem; font-size: 1rem; font-weight: 700; color: #1a1a2e; padding: 0.75rem; background: #f0faf5; border-radius: 10px; border: 1px solid #c8e6c9; }
+    .tuning-strings-list { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
+    .tuning-string-row { display: grid; grid-template-columns: 160px 1fr 40px; align-items: center; gap: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 12px; border: 1px solid #e8f5e9; }
+    .tuning-string-info { display: flex; flex-direction: column; gap: 2px; }
+    .tuning-string-num { font-size: 0.7rem; color: #888; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    .tuning-string-name { font-size: 1.3rem; font-weight: 900; color: #1a1a2e; }
+    .tuning-string-freq { font-size: 0.75rem; color: #888; font-family: monospace; }
+    .tuning-bar-container { display: flex; flex-direction: column; gap: 4px; }
+    .tuning-bar { position: relative; height: 16px; background: linear-gradient(to right, #3498db 0%, #2d6a4f 45%, #2d6a4f 55%, #e63946 100%); border-radius: 8px; overflow: hidden; }
+    .tuning-bar-fill { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); }
+    .tuning-center-line { position: absolute; top: 0; left: 50%; width: 3px; height: 100%; background: white; transform: translateX(-50%); border-radius: 2px; }
+    .tuning-bar-labels { display: flex; justify-content: space-between; font-size: 0.7rem; color: #888; font-weight: 600; }
+    .tuning-status-icon { font-size: 1.5rem; text-align: center; }
+    .tuning-controls { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .tuning-start-btn { background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; border: none; padding: 0.85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .tuning-start-btn:hover { transform: translateY(-2px); }
+    .tuning-stop-btn { background: linear-gradient(135deg, #e63946, #c1121f); color: white; border: none; padding: 0.85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; }
+    .tuning-mic-info { font-size: 0.85rem; color: #888; font-weight: 600; }
     .strum-start-btn, .strum-stop-btn { display: inline-block; padding: 0.85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; margin-right: 0.5rem; }
     .strum-start-btn { background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; }
     .strum-stop-btn { background: linear-gradient(135deg, #e63946, #c1121f); color: white; }
@@ -645,6 +696,110 @@ block content
           pitchStatus.textContent = '🎤 Listening... play a string!'; detectPitch();
         } catch(e) { pitchStatus.textContent = '❌ Microphone access denied!'; }
       }
+    });
+    // ── TUNING MAINTENANCE ──
+    const tuningStrings = [
+      { id: 'ts0', name: 'High E', freq: 329.63 },
+      { id: 'ts1', name: 'B',      freq: 246.94 },
+      { id: 'ts2', name: 'G',      freq: 196.00 },
+      { id: 'ts3', name: 'D',      freq: 146.83 },
+      { id: 'ts4', name: 'A',      freq: 110.00 },
+      { id: 'ts5', name: 'Low E',  freq: 82.41  },
+    ];
+    let tuningRunning = false, tuningStream = null, tuningAnalyser = null;
+    let tuningCtx = null, tuningFrame = null, lastTuningTime = 0;
+    const tuningStartBtn = document.getElementById('tuning-start-btn');
+    const tuningStopBtn = document.getElementById('tuning-stop-btn');
+    const tuningOverall = document.getElementById('tuning-overall');
+    const tuningMicInfo = document.getElementById('tuning-mic-info');
+
+    function updateTuningBar(id, cents) {
+      const fill = document.getElementById(id + '-fill');
+      const status = document.getElementById(id + '-status');
+      if (!fill || !status) return;
+      const offset = Math.min(Math.max(cents, -50), 50);
+      if (offset < 0) {
+        fill.style.left = (50 + offset) + '%';
+        fill.style.right = '50%';
+        fill.style.background = 'rgba(52,152,219,0.7)';
+      } else {
+        fill.style.left = '50%';
+        fill.style.right = (50 - offset) + '%';
+        fill.style.background = 'rgba(230,57,70,0.7)';
+      }
+      if (Math.abs(cents) < 8) {
+        fill.style.background = 'rgba(45,106,79,0.5)';
+        status.textContent = '✅';
+        status.style.color = '#2d6a4f';
+      } else if (cents < 0) {
+        status.textContent = '♭';
+        status.style.color = '#3498db';
+      } else {
+        status.textContent = '♯';
+        status.style.color = '#e63946';
+      }
+    }
+
+    function detectTuning() {
+      if (!tuningRunning) return;
+      const buf = new Float32Array(tuningAnalyser.fftSize);
+      tuningAnalyser.getFloatTimeDomainData(buf);
+      const freq = autoCorrelate(buf, tuningCtx.sampleRate);
+      const now = Date.now();
+      if (freq > 60 && freq < 500 && now - lastTuningTime > 200) {
+        lastTuningTime = now;
+        let closest = tuningStrings[0], minDiff = Infinity;
+        tuningStrings.forEach(s => {
+          const diff = Math.abs(freq - s.freq);
+          if (diff < minDiff) { minDiff = diff; closest = s; }
+        });
+        if (minDiff < 25) {
+          const note = frequencyToNote(freq);
+          const exactFreq = noteToFreq(note);
+          const cents = Math.floor(1200 * Math.log(freq / exactFreq) / Math.log(2));
+          updateTuningBar(closest.id, cents);
+          if (Math.abs(cents) < 8) {
+            tuningOverall.textContent = `✅ ${closest.name} string is in tune!`;
+            tuningOverall.style.color = '#2d6a4f';
+          } else if (cents < 0) {
+            tuningOverall.textContent = `♭ ${closest.name} is flat — tune up slightly`;
+            tuningOverall.style.color = '#3498db';
+          } else {
+            tuningOverall.textContent = `♯ ${closest.name} is sharp — tune down slightly`;
+            tuningOverall.style.color = '#e63946';
+          }
+        }
+      }
+      tuningFrame = requestAnimationFrame(detectTuning);
+    }
+
+    tuningStartBtn.addEventListener('click', async () => {
+      try {
+        tuningCtx = new (window.AudioContext || window.webkitAudioContext)();
+        tuningStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const source = tuningCtx.createMediaStreamSource(tuningStream);
+        tuningAnalyser = tuningCtx.createAnalyser();
+        tuningAnalyser.fftSize = 4096;
+        source.connect(tuningAnalyser);
+        tuningRunning = true;
+        tuningStartBtn.style.display = 'none';
+        tuningStopBtn.style.display = 'inline-block';
+        tuningOverall.textContent = '🎤 Listening... play a string!';
+        tuningMicInfo.textContent = '🎤 Microphone active';
+        detectTuning();
+      } catch(e) {
+        tuningMicInfo.textContent = '❌ Microphone access denied!';
+      }
+    });
+
+    tuningStopBtn.addEventListener('click', () => {
+      tuningRunning = false;
+      cancelAnimationFrame(tuningFrame);
+      if (tuningStream) tuningStream.getTracks().forEach(t => t.stop());
+      tuningStartBtn.style.display = 'inline-block';
+      tuningStopBtn.style.display = 'none';
+      tuningOverall.textContent = '🎸 Press Start to check your tuning';
+      tuningMicInfo.textContent = 'Play each string one at a time';
     });
 
     const tunerVolume = document.getElementById('tuner-volume');

@@ -32,6 +32,13 @@ app.use((req, res, next) => {
     next();
 });
 
+// Flash messages middleware
+app.use((req, res, next) => {
+    res.locals.flash = req.session.flash || null;
+    delete req.session.flash;
+    next();
+});
+
 // =======================================
 // PROTECT ROUTES MIDDLEWARE
 // =======================================
@@ -80,14 +87,17 @@ app.post("/login", function(req, res) {
             email: user.email,
             is_admin: user.is_admin 
         };
+        req.session.flash = { type: 'success', message: '👋 Welcome back, ' + user.name + '!' };
         res.redirect('/');
     });
 });
 
 // Logout
 app.get("/logout", function(req, res) {
-    req.session.destroy();
-    res.redirect('/login');
+    const name = req.session.user ? req.session.user.name : '';
+    req.session.destroy(() => {
+        res.redirect('/login');
+    });
 });
 
 // Register page
@@ -102,6 +112,7 @@ app.post("/register", function(req, res) {
     const hashedPassword = bcrypt.hashSync(password, 10);
     const sql = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
     db.query(sql, [name, email, hashedPassword]).then(results => {
+        req.session.flash = { type: 'success', message: '🎉 Welcome, ' + name + '! Account created successfully. Please login.' };
         res.redirect('/login');
     }).catch(err => {
         res.render("register", { error: "Email already exists" });
@@ -122,6 +133,7 @@ app.post("/forgot", function(req, res) {
         if (result.affectedRows === 0) {
             return res.render("forgot", { error: "Email not found" });
         }
+        req.session.flash = { type: 'success', message: '✅ Password updated successfully! Please login.' };
         res.redirect('/login');
     });
 });
@@ -151,6 +163,7 @@ app.post("/admin-login", function(req, res) {
             email: user.email,
             is_admin: user.is_admin
         };
+        req.session.flash = { type: 'success', message: '🔑 Welcome Admin, ' + user.name + '!' };
         res.redirect('/admin/dashboard');
     });
 });
@@ -237,11 +250,25 @@ app.get("/users/:id", requireLogin, requireAdmin, function(req, res) {
     });
 });
 
+// EDIT USER PROFILE
+app.post("/users/:id/edit", requireLogin, requireAdmin, function(req, res) {
+    const userId = req.params.id;
+    const { name, skill_level } = req.body;
+    const sql = 'UPDATE users SET name = ?, skill_level = ? WHERE id = ?';
+    db.query(sql, [name, skill_level, userId]).then(results => {
+        req.session.flash = { type: 'success', message: '✅ Profile updated successfully!' };
+        res.redirect('/users/' + userId);
+    });
+});
+
 // 3. LESSONS LISTING PAGE
 app.get("/lessons", requireLogin, function(req, res) {
-    sql = `SELECT lessons.*, categories.name AS category_name 
+    const sql = `SELECT lessons.*, categories.name AS category_name,
+           AVG(ratings.rating) AS avg_rating, COUNT(ratings.id) AS rating_count
            FROM lessons 
-           JOIN categories ON lessons.category_id = categories.id`;
+           JOIN categories ON lessons.category_id = categories.id
+           LEFT JOIN ratings ON lessons.id = ratings.lesson_id
+           GROUP BY lessons.id`;
     db.query(sql).then(results => {
         res.render("lessons", { lessons: results });
     });
@@ -305,9 +332,11 @@ app.post("/lessons/:id/rate", requireLogin, function(req, res) {
                  VALUES (?, ?, ?) 
                  ON DUPLICATE KEY UPDATE rating = ?`;
     db.query(sql, [userId, lessonId, rating, rating]).then(results => {
+        req.session.flash = { type: 'success', message: '⭐ Thanks for rating this lesson!' };
         res.redirect('/lessons/' + lessonId);
     });
 });
+
 // MY PROFILE PAGE - for logged in user
 app.get("/my-profile", requireLogin, function(req, res) {
     const userId = req.session.user.id;

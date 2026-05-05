@@ -37,41 +37,20 @@ block content
           .cat-icon= cat.name === 'Beginner' ? '🌱' : cat.name === 'Intermediate' ? '🎯' : cat.name === 'Advanced' ? '🔥' : cat.name === 'Music Theory' ? '📖' : cat.name === 'Songs' ? '🎵' : '🎸'
           h3= cat.name
           p= cat.description
+          .cat-lesson-count
+            span.cat-count-icon 📚
+            span= cat.lesson_count + ' lesson' + (cat.lesson_count !== 1 ? 's' : '')
           a.cat-btn(href='/categories/' + cat.id) Browse #{cat.name} →
 
   style.
-    .lessons-header {
-      text-align: center;
-      padding: 2.5rem 2rem 1rem;
-    }
-    .lessons-header h1 {
-      font-size: 2.2rem;
-      color: #1a1a2e;
-      font-weight: 800;
-      margin-bottom: 0.5rem;
-    }
+    .lessons-header { text-align: center; padding: 2.5rem 2rem 1rem; }
+    .lessons-header h1 { font-size: 2.2rem; color: #1a1a2e; font-weight: 800; margin-bottom: 0.5rem; }
     .lessons-header p { color: #666; font-size: 1rem; }
 
-    .category-header {
-      padding: 2rem 2rem 1rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    .category-header h1 {
-      font-size: 2rem;
-      color: #1a1a2e;
-      font-weight: 800;
-      margin: 0.5rem 0;
-    }
+    .category-header { padding: 2rem 2rem 1rem; max-width: 1100px; margin: 0 auto; }
+    .category-header h1 { font-size: 2rem; color: #1a1a2e; font-weight: 800; margin: 0.5rem 0; }
     .category-header p { color: #666; }
-    .back-btn {
-      display: inline-block;
-      color: #2d6a4f;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      margin-bottom: 0.5rem;
-    }
+    .back-btn { display: inline-block; color: #2d6a4f; text-decoration: none; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; }
     .back-btn:hover { color: #1b4332; }
 
     .categories-grid {
@@ -91,28 +70,26 @@ block content
       text-align: center;
       transition: all 0.2s;
     }
-    .cat-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-      border-color: #2d6a4f;
-    }
-    .cat-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      display: block;
-    }
-    .cat-card h3 {
-      font-size: 1.3rem;
-      color: #1a1a2e;
+    .cat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.12); border-color: #2d6a4f; }
+    .cat-icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+    .cat-card h3 { font-size: 1.3rem; color: #1a1a2e; font-weight: 700; margin-bottom: 0.5rem; }
+    .cat-card p { color: #666; font-size: 0.9rem; line-height: 1.6; margin-bottom: 0.75rem; }
+
+    .cat-lesson-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #f0faf5;
+      border: 1px solid #c8e6c9;
+      color: #2d6a4f;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.82rem;
       font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-    .cat-card p {
-      color: #666;
-      font-size: 0.9rem;
-      line-height: 1.6;
       margin-bottom: 1.2rem;
     }
+    .cat-count-icon { font-size: 0.9rem; }
+
     .cat-btn {
       display: inline-block;
       background: #1a1a2e;
@@ -144,31 +121,13 @@ block content
       display: flex;
       flex-direction: column;
     }
-    .lesson-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-      border-color: #2d6a4f;
-    }
-    .lesson-card-header {
-      background: linear-gradient(135deg, #1a1a2e, #16213e);
-      padding: 1.5rem;
-    }
+    .lesson-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.12); border-color: #2d6a4f; }
+    .lesson-card-header { background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 1.5rem; }
     .lesson-emoji { font-size: 2.5rem; }
-    .lesson-card-body {
-      padding: 1.2rem 1.5rem;
-      flex: 1;
-    }
-    .lesson-card-body h3 {
-      font-size: 1.1rem;
-      color: #1a1a2e;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
+    .lesson-card-body { padding: 1.2rem 1.5rem; flex: 1; }
+    .lesson-card-body h3 { font-size: 1.1rem; color: #1a1a2e; font-weight: 700; margin-bottom: 0.5rem; }
     .lesson-card-body p { color: #666; font-size: 0.9rem; line-height: 1.6; }
-    .lesson-card-footer {
-      padding: 1rem 1.5rem;
-      border-top: 1px solid #f0f0f0;
-    }
+    .lesson-card-footer { padding: 1rem 1.5rem; border-top: 1px solid #f0f0f0; }
     .view-btn {
       display: block;
       text-align: center;
@@ -183,8 +142,5 @@ block content
     }
     .view-btn:hover { background: #1b4332; color: white; }
 
-    .empty-state {
-      text-align: center;
-      padding: 4rem 2rem;
-    }
+    .empty-state { text-align: center; padding: 4rem 2rem; }
     .empty-icon { font-size: 4rem; margin-bottom: 1rem; }
