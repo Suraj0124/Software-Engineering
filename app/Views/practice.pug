@@ -6,407 +6,459 @@ block content
       h1 🎸 Practice Tools
       p Use our interactive tools to perfect your guitar playing
 
-    .tools-grid
+    //- ── TAB NAVIGATION ──
+    .practice-tabs
+      button.tab-btn.active(onclick="switchTab('tools')") 🎵 Tools
+      button.tab-btn(onclick="switchTab('beginner')") 🌱 Beginner
+      button.tab-btn(onclick="switchTab('intermediate')") 🎸 Intermediate
+      button.tab-btn(onclick="switchTab('advanced')") 🔥 Advanced
 
-      //- ── METRONOME ──
-      .tool-card
-        .tool-header
-          span.tool-icon 🥁
-          h2 Metronome
-        .tool-body
-          .bpm-display
-            span#bpm-value 80
-            span.bpm-label BPM
-          .control-group
-            label Tempo
-            input#bpm-slider(type="range" min="40" max="220" value="80")
-            .range-labels
-              span 40
-              span 220
-          .control-group
-            label Volume
-            input#metro-volume(type="range" min="0" max="100" value="80")
-            span#metro-vol-label 80%
-          .beat-dots
-            .dot#dot1
-            .dot#dot2
-            .dot#dot3
-            .dot#dot4
-          button#metro-btn.start-btn ▶ Start
-        .tool-footer
-          p Adjust BPM and volume, then press Start
+    //- ── TAB: TOOLS ──
+    .tab-content#tab-tools
 
-      //- ── LIVE PITCH DETECTOR ──
-      .tool-card
-        .tool-header
-          span.tool-icon 🎤
-          h2 Live Note Detector
-        .tool-body
-          .pitch-display
-            .pitch-note#pitch-note --
-            .pitch-cents#pitch-cents Play a string...
-          .pitch-indicator
-            .pitch-bar
-              .pitch-needle#pitch-needle
-            .pitch-labels
-              span Flat ♭
-              span In Tune ✓
-              span Sharp ♯
-          .pitch-status#pitch-status 🎤 Press Start to detect your note
-          button#pitch-btn.start-btn 🎤 Start Listening
-        .tool-footer
-          p Play any string on your guitar and we will detect the note!
+      .tools-grid
 
-      //- ── GUITAR TUNER ──
-      .tool-card
-        .tool-header
-          span.tool-icon 🎵
-          h2 Guitar Tuner
-        .tool-body
-          p.tuner-hint Click a string to hear the reference note
-          .strings-grid
-            each string in [{note:'E2',label:'6th - Low E'},{note:'A2',label:'5th - A'},{note:'D3',label:'4th - D'},{note:'G3',label:'3rd - G'},{note:'B3',label:'2nd - B'},{note:'E4',label:'1st - High E'}]
-              button.string-btn(data-note=string.note)
-                span.string-note= string.note.replace('2','').replace('3','').replace('4','')
-                span.string-label= string.label
-          .control-group
-            label Volume
-            input#tuner-volume(type="range" min="0" max="100" value="80")
-            span#tuner-vol-label 80%
-        .tool-footer
-          p Play each string on your guitar and match the sound
+        //- ── METRONOME ──
+        .tool-card
+          .tool-header
+            span.tool-icon 🥁
+            h2 Metronome
+          .tool-body
+            .bpm-display
+              span#bpm-value 80
+              span.bpm-label BPM
+            .control-group
+              label Tempo
+              input#bpm-slider(type="range" min="40" max="220" value="80")
+              .range-labels
+                span 40
+                span 220
+            .control-group
+              label Volume
+              input#metro-volume(type="range" min="0" max="100" value="80")
+              span#metro-vol-label 80%
+            .beat-dots
+              .dot#dot1
+              .dot#dot2
+              .dot#dot3
+              .dot#dot4
+            button#metro-btn.start-btn ▶ Start
+          .tool-footer
+            p Adjust BPM and volume, then press Start
 
-    //- ── CHORD LIBRARY ──
-    .chord-section
-      .chord-section-header
-        h2 🎸 Chord Library
-        p Learn the most common guitar chords — click any chord to see finger positions
-      .chords-grid
-        .chord-card(data-chord="G")
-          .chord-name G
-          svg.chord-diagram(viewBox="0 0 100 120")
-            line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
-            line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
-            line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
-            line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
-            line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
-            line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
-            line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
-            line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
-            line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
-            line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
-            line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
-            circle(cx="10" cy="30" r="7" fill="#2d6a4f")
-            circle(cx="42" cy="50" r="7" fill="#2d6a4f")
-            circle(cx="90" cy="30" r="7" fill="#2d6a4f")
-          .chord-fingers
-            span 2-1-0-0-0-3
-          .chord-label G Major
+        //- ── LIVE PITCH DETECTOR ──
+        .tool-card
+          .tool-header
+            span.tool-icon 🎤
+            h2 Live Note Detector
+          .tool-body
+            .pitch-display
+              .pitch-note#pitch-note --
+              .pitch-cents#pitch-cents Play a string...
+            .pitch-indicator
+              .pitch-bar
+                .pitch-needle#pitch-needle
+              .pitch-labels
+                span Flat ♭
+                span In Tune ✓
+                span Sharp ♯
+            .pitch-status#pitch-status 🎤 Press Start to detect your note
+            button#pitch-btn.start-btn 🎤 Start Listening
+          .tool-footer
+            p Play any string on your guitar and we will detect the note!
 
-        .chord-card(data-chord="C")
-          .chord-name C
-          svg.chord-diagram(viewBox="0 0 100 120")
-            line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
-            line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
-            line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
-            line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
-            line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
-            line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
-            line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
-            line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
-            line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
-            line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
-            line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
-            circle(cx="26" cy="30" r="7" fill="#2d6a4f")
-            circle(cx="58" cy="50" r="7" fill="#2d6a4f")
-            circle(cx="74" cy="30" r="7" fill="#2d6a4f")
-            text(x="10" y="115" font-size="8" fill="#888") x
-          .chord-fingers
-            span x-3-2-0-1-0
-          .chord-label C Major
+        //- ── GUITAR TUNER ──
+        .tool-card
+          .tool-header
+            span.tool-icon 🎵
+            h2 Guitar Tuner
+          .tool-body
+            p.tuner-hint Click a string to hear the reference note
+            .strings-grid
+              each string in [{note:'E2',label:'6th - Low E'},{note:'A2',label:'5th - A'},{note:'D3',label:'4th - D'},{note:'G3',label:'3rd - G'},{note:'B3',label:'2nd - B'},{note:'E4',label:'1st - High E'}]
+                button.string-btn(data-note=string.note)
+                  span.string-note= string.note.replace('2','').replace('3','').replace('4','')
+                  span.string-label= string.label
+            .control-group
+              label Volume
+              input#tuner-volume(type="range" min="0" max="100" value="80")
+              span#tuner-vol-label 80%
+          .tool-footer
+            p Play each string on your guitar and match the sound
 
-        .chord-card(data-chord="D")
-          .chord-name D
-          svg.chord-diagram(viewBox="0 0 100 120")
-            line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
-            line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
-            line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
-            line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
-            line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
-            line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
-            line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
-            line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
-            line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
-            line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
-            line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
-            circle(cx="58" cy="30" r="7" fill="#2d6a4f")
-            circle(cx="74" cy="50" r="7" fill="#2d6a4f")
-            circle(cx="90" cy="30" r="7" fill="#2d6a4f")
-          .chord-fingers
-            span x-x-0-2-3-2
-          .chord-label D Major
+      //- ── TUNING MAINTENANCE ──
+      .tuning-section
+        .tuning-header
+          h2 🎛️ Tuning Maintenance
+          p Play each string and see if it is in tune — green means perfect!
+        .tuning-container
+          .tuning-status-bar
+            .tuning-overall#tuning-overall 🎸 Press Start to check your tuning
+          .tuning-strings-list
+            each s in [{id:'ts0',name:'High E',num:'1st',freq:329.63},{id:'ts1',name:'B',num:'2nd',freq:246.94},{id:'ts2',name:'G',num:'3rd',freq:196.00},{id:'ts3',name:'D',num:'4th',freq:146.83},{id:'ts4',name:'A',num:'5th',freq:110.00},{id:'ts5',name:'Low E',num:'6th',freq:82.41}]
+              .tuning-string-row
+                .tuning-string-info
+                  span.tuning-string-num= s.num
+                  span.tuning-string-name= s.name
+                  span.tuning-string-freq= s.freq + ' Hz'
+                .tuning-bar-container
+                  .tuning-bar
+                    .tuning-bar-fill(id=s.id + '-fill')
+                    .tuning-center-line
+                  .tuning-bar-labels
+                    span ♭ Flat
+                    span ✓ In Tune
+                    span ♯ Sharp
+                .tuning-status-icon(id=s.id + '-status') —
+          .tuning-controls
+            button#tuning-start-btn.tuning-start-btn 🎤 Start Tuning Check
+            button#tuning-stop-btn.tuning-stop-btn(style="display:none") ⏹ Stop
+            .tuning-mic-info#tuning-mic-info Play each string one at a time
 
-        .chord-card(data-chord="Am")
-          .chord-name Am
-          svg.chord-diagram(viewBox="0 0 100 120")
-            line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
-            line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
-            line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
-            line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
-            line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
-            line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
-            line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
-            line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
-            line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
-            line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
-            line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
-            circle(cx="26" cy="30" r="7" fill="#e63946")
-            circle(cx="42" cy="50" r="7" fill="#e63946")
-            circle(cx="58" cy="30" r="7" fill="#e63946")
-          .chord-fingers
-            span x-0-2-2-1-0
-          .chord-label A Minor
+    //- ── TAB: BEGINNER ──
+    .tab-content#tab-beginner(style="display:none")
 
-        .chord-card(data-chord="Em")
-          .chord-name Em
-          svg.chord-diagram(viewBox="0 0 100 120")
-            line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
-            line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
-            line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
-            line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
-            line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
-            line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
-            line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
-            line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
-            line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
-            line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
-            line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
-            circle(cx="42" cy="30" r="7" fill="#e63946")
-            circle(cx="58" cy="30" r="7" fill="#e63946")
-          .chord-fingers
-            span 0-2-2-0-0-0
-          .chord-label E Minor
+      .level-banner.beginner-banner
+        span.level-icon 🌱
+        .level-info
+          h2 Beginner Practice
+          p Start your guitar journey — learn chords, strings and basic theory
 
-        .chord-card(data-chord="F")
-          .chord-name F
-          svg.chord-diagram(viewBox="0 0 100 120")
-            line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
-            line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
-            line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
-            line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
-            line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
-            line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
-            line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
-            line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
-            line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
-            line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
-            line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
-            rect(x="3" y="23" width="94" height="14" rx="7" fill="#1a1a2e" opacity="0.8")
-            circle(cx="42" cy="50" r="7" fill="#1a1a2e")
-            circle(cx="58" cy="50" r="7" fill="#1a1a2e")
-            circle(cx="74" cy="30" r="7" fill="#1a1a2e")
-          .chord-fingers
-            span 1-1-2-3-3-1
-          .chord-label F Major
-          //- ── TUNING MAINTENANCE ──
-    .tuning-section
-      .tuning-header
-        h2 🎛️ Tuning Maintenance
-        p Play each string and see if it is in tune — green means perfect!
-      .tuning-container
-        .tuning-status-bar
-          .tuning-overall#tuning-overall 🎸 Press Start to check your tuning
-        .tuning-strings-list
-          each s in [{id:'ts0',name:'High E',num:'1st',freq:329.63},{id:'ts1',name:'B',num:'2nd',freq:246.94},{id:'ts2',name:'G',num:'3rd',freq:196.00},{id:'ts3',name:'D',num:'4th',freq:146.83},{id:'ts4',name:'A',num:'5th',freq:110.00},{id:'ts5',name:'Low E',num:'6th',freq:82.41}]
-            .tuning-string-row
-              .tuning-string-info
-                span.tuning-string-num= s.num
-                span.tuning-string-name= s.name
-                span.tuning-string-freq= s.freq + ' Hz'
-              .tuning-bar-container
-                .tuning-bar
-                  .tuning-bar-fill(id=s.id + '-fill')
-                  .tuning-center-line
-                .tuning-bar-labels
-                  span ♭ Flat
-                  span ✓ In Tune
-                  span ♯ Sharp
-              .tuning-status-icon(id=s.id + '-status') —
-        .tuning-controls
-          button#tuning-start-btn.tuning-start-btn 🎤 Start Tuning Check
-          button#tuning-stop-btn.tuning-stop-btn(style="display:none") ⏹ Stop
-          .tuning-mic-info#tuning-mic-info Play each string one at a time
+      //- ── CHORD LIBRARY ──
+      .chord-section
+        .chord-section-header
+          h2 🎸 Chord Library
+          p Learn the most common guitar chords — click any chord to see finger positions
+        .chords-grid
+          .chord-card(data-chord="G")
+            .chord-name G
+            svg.chord-diagram(viewBox="0 0 100 120")
+              line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
+              line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
+              line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
+              line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
+              line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
+              line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
+              line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
+              line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
+              line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
+              line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
+              line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
+              circle(cx="10" cy="30" r="7" fill="#2d6a4f")
+              circle(cx="42" cy="50" r="7" fill="#2d6a4f")
+              circle(cx="90" cy="30" r="7" fill="#2d6a4f")
+            .chord-fingers
+              span 2-1-0-0-0-3
+            .chord-label G Major
 
-    //- ── YOUSICIAN-STYLE FRETBOARD GAME ──
-    .fretboard-section
-      .fretboard-header
-        h2 🎸 String Challenge
-        p Play the string shown — microphone detects your guitar in real time!
-      .fretboard-wrapper
-        .fb-topbar
-          .fb-left
-            span.fb-multiplier#fb-multiplier 1×
-            .fb-lives
-              span.fb-heart#heart1 ♥
-              span.fb-heart#heart2 ♥
-              span.fb-heart#heart3 ♥
-              span.fb-heart#heart4 ♥
-              span.fb-heart#heart5 ♥
-          .fb-center
-            span.fb-instruction#fb-instruction Press Start to Play!
-          .fb-right
-            .fb-score-box
-              span.fb-score-label SCORE
-              span.fb-score#fb-score 0
-        canvas#fretboard-canvas
-        .fb-bottombar
-          button#fb-pause-btn.fb-icon-btn ⏸
-          .fb-progress-track
-            .fb-progress-fill#fb-progress-fill
-          button#fb-hand-btn.fb-icon-btn 🖐
-      .fb-controls
-        button#fb-start-btn.fb-start-button 🎸 Start Game
-        button#fb-stop-btn.fb-stop-button(style="display:none") ⏹ Stop Game
-        .fb-mic-status#fb-mic-status 🎤 Microphone not active
-      .fb-string-guide
-        h3 String Reference Guide
-        .fb-strings-ref
-          each s in [{n:'6',name:'E',note:'Low E — 82 Hz'},{n:'5',name:'A',note:'A — 110 Hz'},{n:'4',name:'D',note:'D — 147 Hz'},{n:'3',name:'G',note:'G — 196 Hz'},{n:'2',name:'B',note:'B — 247 Hz'},{n:'1',name:'E',note:'High E — 330 Hz'}]
-            .fb-str-item
-              span.fb-str-num= s.n
-              span.fb-str-name= s.name
-              span.fb-str-note= s.note
+          .chord-card(data-chord="C")
+            .chord-name C
+            svg.chord-diagram(viewBox="0 0 100 120")
+              line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
+              line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
+              line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
+              line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
+              line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
+              line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
+              line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
+              line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
+              line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
+              line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
+              line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
+              circle(cx="26" cy="30" r="7" fill="#2d6a4f")
+              circle(cx="58" cy="50" r="7" fill="#2d6a4f")
+              circle(cx="74" cy="30" r="7" fill="#2d6a4f")
+              text(x="10" y="115" font-size="8" fill="#888") x
+            .chord-fingers
+              span x-3-2-0-1-0
+            .chord-label C Major
 
-    //- ── STRING NAMING QUIZ ──
-    .quiz-section
-      .quiz-header
-        h2 📚 String Naming Quiz
-        p Test your knowledge — identify the correct string name!
-      .quiz-container
-        .quiz-score-bar
-          .quiz-stat
-            span.quiz-stat-label Score
-            span.quiz-stat-value#quiz-score 0
-          .quiz-stat
-            span.quiz-stat-label Streak
-            span.quiz-stat-value#quiz-streak 🔥 0
-          .quiz-stat
-            span.quiz-stat-label Best
-            span.quiz-stat-value#quiz-best 0
-        .quiz-question#quiz-question
-          .quiz-q-label Which string is this?
-          .quiz-q-number#quiz-q-number 3
-          .quiz-q-sub String number
-          svg#quiz-string-diagram(viewBox="0 0 260 90" width="260" height="90")
-        .quiz-options#quiz-options
-        .quiz-feedback#quiz-feedback
-        button#quiz-start-btn.quiz-start-btn 🎮 Start Quiz
+          .chord-card(data-chord="D")
+            .chord-name D
+            svg.chord-diagram(viewBox="0 0 100 120")
+              line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
+              line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
+              line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
+              line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
+              line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
+              line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
+              line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
+              line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
+              line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
+              line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
+              line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
+              circle(cx="58" cy="30" r="7" fill="#2d6a4f")
+              circle(cx="74" cy="50" r="7" fill="#2d6a4f")
+              circle(cx="90" cy="30" r="7" fill="#2d6a4f")
+            .chord-fingers
+              span x-x-0-2-3-2
+            .chord-label D Major
 
-    //- ── CHORD PROGRESSION PRACTICE ──
-    .progression-section
-      .progression-header
-        h2 🎶 Chord Progression Practice
-        p Practice switching between chords in time with the beat!
-      .progression-container
-        .prog-controls
-          .prog-control-group
-            label BPM
-            input#prog-bpm(type="range" min="40" max="120" value="60")
-            span#prog-bpm-label 60 BPM
-          .prog-control-group
-            label Progression
-            select#prog-select
-              option(value="G-C-D-Em") G → C → D → Em (Beginner)
-              option(value="Am-F-C-G") Am → F → C → G (Pop)
-              option(value="E-A-D-A") E → A → D → A (Rock)
-              option(value="C-G-Am-F") C → G → Am → F (Classic)
-        .prog-display
-          .prog-current
-            span.prog-label NOW PLAYING
-            span.prog-chord#prog-current-chord G
-          .prog-next
-            span.prog-label UP NEXT
-            span.prog-chord-next#prog-next-chord C
-        .prog-beats
-          .prog-beat#pb1
-          .prog-beat#pb2
-          .prog-beat#pb3
-          .prog-beat#pb4
-        .prog-progress-bar
-          .prog-progress-fill#prog-progress-fill
-        button#prog-start-btn.prog-start-btn 🎵 Start Practice
-        button#prog-stop-btn.prog-stop-btn(style="display:none") ⏹ Stop
+          .chord-card(data-chord="Am")
+            .chord-name Am
+            svg.chord-diagram(viewBox="0 0 100 120")
+              line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
+              line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
+              line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
+              line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
+              line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
+              line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
+              line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
+              line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
+              line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
+              line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
+              line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
+              circle(cx="26" cy="30" r="7" fill="#e63946")
+              circle(cx="42" cy="50" r="7" fill="#e63946")
+              circle(cx="58" cy="30" r="7" fill="#e63946")
+            .chord-fingers
+              span x-0-2-2-1-0
+            .chord-label A Minor
 
-    //- ── SCALE PRACTICE ──
-    .scale-section
-      .scale-header
-        h2 🎵 Scale Practice
-        p Learn guitar scales — follow the highlighted notes!
-      .scale-container
-        .scale-controls
-          select#scale-select
-            option(value="C") C Major
-            option(value="G") G Major
-            option(value="Am") A Minor
-            option(value="Em") E Minor
-          select#scale-speed
-            option(value="slow") Slow
-            option(value="medium") Medium
-            option(value="fast") Fast
-          button#scale-start-btn.scale-start-btn 🎵 Start Scale
-          button#scale-stop-btn.scale-stop-btn(style="display:none") ⏹ Stop
-        .scale-display
-          .scale-note-display
-            .scale-current-note#scale-current-note --
-            .scale-note-label#scale-note-label Press Start
-        .scale-notes-row#scale-notes-row
+          .chord-card(data-chord="Em")
+            .chord-name Em
+            svg.chord-diagram(viewBox="0 0 100 120")
+              line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
+              line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
+              line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
+              line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
+              line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
+              line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
+              line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
+              line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
+              line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
+              line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
+              line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
+              circle(cx="42" cy="30" r="7" fill="#e63946")
+              circle(cx="58" cy="30" r="7" fill="#e63946")
+            .chord-fingers
+              span 0-2-2-0-0-0
+            .chord-label E Minor
 
-    //- ── RHYTHM TAPPING GAME ──
-    .rhythm-section
-      .rhythm-header
-        h2 🥁 Rhythm Tapping Game
-        p Tap the spacebar or button in time with the rhythm pattern!
-      .rhythm-container
-        .rhythm-score-bar
-          .rhythm-stat
-            span.rhythm-stat-label Score
-            span.rhythm-stat-value#rhythm-score 0
-          .rhythm-stat
-            span.rhythm-stat-label Accuracy
-            span.rhythm-stat-value#rhythm-accuracy 0%
-          .rhythm-stat
-            span.rhythm-stat-label Level
-            span.rhythm-stat-value#rhythm-level 1
-        .rhythm-pattern#rhythm-pattern
-        .rhythm-feedback#rhythm-feedback
-        button#rhythm-tap-btn.rhythm-tap-btn 🥁 TAP (or Spacebar)
-        .rhythm-controls
-          button#rhythm-start-btn.rhythm-start-btn 🎮 Start Rhythm Game
-          button#rhythm-stop-btn.rhythm-stop-btn(style="display:none") ⏹ Stop
+          .chord-card(data-chord="F")
+            .chord-name F
+            svg.chord-diagram(viewBox="0 0 100 120")
+              line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
+              line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
+              line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
+              line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
+              line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
+              line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
+              line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
+              line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
+              line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
+              line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
+              line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
+              rect(x="3" y="23" width="94" height="14" rx="7" fill="#1a1a2e" opacity="0.8")
+              circle(cx="42" cy="50" r="7" fill="#1a1a2e")
+              circle(cx="58" cy="50" r="7" fill="#1a1a2e")
+              circle(cx="74" cy="30" r="7" fill="#1a1a2e")
+            .chord-fingers
+              span 1-1-2-3-3-1
+            .chord-label F Major
 
-    //- ── FREE STRUM MODE ──
-    .strum-section
-      .strum-header
-        h2 🎤 Free Strum — Chord Recogniser
-        p Strum your guitar and we will try to identify the chord!
-      .strum-container
-        .strum-display
-          .strum-chord-detected#strum-chord --
-          .strum-chord-label Detected Chord
-          .strum-freq-info#strum-freq-info Play your guitar...
-        .strum-history
-          h3 Recent Chords
-          .strum-history-list#strum-history-list
-            p.strum-no-history No chords detected yet
-        button#strum-start-btn.strum-start-btn 🎤 Start Listening
-        button#strum-stop-btn.strum-stop-btn(style="display:none") ⏹ Stop
+      //- ── STRING NAMING QUIZ ──
+      .quiz-section
+        .quiz-header
+          h2 📚 String Naming Quiz
+          p Test your knowledge — identify the correct string name!
+        .quiz-container
+          .quiz-score-bar
+            .quiz-stat
+              span.quiz-stat-label Score
+              span.quiz-stat-value#quiz-score 0
+            .quiz-stat
+              span.quiz-stat-label Streak
+              span.quiz-stat-value#quiz-streak 🔥 0
+            .quiz-stat
+              span.quiz-stat-label Best
+              span.quiz-stat-value#quiz-best 0
+          .quiz-question#quiz-question
+            .quiz-q-label Which string is this?
+            .quiz-q-number#quiz-q-number 3
+            .quiz-q-sub String number
+            svg#quiz-string-diagram(viewBox="0 0 260 90" width="260" height="90")
+          .quiz-options#quiz-options
+          .quiz-feedback#quiz-feedback
+          button#quiz-start-btn.quiz-start-btn 🎮 Start Quiz
+
+      //- ── SCALE PRACTICE ──
+      .scale-section
+        .scale-header
+          h2 🎵 Scale Practice
+          p Learn guitar scales — follow the highlighted notes!
+        .scale-container
+          .scale-controls
+            select#scale-select
+              option(value="C") C Major
+              option(value="G") G Major
+              option(value="Am") A Minor
+              option(value="Em") E Minor
+            select#scale-speed
+              option(value="slow") Slow
+              option(value="medium") Medium
+              option(value="fast") Fast
+            button#scale-start-btn.scale-start-btn 🎵 Start Scale
+            button#scale-stop-btn.scale-stop-btn(style="display:none") ⏹ Stop
+          .scale-display
+            .scale-note-display
+              .scale-current-note#scale-current-note --
+              .scale-note-label#scale-note-label Press Start
+          .scale-notes-row#scale-notes-row
+
+    //- ── TAB: INTERMEDIATE ──
+    .tab-content#tab-intermediate(style="display:none")
+
+      .level-banner.intermediate-banner
+        span.level-icon 🎸
+        .level-info
+          h2 Intermediate Practice
+          p Build your skills — chord changes, rhythm and string challenges
+
+      //- ── CHORD PROGRESSION PRACTICE ──
+      .progression-section
+        .progression-header
+          h2 🎶 Chord Progression Practice
+          p Practice switching between chords in time with the beat!
+        .progression-container
+          .prog-controls
+            .prog-control-group
+              label BPM
+              input#prog-bpm(type="range" min="40" max="120" value="60")
+              span#prog-bpm-label 60 BPM
+            .prog-control-group
+              label Progression
+              select#prog-select
+                option(value="G-C-D-Em") G → C → D → Em (Beginner)
+                option(value="Am-F-C-G") Am → F → C → G (Pop)
+                option(value="E-A-D-A") E → A → D → A (Rock)
+                option(value="C-G-Am-F") C → G → Am → F (Classic)
+          .prog-display
+            .prog-current
+              span.prog-label NOW PLAYING
+              span.prog-chord#prog-current-chord G
+            .prog-next
+              span.prog-label UP NEXT
+              span.prog-chord-next#prog-next-chord C
+          .prog-beats
+            .prog-beat#pb1
+            .prog-beat#pb2
+            .prog-beat#pb3
+            .prog-beat#pb4
+          .prog-progress-bar
+            .prog-progress-fill#prog-progress-fill
+          button#prog-start-btn.prog-start-btn 🎵 Start Practice
+          button#prog-stop-btn.prog-stop-btn(style="display:none") ⏹ Stop
+
+      //- ── RHYTHM TAPPING GAME ──
+      .rhythm-section
+        .rhythm-header
+          h2 🥁 Rhythm Tapping Game
+          p Tap the spacebar or button in time with the rhythm pattern!
+        .rhythm-container
+          .rhythm-score-bar
+            .rhythm-stat
+              span.rhythm-stat-label Score
+              span.rhythm-stat-value#rhythm-score 0
+            .rhythm-stat
+              span.rhythm-stat-label Accuracy
+              span.rhythm-stat-value#rhythm-accuracy 0%
+            .rhythm-stat
+              span.rhythm-stat-label Level
+              span.rhythm-stat-value#rhythm-level 1
+          .rhythm-pattern#rhythm-pattern
+          .rhythm-feedback#rhythm-feedback
+          button#rhythm-tap-btn.rhythm-tap-btn 🥁 TAP (or Spacebar)
+          .rhythm-controls
+            button#rhythm-start-btn.rhythm-start-btn 🎮 Start Rhythm Game
+            button#rhythm-stop-btn.rhythm-stop-btn(style="display:none") ⏹ Stop
+
+      //- ── YOUSICIAN-STYLE FRETBOARD GAME ──
+      .fretboard-section
+        .fretboard-header
+          h2 🎸 String Challenge
+          p Play the string shown — microphone detects your guitar in real time!
+        .fretboard-wrapper
+          .fb-topbar
+            .fb-left
+              span.fb-multiplier#fb-multiplier 1×
+              .fb-lives
+                span.fb-heart#heart1 ♥
+                span.fb-heart#heart2 ♥
+                span.fb-heart#heart3 ♥
+                span.fb-heart#heart4 ♥
+                span.fb-heart#heart5 ♥
+            .fb-center
+              span.fb-instruction#fb-instruction Press Start to Play!
+            .fb-right
+              .fb-score-box
+                span.fb-score-label SCORE
+                span.fb-score#fb-score 0
+          canvas#fretboard-canvas
+          .fb-bottombar
+            button#fb-pause-btn.fb-icon-btn ⏸
+            .fb-progress-track
+              .fb-progress-fill#fb-progress-fill
+            button#fb-hand-btn.fb-icon-btn 🖐
+        .fb-controls
+          button#fb-start-btn.fb-start-button 🎸 Start Game
+          button#fb-stop-btn.fb-stop-button(style="display:none") ⏹ Stop Game
+          .fb-mic-status#fb-mic-status 🎤 Microphone not active
+        .fb-string-guide
+          h3 String Reference Guide
+          .fb-strings-ref
+            each s in [{n:'6',name:'E',note:'Low E — 82 Hz'},{n:'5',name:'A',note:'A — 110 Hz'},{n:'4',name:'D',note:'D — 147 Hz'},{n:'3',name:'G',note:'G — 196 Hz'},{n:'2',name:'B',note:'B — 247 Hz'},{n:'1',name:'E',note:'High E — 330 Hz'}]
+              .fb-str-item
+                span.fb-str-num= s.n
+                span.fb-str-name= s.name
+                span.fb-str-note= s.note
+
+    //- ── TAB: ADVANCED ──
+    .tab-content#tab-advanced(style="display:none")
+
+      .level-banner.advanced-banner
+        span.level-icon 🔥
+        .level-info
+          h2 Advanced Practice
+          p Master your guitar — real-time detection and chord recognition
+
+      //- ── FREE STRUM MODE ──
+      .strum-section
+        .strum-header
+          h2 🎤 Free Strum — Chord Recogniser
+          p Strum your guitar and we will try to identify the chord!
+        .strum-container
+          .strum-display
+            .strum-chord-detected#strum-chord --
+            .strum-chord-label Detected Chord
+            .strum-freq-info#strum-freq-info Play your guitar...
+          .strum-history
+            h3 Recent Chords
+            .strum-history-list#strum-history-list
+              p.strum-no-history No chords detected yet
+          button#strum-start-btn.strum-start-btn 🎤 Start Listening
+          button#strum-stop-btn.strum-stop-btn(style="display:none") ⏹ Stop
 
   style.
     * { box-sizing: border-box; }
     .practice-container { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem; }
-    .practice-header { text-align: center; margin-bottom: 2.5rem; padding: 2rem; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 20px; border: 1px solid #2d6a4f; }
+    .practice-header { text-align: center; margin-bottom: 1.5rem; padding: 2rem; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 20px; border: 1px solid #2d6a4f; }
     .practice-header h1 { font-size: 2.4rem; color: #ffffff; font-weight: 800; margin-bottom: 0.5rem; }
     .practice-header p { color: #52b788; font-size: 1rem; }
+
+    .practice-tabs { display: flex; gap: 0.5rem; margin-bottom: 2rem; background: #f0faf5; padding: 0.5rem; border-radius: 16px; border: 1px solid #c8e6c9; flex-wrap: wrap; }
+    .tab-btn { flex: 1; padding: 0.75rem 1rem; border: none; border-radius: 12px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.2s; background: transparent; color: #2d6a4f; min-width: 120px; }
+    .tab-btn:hover { background: rgba(45,106,79,0.1); }
+    .tab-btn.active { background: linear-gradient(135deg, #1a1a2e, #16213e); color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+
+    .level-banner { display: flex; align-items: center; gap: 1.5rem; padding: 1.5rem 2rem; border-radius: 16px; margin-bottom: 2rem; }
+    .beginner-banner { background: linear-gradient(135deg, #1b4332, #2d6a4f); border: 1px solid #52b788; }
+    .intermediate-banner { background: linear-gradient(135deg, #1a1a2e, #2c3e6e); border: 1px solid #4cc9f0; }
+    .advanced-banner { background: linear-gradient(135deg, #4a1810, #c1121f); border: 1px solid #e63946; }
+    .level-icon { font-size: 3rem; }
+    .level-info h2 { font-size: 1.6rem; font-weight: 800; color: white; margin: 0 0 0.3rem; }
+    .level-info p { color: rgba(255,255,255,0.8); font-size: 0.95rem; margin: 0; }
+
     .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
     .tool-card { background: white; border-radius: 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.1); overflow: hidden; border: 1px solid #e8f5e9; transition: transform 0.2s, box-shadow 0.2s; }
     .tool-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(45,106,79,0.15); }
@@ -447,7 +499,7 @@ block content
     .string-btn.playing .string-note, .string-btn.playing .string-label { color: white; }
     .string-note { font-size: 1.4rem; font-weight: 900; color: #1a1a2e; }
     .string-label { font-size: 0.65rem; color: #888; font-weight: 600; }
-    .chord-section { margin-top: 2.5rem; }
+    .chord-section { margin-top: 0; }
     .chord-section-header { text-align: center; margin-bottom: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; border: 1px solid #2d6a4f; }
     .chord-section-header h2 { font-size: 1.8rem; color: white; font-weight: 800; margin-bottom: 0.3rem; }
     .chord-section-header p { color: #52b788; font-size: 0.95rem; }
@@ -459,7 +511,30 @@ block content
     .chord-diagram { width: 100%; max-width: 100px; margin: 0 auto; display: block; }
     .chord-fingers { font-size: 0.72rem; color: #999; margin-top: 0.5rem; font-family: monospace; }
     .chord-label { font-size: 0.82rem; color: #2d6a4f; font-weight: 700; margin-top: 0.3rem; }
-    .fretboard-section { margin-top: 2.5rem; }
+    .tuning-section { margin-top: 2rem; }
+    .tuning-header { text-align: center; margin-bottom: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; border: 1px solid #2d6a4f; }
+    .tuning-header h2 { font-size: 1.8rem; color: white; font-weight: 800; margin-bottom: 0.3rem; }
+    .tuning-header p { color: #52b788; font-size: 0.95rem; }
+    .tuning-container { background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 8px 30px rgba(0,0,0,0.08); border: 1px solid #e8f5e9; }
+    .tuning-status-bar { text-align: center; margin-bottom: 1.5rem; font-size: 1rem; font-weight: 700; color: #1a1a2e; padding: 0.75rem; background: #f0faf5; border-radius: 10px; border: 1px solid #c8e6c9; }
+    .tuning-strings-list { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
+    .tuning-string-row { display: grid; grid-template-columns: 160px 1fr 40px; align-items: center; gap: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 12px; border: 1px solid #e8f5e9; }
+    .tuning-string-info { display: flex; flex-direction: column; gap: 2px; }
+    .tuning-string-num { font-size: 0.7rem; color: #888; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    .tuning-string-name { font-size: 1.3rem; font-weight: 900; color: #1a1a2e; }
+    .tuning-string-freq { font-size: 0.75rem; color: #888; font-family: monospace; }
+    .tuning-bar-container { display: flex; flex-direction: column; gap: 4px; }
+    .tuning-bar { position: relative; height: 16px; background: linear-gradient(to right, #3498db 0%, #2d6a4f 45%, #2d6a4f 55%, #e63946 100%); border-radius: 8px; overflow: hidden; }
+    .tuning-bar-fill { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); }
+    .tuning-center-line { position: absolute; top: 0; left: 50%; width: 3px; height: 100%; background: white; transform: translateX(-50%); border-radius: 2px; }
+    .tuning-bar-labels { display: flex; justify-content: space-between; font-size: 0.7rem; color: #888; font-weight: 600; }
+    .tuning-status-icon { font-size: 1.5rem; text-align: center; }
+    .tuning-controls { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .tuning-start-btn { background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; border: none; padding: 0.85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .tuning-start-btn:hover { transform: translateY(-2px); }
+    .tuning-stop-btn { background: linear-gradient(135deg, #e63946, #c1121f); color: white; border: none; padding: 0.85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; }
+    .tuning-mic-info { font-size: 0.85rem; color: #888; font-weight: 600; }
+    .fretboard-section { margin-top: 2rem; }
     .fretboard-header { text-align: center; margin-bottom: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; border: 1px solid #2d6a4f; }
     .fretboard-header h2 { font-size: 1.8rem; color: white; font-weight: 800; margin-bottom: 0.3rem; }
     .fretboard-header p { color: #52b788; font-size: 0.95rem; }
@@ -482,9 +557,8 @@ block content
     .fb-progress-fill { height: 100%; width: 0%; background: linear-gradient(to right, #2d6a4f, #52b788); border-radius: 4px; transition: width 0.3s ease; }
     .fb-controls { display: flex; align-items: center; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
     .fb-start-button { background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; border: none; padding: 0.85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 15px rgba(45,106,79,0.4); }
-    .fb-start-button:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(45,106,79,0.5); }
-    .fb-stop-button { background: linear-gradient(135deg, #e63946, #c1121f); color: white; border: none; padding: 0.85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
-    .fb-stop-button:hover { transform: translateY(-2px); }
+    .fb-start-button:hover { transform: translateY(-2px); }
+    .fb-stop-button { background: linear-gradient(135deg, #e63946, #c1121f); color: white; border: none; padding: 0.85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; }
     .fb-mic-status { font-size: 0.85rem; color: #888; font-weight: 600; }
     .fb-mic-status.active { color: #52b788; }
     .fb-mic-status.error { color: #e63946; }
@@ -495,7 +569,7 @@ block content
     .fb-str-num { width: 24px; height: 24px; background: #1a1a2e; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; flex-shrink: 0; }
     .fb-str-name { font-size: 1.1rem; font-weight: 900; color: #2d6a4f; min-width: 20px; }
     .fb-str-note { font-size: 0.78rem; color: #888; }
-    .quiz-section, .progression-section, .scale-section, .rhythm-section, .strum-section { margin-top: 2.5rem; }
+    .quiz-section, .progression-section, .scale-section, .rhythm-section, .strum-section { margin-top: 2rem; }
     .quiz-header, .progression-header, .scale-header, .rhythm-header, .strum-header { text-align: center; margin-bottom: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; border: 1px solid #2d6a4f; }
     .quiz-header h2, .progression-header h2, .scale-header h2, .rhythm-header h2, .strum-header h2 { font-size: 1.8rem; color: white; font-weight: 800; margin-bottom: 0.3rem; }
     .quiz-header p, .progression-header p, .scale-header p, .rhythm-header p, .strum-header p { color: #52b788; font-size: 0.95rem; }
@@ -516,7 +590,6 @@ block content
     .quiz-option.wrong { background: #e63946; color: white; border-color: #e63946; }
     .quiz-feedback { text-align: center; min-height: 40px; font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; }
     .quiz-start-btn { width: 100%; background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; border: none; padding: 0.85rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
-    .quiz-start-btn:hover { transform: translateY(-2px); }
     .prog-controls { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
     .prog-control-group { display: flex; flex-direction: column; gap: 0.4rem; flex: 1; }
     .prog-control-group label { font-size: 0.8rem; font-weight: 700; color: #1a1a2e; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -535,7 +608,7 @@ block content
     .prog-beat { width: 32px; height: 32px; border-radius: 50%; background: #e8f5e9; border: 2px solid #c8e6c9; transition: all 0.05s; }
     .prog-beat.active { background: #2d6a4f; border-color: #2d6a4f; box-shadow: 0 0 16px rgba(45,106,79,0.6); transform: scale(1.3); }
     .prog-progress-bar { height: 8px; background: #e8f5e9; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; }
-    .prog-progress-fill { height: 100%; width: 0%; background: linear-gradient(to right, #2d6a4f, #52b788); border-radius: 4px; transition: width 0.1s linear; }
+    .prog-progress-fill { height: 100%; width: 0%; background: linear-gradient(to right, #2d6a4f, #52b788); border-radius: 4px; }
     .prog-start-btn, .prog-stop-btn { display: inline-block; padding: 0.85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; margin-right: 0.5rem; }
     .prog-start-btn { background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; }
     .prog-stop-btn { background: linear-gradient(135deg, #e63946, #c1121f); color: white; }
@@ -573,34 +646,22 @@ block content
     .strum-history-list { display: flex; gap: 0.5rem; flex-wrap: wrap; min-height: 40px; }
     .strum-no-history { color: #888; font-size: 0.85rem; }
     .strum-history-pill { background: #f0faf5; color: #2d6a4f; border: 1px solid #c8e6c9; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; }
-    .tuning-section { margin-top: 2.5rem; }
-    .tuning-header { text-align: center; margin-bottom: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; border: 1px solid #2d6a4f; }
-    .tuning-header h2 { font-size: 1.8rem; color: white; font-weight: 800; margin-bottom: 0.3rem; }
-    .tuning-header p { color: #52b788; font-size: 0.95rem; }
-    .tuning-container { background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 8px 30px rgba(0,0,0,0.08); border: 1px solid #e8f5e9; }
-    .tuning-status-bar { text-align: center; margin-bottom: 1.5rem; font-size: 1rem; font-weight: 700; color: #1a1a2e; padding: 0.75rem; background: #f0faf5; border-radius: 10px; border: 1px solid #c8e6c9; }
-    .tuning-strings-list { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
-    .tuning-string-row { display: grid; grid-template-columns: 160px 1fr 40px; align-items: center; gap: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 12px; border: 1px solid #e8f5e9; }
-    .tuning-string-info { display: flex; flex-direction: column; gap: 2px; }
-    .tuning-string-num { font-size: 0.7rem; color: #888; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-    .tuning-string-name { font-size: 1.3rem; font-weight: 900; color: #1a1a2e; }
-    .tuning-string-freq { font-size: 0.75rem; color: #888; font-family: monospace; }
-    .tuning-bar-container { display: flex; flex-direction: column; gap: 4px; }
-    .tuning-bar { position: relative; height: 16px; background: linear-gradient(to right, #3498db 0%, #2d6a4f 45%, #2d6a4f 55%, #e63946 100%); border-radius: 8px; overflow: hidden; }
-    .tuning-bar-fill { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); }
-    .tuning-center-line { position: absolute; top: 0; left: 50%; width: 3px; height: 100%; background: white; transform: translateX(-50%); border-radius: 2px; }
-    .tuning-bar-labels { display: flex; justify-content: space-between; font-size: 0.7rem; color: #888; font-weight: 600; }
-    .tuning-status-icon { font-size: 1.5rem; text-align: center; }
-    .tuning-controls { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
-    .tuning-start-btn { background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; border: none; padding: 0.85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
-    .tuning-start-btn:hover { transform: translateY(-2px); }
-    .tuning-stop-btn { background: linear-gradient(135deg, #e63946, #c1121f); color: white; border: none; padding: 0.85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; }
-    .tuning-mic-info { font-size: 0.85rem; color: #888; font-weight: 600; }
     .strum-start-btn, .strum-stop-btn { display: inline-block; padding: 0.85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; margin-right: 0.5rem; }
     .strum-start-btn { background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; }
     .strum-stop-btn { background: linear-gradient(135deg, #e63946, #c1121f); color: white; }
 
   script.
+    // ── TAB SWITCHING ──
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + tab).style.display = 'block';
+      event.target.classList.add('active');
+      if (tab === 'intermediate') {
+        setTimeout(() => { resizeCanvas(); drawFretboard(); drawHitZone(); }, 100);
+      }
+    }
+
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
     let metroInterval = null;
@@ -616,8 +677,7 @@ block content
     metroVolume.addEventListener('input', () => { metroVolLabel.textContent = metroVolume.value + '%'; });
     function playClick(isAccent) {
       if (!audioCtx) audioCtx = new AudioCtx();
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
+      const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
       osc.connect(gain); gain.connect(audioCtx.destination);
       osc.frequency.value = isAccent ? 1000 : 800;
       gain.gain.setValueAtTime((metroVolume.value / 100) * 0.6, audioCtx.currentTime);
@@ -697,109 +757,65 @@ block content
         } catch(e) { pitchStatus.textContent = '❌ Microphone access denied!'; }
       }
     });
+
     // ── TUNING MAINTENANCE ──
     const tuningStrings = [
       { id: 'ts0', name: 'High E', freq: 329.63 },
-      { id: 'ts1', name: 'B',      freq: 246.94 },
-      { id: 'ts2', name: 'G',      freq: 196.00 },
-      { id: 'ts3', name: 'D',      freq: 146.83 },
-      { id: 'ts4', name: 'A',      freq: 110.00 },
-      { id: 'ts5', name: 'Low E',  freq: 82.41  },
+      { id: 'ts1', name: 'B', freq: 246.94 },
+      { id: 'ts2', name: 'G', freq: 196.00 },
+      { id: 'ts3', name: 'D', freq: 146.83 },
+      { id: 'ts4', name: 'A', freq: 110.00 },
+      { id: 'ts5', name: 'Low E', freq: 82.41 },
     ];
-    let tuningRunning = false, tuningStream = null, tuningAnalyser = null;
-    let tuningCtx = null, tuningFrame = null, lastTuningTime = 0;
+    let tuningRunning = false, tuningStream = null, tuningAnalyser = null, tuningCtx = null, tuningFrame = null, lastTuningTime = 0;
     const tuningStartBtn = document.getElementById('tuning-start-btn');
     const tuningStopBtn = document.getElementById('tuning-stop-btn');
     const tuningOverall = document.getElementById('tuning-overall');
     const tuningMicInfo = document.getElementById('tuning-mic-info');
-
     function updateTuningBar(id, cents) {
-      const fill = document.getElementById(id + '-fill');
-      const status = document.getElementById(id + '-status');
+      const fill = document.getElementById(id + '-fill'); const status = document.getElementById(id + '-status');
       if (!fill || !status) return;
       const offset = Math.min(Math.max(cents, -50), 50);
-      if (offset < 0) {
-        fill.style.left = (50 + offset) + '%';
-        fill.style.right = '50%';
-        fill.style.background = 'rgba(52,152,219,0.7)';
-      } else {
-        fill.style.left = '50%';
-        fill.style.right = (50 - offset) + '%';
-        fill.style.background = 'rgba(230,57,70,0.7)';
-      }
-      if (Math.abs(cents) < 8) {
-        fill.style.background = 'rgba(45,106,79,0.5)';
-        status.textContent = '✅';
-        status.style.color = '#2d6a4f';
-      } else if (cents < 0) {
-        status.textContent = '♭';
-        status.style.color = '#3498db';
-      } else {
-        status.textContent = '♯';
-        status.style.color = '#e63946';
-      }
+      if (offset < 0) { fill.style.left = (50 + offset) + '%'; fill.style.right = '50%'; fill.style.background = 'rgba(52,152,219,0.7)'; }
+      else { fill.style.left = '50%'; fill.style.right = (50 - offset) + '%'; fill.style.background = 'rgba(230,57,70,0.7)'; }
+      if (Math.abs(cents) < 8) { fill.style.background = 'rgba(45,106,79,0.5)'; status.textContent = '✅'; status.style.color = '#2d6a4f'; }
+      else if (cents < 0) { status.textContent = '♭'; status.style.color = '#3498db'; }
+      else { status.textContent = '♯'; status.style.color = '#e63946'; }
     }
-
     function detectTuning() {
       if (!tuningRunning) return;
-      const buf = new Float32Array(tuningAnalyser.fftSize);
-      tuningAnalyser.getFloatTimeDomainData(buf);
-      const freq = autoCorrelate(buf, tuningCtx.sampleRate);
-      const now = Date.now();
+      const buf = new Float32Array(tuningAnalyser.fftSize); tuningAnalyser.getFloatTimeDomainData(buf);
+      const freq = autoCorrelate(buf, tuningCtx.sampleRate); const now = Date.now();
       if (freq > 60 && freq < 500 && now - lastTuningTime > 200) {
         lastTuningTime = now;
         let closest = tuningStrings[0], minDiff = Infinity;
-        tuningStrings.forEach(s => {
-          const diff = Math.abs(freq - s.freq);
-          if (diff < minDiff) { minDiff = diff; closest = s; }
-        });
+        tuningStrings.forEach(s => { const diff = Math.abs(freq - s.freq); if (diff < minDiff) { minDiff = diff; closest = s; } });
         if (minDiff < 25) {
-          const note = frequencyToNote(freq);
-          const exactFreq = noteToFreq(note);
+          const note = frequencyToNote(freq); const exactFreq = noteToFreq(note);
           const cents = Math.floor(1200 * Math.log(freq / exactFreq) / Math.log(2));
           updateTuningBar(closest.id, cents);
-          if (Math.abs(cents) < 8) {
-            tuningOverall.textContent = `✅ ${closest.name} string is in tune!`;
-            tuningOverall.style.color = '#2d6a4f';
-          } else if (cents < 0) {
-            tuningOverall.textContent = `♭ ${closest.name} is flat — tune up slightly`;
-            tuningOverall.style.color = '#3498db';
-          } else {
-            tuningOverall.textContent = `♯ ${closest.name} is sharp — tune down slightly`;
-            tuningOverall.style.color = '#e63946';
-          }
+          if (Math.abs(cents) < 8) { tuningOverall.textContent = `✅ ${closest.name} string is in tune!`; tuningOverall.style.color = '#2d6a4f'; }
+          else if (cents < 0) { tuningOverall.textContent = `♭ ${closest.name} is flat — tune up slightly`; tuningOverall.style.color = '#3498db'; }
+          else { tuningOverall.textContent = `♯ ${closest.name} is sharp — tune down slightly`; tuningOverall.style.color = '#e63946'; }
         }
       }
       tuningFrame = requestAnimationFrame(detectTuning);
     }
-
     tuningStartBtn.addEventListener('click', async () => {
       try {
         tuningCtx = new (window.AudioContext || window.webkitAudioContext)();
         tuningStream = await navigator.mediaDevices.getUserMedia({ audio: true });
         const source = tuningCtx.createMediaStreamSource(tuningStream);
-        tuningAnalyser = tuningCtx.createAnalyser();
-        tuningAnalyser.fftSize = 4096;
-        source.connect(tuningAnalyser);
-        tuningRunning = true;
-        tuningStartBtn.style.display = 'none';
-        tuningStopBtn.style.display = 'inline-block';
-        tuningOverall.textContent = '🎤 Listening... play a string!';
-        tuningMicInfo.textContent = '🎤 Microphone active';
-        detectTuning();
-      } catch(e) {
-        tuningMicInfo.textContent = '❌ Microphone access denied!';
-      }
+        tuningAnalyser = tuningCtx.createAnalyser(); tuningAnalyser.fftSize = 4096; source.connect(tuningAnalyser);
+        tuningRunning = true; tuningStartBtn.style.display = 'none'; tuningStopBtn.style.display = 'inline-block';
+        tuningOverall.textContent = '🎤 Listening... play a string!'; tuningMicInfo.textContent = '🎤 Microphone active'; detectTuning();
+      } catch(e) { tuningMicInfo.textContent = '❌ Microphone access denied!'; }
     });
-
     tuningStopBtn.addEventListener('click', () => {
-      tuningRunning = false;
-      cancelAnimationFrame(tuningFrame);
+      tuningRunning = false; cancelAnimationFrame(tuningFrame);
       if (tuningStream) tuningStream.getTracks().forEach(t => t.stop());
-      tuningStartBtn.style.display = 'inline-block';
-      tuningStopBtn.style.display = 'none';
-      tuningOverall.textContent = '🎸 Press Start to check your tuning';
-      tuningMicInfo.textContent = 'Play each string one at a time';
+      tuningStartBtn.style.display = 'inline-block'; tuningStopBtn.style.display = 'none';
+      tuningOverall.textContent = '🎸 Press Start to check your tuning'; tuningMicInfo.textContent = 'Play each string one at a time';
     });
 
     const tunerVolume = document.getElementById('tuner-volume');
@@ -811,8 +827,7 @@ block content
     stringBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         if (!audioCtx) audioCtx = new AudioCtx();
-        const note = btn.dataset.note;
-        stringBtns.forEach(b => b.classList.remove('playing')); btn.classList.add('playing');
+        const note = btn.dataset.note; stringBtns.forEach(b => b.classList.remove('playing')); btn.classList.add('playing');
         tunerHint.textContent = '🎵 Playing: ' + note;
         const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
         osc.connect(gain); gain.connect(audioCtx.destination); osc.type = 'triangle';
@@ -847,8 +862,8 @@ block content
     let gameActive = false, gamePaused = false, score = 0, multiplier = 1, lives = 5;
     let animFrame = null, notes = [], noteSpawnTimer = 0, currentTargetNote = null;
     let lastDetectTime = 0, fbStream = null, fbAnalyser = null, audioCtxFB = null, detectFrame = null;
-    function resizeCanvas() { canvas.width = canvas.parentElement.clientWidth; canvas.height = 200; }
-    resizeCanvas(); window.addEventListener('resize', resizeCanvas);
+    function resizeCanvas() { if (canvas && canvas.parentElement) { canvas.width = canvas.parentElement.clientWidth; canvas.height = 200; } }
+    window.addEventListener('resize', resizeCanvas);
     function getStringY(i) { return 20 + (i / 5) * (canvas.height - 40); }
     function drawFretboard() {
       const W = canvas.width, H = canvas.height;
@@ -952,7 +967,7 @@ block content
       hearts.forEach(h => h.classList.remove('lost')); fbScore.textContent = '0'; fbMultiplier.textContent = '1×';
       fbProgressFill.style.width = '0%'; fbInstruction.textContent = 'Get ready...';
       fbStartBtn.style.display = 'none'; fbStopBtn.style.display = 'inline-block';
-      gameLoop(); if (fbAnalyser) detectAndCheck();
+      resizeCanvas(); gameLoop(); if (fbAnalyser) detectAndCheck();
     }
     function stopFBGame() {
       gameActive = false; cancelAnimationFrame(animFrame); cancelAnimationFrame(detectFrame);
@@ -965,7 +980,6 @@ block content
     fbStartBtn.addEventListener('click', startFBGame);
     fbStopBtn.addEventListener('click', stopFBGame);
     fbPauseBtn.addEventListener('click', () => { gamePaused = !gamePaused; fbPauseBtn.textContent = gamePaused ? '▶' : '⏸'; fbInstruction.textContent = gamePaused ? '⏸ Paused' : 'Keep playing!'; });
-    setTimeout(() => { resizeCanvas(); drawFretboard(); drawHitZone(); }, 100);
 
     // ── STRING NAMING QUIZ ──
     const quizData = [
@@ -987,47 +1001,30 @@ block content
     const quizFeedback = document.getElementById('quiz-feedback');
     const quizStartBtn = document.getElementById('quiz-start-btn');
     const quizDiagram = document.getElementById('quiz-string-diagram');
-
     function drawQuizDiagram(stringNumber) {
-      const ns = 'http://www.w3.org/2000/svg';
-      quizDiagram.innerHTML = '';
+      const ns = 'http://www.w3.org/2000/svg'; quizDiagram.innerHTML = '';
       for (let i = 0; i < 6; i++) {
-        const y = 12 + i * 13;
-        const isActive = (i + 1) === stringNumber;
+        const y = 12 + i * 13; const isActive = (i + 1) === stringNumber;
         const color = isActive ? QUIZ_COLORS[i] : 'rgba(255,255,255,0.2)';
-        const thickness = isActive ? 4 : 1 + (5 - i) * 0.3;
         const line = document.createElementNS(ns, 'line');
-        line.setAttribute('x1', '10'); line.setAttribute('x2', '200');
-        line.setAttribute('y1', y); line.setAttribute('y2', y);
-        line.setAttribute('stroke', color);
-        line.setAttribute('stroke-width', thickness);
+        line.setAttribute('x1', '10'); line.setAttribute('x2', '200'); line.setAttribute('y1', y); line.setAttribute('y2', y);
+        line.setAttribute('stroke', color); line.setAttribute('stroke-width', isActive ? 4 : 1 + (5-i)*0.3);
         quizDiagram.appendChild(line);
         if (isActive) {
           const circle = document.createElementNS(ns, 'circle');
-          circle.setAttribute('cx', '105'); circle.setAttribute('cy', y);
-          circle.setAttribute('r', '8'); circle.setAttribute('fill', color);
+          circle.setAttribute('cx', '105'); circle.setAttribute('cy', y); circle.setAttribute('r', '8'); circle.setAttribute('fill', color);
           quizDiagram.appendChild(circle);
           const label = document.createElementNS(ns, 'text');
-          label.setAttribute('x', '215'); label.setAttribute('y', y + 4);
-          label.setAttribute('fill', color); label.setAttribute('font-size', '11');
-          label.setAttribute('font-weight', 'bold'); label.setAttribute('font-family', 'monospace');
-          label.textContent = QUIZ_STRING_NAMES[i];
-          quizDiagram.appendChild(label);
-          const numLabel = document.createElementNS(ns, 'text');
-          numLabel.setAttribute('x', '2'); numLabel.setAttribute('y', y + 4);
-          numLabel.setAttribute('fill', color); numLabel.setAttribute('font-size', '10');
-          numLabel.setAttribute('font-weight', 'bold'); numLabel.setAttribute('font-family', 'monospace');
-          numLabel.textContent = stringNumber;
-          quizDiagram.appendChild(numLabel);
+          label.setAttribute('x', '215'); label.setAttribute('y', y+4); label.setAttribute('fill', color);
+          label.setAttribute('font-size', '11'); label.setAttribute('font-weight', 'bold'); label.setAttribute('font-family', 'monospace');
+          label.textContent = QUIZ_STRING_NAMES[i]; quizDiagram.appendChild(label);
         }
       }
     }
-
     function shuffleArr(arr) { return [...arr].sort(() => Math.random() - 0.5); }
     function showQuizQ() {
       const q = quizData[Math.floor(Math.random() * quizData.length)];
-      quizQNum.textContent = q.string;
-      drawQuizDiagram(q.string);
+      quizQNum.textContent = q.string; drawQuizDiagram(q.string);
       quizFeedback.textContent = ''; quizOptionsEl.innerHTML = '';
       shuffleArr(q.options).forEach(opt => {
         const btn = document.createElement('button'); btn.className = 'quiz-option'; btn.textContent = opt;

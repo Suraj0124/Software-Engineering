@@ -1,0 +1,60 @@
+extends layout
+
+block content
+  .error-page
+    .error-content
+      .error-code 404
+      .error-emoji 🎸
+      h1 Page Not Found
+      p Looks like this page doesn't exist — maybe it was moved or deleted!
+      .error-actions
+        a.error-btn-primary(href="/") 🏠 Go Home
+        a.error-btn-secondary(href="/lessons") 📚 Browse Lessons
+
+  style.
+    .error-page {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 70vh;
+      padding: 2rem;
+      text-align: center;
+    }
+    .error-content { max-width: 500px; }
+    .error-code {
+      font-size: 8rem;
+      font-weight: 900;
+      color: #1a1a2e;
+      line-height: 1;
+      background: linear-gradient(135deg, #1a1a2e, #2d6a4f);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    .error-emoji { font-size: 4rem; margin-bottom: 1rem; display: block; }
+    .error-content h1 { font-size: 2rem; color: #1a1a2e; font-weight: 800; margin-bottom: 1rem; }
+    .error-content p { color: #666; font-size: 1rem; margin-bottom: 2rem; line-height: 1.6; }
+    .error-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .error-btn-primary {
+      background: #1a1a2e;
+      color: white;
+      padding: 0.85rem 2rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+    .error-btn-primary:hover { background: #2d6a4f; color: white; transform: translateY(-2px); }
+    .error-btn-secondary {
+      background: #f0faf5;
+      color: #2d6a4f;
+      padding: 0.85rem 2rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      border: 2px solid #2d6a4f;
+      transition: all 0.2s;
+    }
+    .error-btn-secondary:hover { background: #2d6a4f; color: white; transform: translateY(-2px); }

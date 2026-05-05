@@ -214,6 +214,66 @@ html
       body.dark .quiz-container, body.dark .progression-container, body.dark .scale-container, body.dark .rhythm-container, body.dark .strum-container, body.dark .tuning-container { background: #161b22 !important; border-color: #30363d !important; }
       body.dark .fb-string-guide, body.dark .profile-section, body.dark .profile-header, body.dark .edit-form-container { background: #161b22 !important; border-color: #30363d !important; }
 
+      /* ── MOBILE RESPONSIVE ── */
+      @media (max-width: 768px) {
+        .navbar {
+          padding: 0.75rem 1rem;
+          height: auto;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+        .navbar-links {
+          order: 3;
+          width: 100%;
+          overflow-x: auto;
+          gap: 0.1rem;
+          padding-bottom: 0.5rem;
+        }
+        .nav-link { font-size: 0.8rem; padding: 0.4rem 0.6rem; white-space: nowrap; }
+        .navbar-right { gap: 0.4rem; }
+        .nav-user { padding: 0.3rem 0.6rem; font-size: 0.8rem; }
+        .nav-avatar { width: 24px; height: 24px; font-size: 0.7rem; }
+        .nav-logout { font-size: 0.75rem; padding: 0.3rem 0.6rem; }
+        .lessons-grid, .categories-grid, .features-grid, .chords-grid { grid-template-columns: 1fr !important; padding: 0 1rem 2rem !important; }
+        .tools-grid { grid-template-columns: 1fr !important; }
+        .stats-bar { flex-wrap: wrap; }
+        .stat { min-width: 45%; }
+        .hero-overlay h1 { font-size: 1.8rem; }
+        .hero-img { height: 250px; }
+        .hero-cta { padding: 1rem; }
+        .section-title { padding: 2rem 1rem 0.5rem; }
+        .profile-header { flex-direction: column; text-align: center; }
+        .profile-stats { grid-template-columns: repeat(2, 1fr); }
+        .dashboard-header { flex-direction: column; }
+        .dashboard-grid { grid-template-columns: 1fr !important; }
+        .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        .prog-display { grid-template-columns: 1fr; }
+        .quiz-options { grid-template-columns: 1fr; }
+        .login-box { padding: 1.5rem; }
+        .tuning-string-row { grid-template-columns: 120px 1fr 30px; }
+        .fb-topbar { flex-wrap: wrap; gap: 0.5rem; }
+        .admin-stats { justify-content: center; }
+        .game-status-bar { gap: 0.75rem; }
+        .game-stat { min-width: 60px; padding: 0.5rem; }
+        .flash-message { right: 0.5rem; left: 0.5rem; max-width: 100%; }
+      }
+
+      @media (max-width: 480px) {
+        .navbar-links { gap: 0; }
+        .nav-link { font-size: 0.75rem; padding: 0.3rem 0.5rem; }
+        .hero-overlay h1 { font-size: 1.4rem; }
+        .lessons-header h1, .practice-header h1 { font-size: 1.6rem; }
+        .profile-stats { grid-template-columns: repeat(2, 1fr); }
+        .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        .quick-links-grid { grid-template-columns: repeat(2, 1fr); }
+        .tuning-string-row { grid-template-columns: 100px 1fr 25px; font-size: 0.85rem; }
+        .fb-controls { flex-direction: column; }
+        .prog-controls { flex-direction: column; }
+        .admin-container { padding: 1rem; }
+        .practice-container { padding: 1rem; }
+        .lesson-detail-container { padding: 1rem; }
+      }
+
   body
     //- NAVBAR
     nav.navbar

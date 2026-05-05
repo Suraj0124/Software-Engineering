@@ -301,7 +301,10 @@ app.get("/lessons/:id", requireLogin, function(req, res) {
 
 // 5. CATEGORIES PAGE
 app.get("/categories", requireLogin, function(req, res) {
-    sql = 'SELECT * FROM categories';
+    const sql = `SELECT categories.*, COUNT(lessons.id) AS lesson_count 
+                 FROM categories 
+                 LEFT JOIN lessons ON categories.id = lessons.category_id 
+                 GROUP BY categories.id`;
     db.query(sql).then(results => {
         res.render("categories", { categories: results });
     });
@@ -355,6 +358,10 @@ app.get("/my-profile", requireLogin, function(req, res) {
             });
         });
     });
+});
+// 404 PAGE
+app.use(function(req, res) {
+    res.status(404).render("404");
 });
 
 // Start server on port 3000
