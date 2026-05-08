@@ -4,104 +4,309 @@ block content
   if user
     .profile-container
 
+      //- ── PROFILE HEADER ──
       .profile-header
         .profile-avatar-large= user.name.charAt(0).toUpperCase()
         .profile-header-info
           h1 👋 Welcome, #{user.name}!
           p.profile-email 📧 #{user.email}
           .profile-meta
-            span(class='badge badge-' + user.skill_level)= user.skill_level
+            if user.skill_level
+              span(class='skill-badge skill-' + user.skill_level)= user.skill_level
             span.profile-joined 📅 Member since #{new Date(user.created_at).toDateString()}
 
-      //- STATS ROW
+      //- ── STATS ROW ──
       .profile-stats
-        .profile-stat
-          span.profile-stat-number= progress.length
-          span.profile-stat-label Total Lessons
-        .profile-stat
-          span.profile-stat-number= progress.filter(p => p.completed).length
-          span.profile-stat-label Completed
-        .profile-stat
-          span.profile-stat-number= progress.filter(p => !p.completed).length
-          span.profile-stat-label In Progress
-        .profile-stat
+        .profile-stat.stat-green
+          span.profile-stat-number= completions ? completions.length : 0
+          span.profile-stat-label ✅ Completed
+        .profile-stat.stat-blue
+          span.profile-stat-number= totalLessons || 0
+          span.profile-stat-label 📚 Total Lessons
+        .profile-stat.stat-purple
           span.profile-stat-number
-            if progress.length > 0
-              | #{Math.round(progress.filter(p => p.completed).length / progress.length * 100)}%
+            if completions && totalLessons && totalLessons > 0
+              | #{Math.round((completions.length / totalLessons) * 100)}%
             else
               | 0%
-          span.profile-stat-label Completion Rate
+          span.profile-stat-label 🎯 Completion Rate
+        .profile-stat.stat-orange
+          span.profile-stat-number= (quizStats && quizStats.best_score) ? quizStats.best_score : 0
+          span.profile-stat-label 🎮 Best Quiz Score
 
-      //- QUICK ACTIONS
+      //- ── QUICK ACTIONS ──
       .quick-actions
         a.action-btn(href="/lessons") 📚 Browse Lessons
         a.action-btn(href="/practice") 🥁 Practice Tools
         a.action-btn(href="/categories") 🏷️ Categories
 
-      //- PROGRESS SECTION
-      .profile-section
-        h2 📚 My Learning Progress
-        if progress.length === 0
-          .empty-progress
-            span.empty-icon 🎸
-            p You haven't started any lessons yet!
-            a.view-btn(href="/lessons") Start Learning →
-        else
-          .progress-list
-            each item in progress
-              .progress-item
-                .progress-item-left
-                  .progress-icon= item.completed ? '✅' : '⏳'
-                  .progress-item-info
-                    span.progress-title= item.title
-                    span.progress-date
-                      if item.completed
-                        | Completed on #{new Date(item.completed_at).toDateString()}
-                      else
-                        | In progress
-                .progress-status(class=item.completed ? 'status-done' : 'status-progress')
-                  = item.completed ? 'Done' : 'In Progress'
+
+      //- ── LEARNING PATH WITH PROGRESS ──
+      .lp-wrap
+        .lp-wrap-header
+          .lp-wrap-title 🗺️ Your Learning Journey
+          .lp-wrap-sub See where you are on your guitar path
+        .lp-cards
+          - var completed = completions ? completions.length : 0
+          - var beginnerDone = completed >= 1
+          - var intermediateDone = completed >= 4
+          - var advancedDone = completed >= 8
+
+          .lp-card(class=beginnerDone ? 'lp-card-done lp-card-beginner' : 'lp-card-beginner')
+            .lp-card-top
+              .lp-card-icon 🌱
+              .lp-card-status= beginnerDone ? '✅' : '⏳'
+            .lp-card-level BEGINNER
+            .lp-card-title Getting Started
+            .lp-card-desc Guitar basics, string names, first chords
+            .lp-card-bar
+              .lp-card-bar-fill(style='width:' + Math.min(100, completed >= 1 ? 100 : completed * 50) + '%')
+            .lp-card-cta
+              a(href="/lessons") #{beginnerDone ? 'Completed ✓' : 'Start Now →'}
+
+          .lp-connector-h ▶
+
+          .lp-card(class=intermediateDone ? 'lp-card-done lp-card-intermediate' : (beginnerDone ? 'lp-card-intermediate lp-card-unlocked' : 'lp-card-intermediate lp-card-locked'))
+            .lp-card-top
+              .lp-card-icon 🎸
+              .lp-card-status= intermediateDone ? '✅' : (beginnerDone ? '⏳' : '🔒')
+            .lp-card-level INTERMEDIATE
+            .lp-card-title Building Skills
+            .lp-card-desc Chord changes, rhythm patterns, music theory
+            .lp-card-bar
+              .lp-card-bar-fill(style='width:' + (intermediateDone ? 100 : (beginnerDone ? Math.min(100, (completed - 1) * 25) : 0)) + '%')
+            .lp-card-cta
+              a(href="/lessons") #{intermediateDone ? 'Completed ✓' : (beginnerDone ? 'Continue →' : 'Complete Beginner first')}
+
+          .lp-connector-h ▶
+
+          .lp-card(class=advancedDone ? 'lp-card-done lp-card-advanced' : (intermediateDone ? 'lp-card-advanced lp-card-unlocked' : 'lp-card-advanced lp-card-locked'))
+            .lp-card-top
+              .lp-card-icon 🔥
+              .lp-card-status= advancedDone ? '✅' : (intermediateDone ? '⏳' : '🔒')
+            .lp-card-level ADVANCED
+            .lp-card-title Mastery
+            .lp-card-desc Live detection, improvisation, performance
+            .lp-card-bar
+              .lp-card-bar-fill(style='width:' + (advancedDone ? 100 : (intermediateDone ? Math.min(100, (completed - 4) * 20) : 0)) + '%')
+            .lp-card-cta
+              a(href="/lessons") #{advancedDone ? 'Completed ✓' : (intermediateDone ? 'Continue →' : 'Complete Intermediate first')}
+
+        .lp-overall
+          .lp-overall-left
+            span.lp-overall-label Overall Progress
+            .lp-overall-bar
+              .lp-overall-fill(style='width:' + (totalLessons ? Math.min(100, Math.round((completions ? completions.length : 0) / totalLessons * 100)) : 0) + '%')
+          .lp-overall-right
+            span.lp-overall-num= completions ? completions.length : 0
+            span.lp-overall-denom= ' / ' + (totalLessons || 0) + ' lessons'
+
+      .profile-two-col
+
+        //- ── COMPLETED LESSONS ──
+        .profile-section
+          .profile-section-header
+            h2 ✅ Completed Lessons
+            span.section-count= completions ? completions.length : 0
+          if !completions || completions.length === 0
+            .empty-progress
+              span.empty-icon 🎸
+              p You have not completed any lessons yet!
+              a.start-btn(href="/lessons") Start Learning →
+          else
+            .completion-list
+              each item in completions
+                .completion-item
+                  .completion-left
+                    .completion-icon ✅
+                    .completion-info
+                      span.completion-title= item.title
+                      span.completion-cat= item.category_name
+                      span.completion-date= new Date(item.completed_at).toDateString()
+                  .completion-tick ✓
+
+        //- ── QUIZ STATS ──
+        .profile-section
+          .profile-section-header
+            h2 🎮 Quiz Statistics
+          //- Check games_played properly — handles null, 0, undefined all as "not played"
+          - var played = quizStats && quizStats.games_played && parseInt(quizStats.games_played) > 0
+          if !played
+            .empty-progress
+              span.empty-icon 🎯
+              p You have not played the quiz yet!
+              p.empty-hint 👉 Go to Practice → Beginner tab → String Naming Quiz
+              a.start-btn(href="/practice") Go Practice →
+          else
+            .quiz-stats-grid
+              .quiz-stat-card
+                span.quiz-stat-icon 🏆
+                span.quiz-stat-num= quizStats.best_score || 0
+                span.quiz-stat-label Best Score
+              .quiz-stat-card
+                span.quiz-stat-icon 🔥
+                span.quiz-stat-num= quizStats.best_streak || 0
+                span.quiz-stat-label Best Streak
+              .quiz-stat-card
+                span.quiz-stat-icon 🎮
+                span.quiz-stat-num= quizStats.games_played || 0
+                span.quiz-stat-label Games Played
+            .quiz-encourage
+              if quizStats.best_score >= 100
+                p 🌟 Amazing work! Keep practising to beat your high score!
+              else
+                p 💪 Keep playing to improve your score!
+              a.start-btn(href="/practice") Play Quiz →
+
+        //- ── MY REVIEWS ──
+        if myReviews && myReviews.length > 0
+          .profile-section
+            .profile-section-header
+              h2 ✍️ My Reviews
+              span.section-count= myReviews.length
+            .completion-list
+              each rev in myReviews
+                .completion-item
+                  .completion-left
+                    .completion-icon ⭐
+                    .completion-info
+                      span.completion-title= rev.lesson_title
+                      .rev-stars-row
+                        - for (var i = 1; i <= 5; i++)
+                          span(class=i <= rev.rating ? 'mini-star filled' : 'mini-star') ★
+                        span.rev-score-label  #{rev.rating}/5
+                      if rev.review
+                        span.rev-text-preview= rev.review.length > 80 ? rev.review.slice(0, 80) + '...' : rev.review
+                      span.completion-date= new Date(rev.created_at).toDateString()
+
+        //- ── OLD PROGRESS (from progress table) ──
+        if progress && progress.length > 0
+          .profile-section
+            .profile-section-header
+              h2 📖 Lesson Progress
+              span.section-count= progress.length
+            .progress-list
+              each item in progress
+                .progress-item
+                  .progress-item-left
+                    .progress-icon= item.completed ? '✅' : '⏳'
+                    .progress-item-info
+                      span.progress-title= item.title
+                      span.progress-date
+                        if item.completed
+                          | Completed on #{new Date(item.completed_at).toDateString()}
+                        else
+                          | In progress
+                  .progress-status(class=item.completed ? 'status-done' : 'status-progress')
+                    = item.completed ? 'Done' : 'In Progress'
 
   style.
-    .profile-container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+    * { box-sizing: border-box; }
+    .profile-container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
 
-    .profile-header { background: white; border-radius: 16px; padding: 2rem; display: flex; align-items: center; gap: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 1.5rem; flex-wrap: wrap; }
-    .profile-avatar-large { width: 80px; height: 80px; background: linear-gradient(135deg, #1a1a2e, #2d6a4f); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 800; flex-shrink: 0; }
-    .profile-header-info h1 { font-size: 1.8rem; color: #1a1a2e; font-weight: 800; margin-bottom: 0.3rem; }
-    .profile-email { color: #666; font-size: 0.95rem; margin-bottom: 0.75rem; }
+    .profile-header { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 20px; padding: 2rem; display: flex; align-items: center; gap: 1.5rem; box-shadow: 0 8px 30px rgba(0,0,0,0.15); margin-bottom: 1.5rem; flex-wrap: wrap; border: 1px solid #2d6a4f; }
+    .profile-avatar-large { width: 80px; height: 80px; background: linear-gradient(135deg, #2d6a4f, #52b788); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 800; flex-shrink: 0; border: 3px solid #52b788; }
+    .profile-header-info h1 { font-size: 1.8rem; color: white; font-weight: 800; margin-bottom: 0.3rem; }
+    .profile-email { color: rgba(255,255,255,0.7); font-size: 0.95rem; margin-bottom: 0.75rem; }
     .profile-meta { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
-    .profile-joined { color: #888; font-size: 0.85rem; }
+    .profile-joined { color: rgba(255,255,255,0.5); font-size: 0.85rem; }
+    .skill-badge { display: inline-block; padding: 0.3rem 0.9rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700; }
+    .skill-beginner { background: rgba(82,183,136,0.2); color: #52b788; border: 1px solid #52b788; }
+    .skill-intermediate { background: rgba(76,201,240,0.2); color: #4cc9f0; border: 1px solid #4cc9f0; }
+    .skill-advanced { background: rgba(230,57,70,0.2); color: #e63946; border: 1px solid #e63946; }
 
-    .profile-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
-    .profile-stat { background: white; border-radius: 12px; padding: 1.2rem; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.06); border-bottom: 3px solid #2d6a4f; }
-    .profile-stat-number { display: block; font-size: 2rem; font-weight: 800; color: #1a1a2e; }
-    .profile-stat-label { display: block; font-size: 0.8rem; color: #888; margin-top: 0.2rem; }
+    .profile-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+    .profile-stat { background: white; border-radius: 16px; padding: 1.3rem; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.07); border: 1px solid #e8f5e9; border-bottom: 4px solid #e8f5e9; transition: transform 0.2s; }
+    .profile-stat:hover { transform: translateY(-3px); }
+    .stat-green { border-bottom-color: #2d6a4f; }
+    .stat-blue { border-bottom-color: #4cc9f0; }
+    .stat-purple { border-bottom-color: #a78bfa; }
+    .stat-orange { border-bottom-color: #f4a261; }
+    .profile-stat-number { display: block; font-size: 2.2rem; font-weight: 900; color: #1a1a2e; }
+    .profile-stat-label { display: block; font-size: 0.78rem; color: #888; margin-top: 0.3rem; font-weight: 600; }
 
     .quick-actions { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
-    .action-btn { background: white; border: 2px solid #e0e0e0; color: #333; padding: 0.75rem 1.2rem; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; }
-    .action-btn:hover { background: #1a1a2e; color: white; border-color: #1a1a2e; }
+    .action-btn { background: white; border: 2px solid #e8f5e9; color: #1a1a2e; padding: 0.75rem 1.2rem; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .action-btn:hover { background: linear-gradient(135deg, #1a1a2e, #2d6a4f); color: white; border-color: #2d6a4f; transform: translateY(-2px); }
 
-    .profile-section { background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-    .profile-section h2 { font-size: 1.2rem; color: #1a1a2e; font-weight: 700; margin-bottom: 1.2rem; }
+    .profile-two-col { display: flex; flex-direction: column; gap: 1.5rem; }
+    .profile-section { background: white; border-radius: 20px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); border: 1px solid #e8f5e9; }
+    .profile-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+    .profile-section-header h2 { font-size: 1.15rem; color: #1a1a2e; font-weight: 800; margin: 0; }
+    .section-count { background: #f0faf5; color: #2d6a4f; border: 1px solid #c8e6c9; padding: 0.2rem 0.7rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700; }
 
-    .empty-progress { text-align: center; padding: 3rem 2rem; }
-    .empty-icon { font-size: 3rem; display: block; margin-bottom: 1rem; }
-    .empty-progress p { color: #888; margin-bottom: 1rem; }
-    .view-btn { display: inline-block; background: #2d6a4f; color: white; padding: 0.6rem 1.2rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
-    .view-btn:hover { background: #1b4332; color: white; }
+    .empty-progress { text-align: center; padding: 2rem; }
+    .empty-icon { font-size: 2.5rem; display: block; margin-bottom: 0.75rem; }
+    .empty-progress p { color: #888; margin-bottom: 0.5rem; font-size: 0.9rem; }
+    .empty-hint { color: #aaa !important; font-size: 0.82rem !important; margin-bottom: 1rem !important; }
+    .start-btn { display: inline-block; background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; padding: 0.6rem 1.4rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 0.88rem; transition: all 0.2s; }
+    .start-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(45,106,79,0.4); color: white; }
 
-    .progress-list { display: flex; flex-direction: column; gap: 0.75rem; }
-    .progress-item { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.2rem; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #e0e0e0; transition: all 0.2s; }
+    .completion-list { display: flex; flex-direction: column; gap: 0.6rem; max-height: 360px; overflow-y: auto; }
+    .completion-item { display: flex; align-items: center; justify-content: space-between; padding: 0.85rem 1rem; background: #f8f9fa; border-radius: 12px; border-left: 4px solid #2d6a4f; transition: all 0.15s; }
+    .completion-item:hover { background: #f0faf5; }
+    .completion-left { display: flex; align-items: center; gap: 0.75rem; flex: 1; min-width: 0; }
+    .completion-icon { font-size: 1.2rem; flex-shrink: 0; }
+    .completion-info { display: flex; flex-direction: column; min-width: 0; }
+    .completion-title { display: block; font-weight: 700; color: #1a1a2e; font-size: 0.88rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .completion-cat { display: inline-block; background: #f0faf5; color: #2d6a4f; border-radius: 20px; padding: 0.1rem 0.5rem; font-size: 0.72rem; font-weight: 600; margin-top: 2px; margin-right: 4px; }
+    .completion-date { display: inline-block; color: #aaa; font-size: 0.72rem; margin-top: 2px; }
+    .completion-tick { color: #2d6a4f; font-size: 1.2rem; font-weight: 900; flex-shrink: 0; }
+
+    .quiz-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.2rem; }
+    .quiz-stat-card { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 14px; padding: 1.2rem; text-align: center; border: 1px solid #2d6a4f; }
+    .quiz-stat-icon { display: block; font-size: 1.5rem; margin-bottom: 0.4rem; }
+    .quiz-stat-num { display: block; font-size: 1.8rem; font-weight: 900; color: #52b788; font-family: monospace; }
+    .quiz-stat-label { display: block; font-size: 0.72rem; color: #a0aec0; margin-top: 0.2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .quiz-encourage { text-align: center; padding: 0.75rem; background: #f0faf5; border-radius: 10px; }
+    .quiz-encourage p { color: #2d6a4f; font-size: 0.88rem; font-weight: 600; margin-bottom: 0.75rem; }
+
+    .rev-stars-row { display: flex; align-items: center; gap: 1px; margin-top: 3px; margin-bottom: 3px; }
+    .mini-star { font-size: 0.85rem; color: #ddd; }
+    .mini-star.filled { color: #f39c12; }
+    .rev-score-label { font-size: 0.75rem; color: #888; margin-left: 4px; }
+    .rev-text-preview { display: block; font-size: 0.78rem; color: #888; font-style: italic; margin-top: 2px; }
+
+    .progress-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .progress-item { display: flex; align-items: center; justify-content: space-between; padding: 0.85rem 1rem; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #e0e0e0; transition: all 0.2s; }
     .progress-item:hover { background: #f0faf5; border-left-color: #2d6a4f; }
     .progress-item-left { display: flex; align-items: center; gap: 0.75rem; }
     .progress-icon { font-size: 1.3rem; }
-    .progress-title { display: block; font-weight: 600; color: #1a1a2e; font-size: 0.95rem; }
-    .progress-date { display: block; color: #888; font-size: 0.8rem; margin-top: 0.2rem; }
-    .progress-status { padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700; flex-shrink: 0; }
+    .progress-title { display: block; font-weight: 600; color: #1a1a2e; font-size: 0.9rem; }
+    .progress-date { display: block; color: #888; font-size: 0.78rem; margin-top: 0.2rem; }
+
+    /* ── LEARNING PATH on profile ── */
+    .lp-wrap { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #1b4332 100%); border-radius: 20px; padding: 1.8rem; margin-bottom: 1.5rem; border: 1px solid #2d6a4f; box-shadow: 0 8px 30px rgba(0,0,0,0.15); }
+    .lp-wrap-header { margin-bottom: 1.5rem; }
+    .lp-wrap-title { font-size: 1.15rem; font-weight: 800; color: white; margin-bottom: 0.2rem; }
+    .lp-wrap-sub { font-size: 0.82rem; color: rgba(255,255,255,0.4); }
+    .lp-cards { display: flex; align-items: stretch; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+    .lp-connector-h { display: flex; align-items: center; color: rgba(255,255,255,0.2); font-size: 1.2rem; padding: 0 0.2rem; }
+    .lp-card { flex: 1; min-width: 180px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1.2rem; display: flex; flex-direction: column; gap: 0.4rem; transition: all 0.2s; }
+    .lp-card-beginner { border-top: 3px solid #2d6a4f; }
+    .lp-card-intermediate { border-top: 3px solid #4cc9f0; }
+    .lp-card-advanced { border-top: 3px solid #e63946; }
+    .lp-card-done { background: rgba(82,183,136,0.08) !important; }
+    .lp-card-locked { opacity: 0.5; }
+    .lp-card-top { display: flex; justify-content: space-between; align-items: center; }
+    .lp-card-icon { font-size: 1.6rem; }
+    .lp-card-status { font-size: 1.1rem; }
+    .lp-card-level { font-size: 0.6rem; font-weight: 800; letter-spacing: 2px; color: rgba(255,255,255,0.35); text-transform: uppercase; }
+    .lp-card-title { font-size: 0.95rem; font-weight: 800; color: white; }
+    .lp-card-desc { font-size: 0.72rem; color: rgba(255,255,255,0.4); line-height: 1.4; }
+    .lp-card-bar { height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; margin-top: auto; padding-top: 0.5rem; margin-top: 0.5rem; }
+    .lp-card-bar-fill { height: 100%; background: linear-gradient(to right, #2d6a4f, #52b788); border-radius: 2px; transition: width 0.6s ease; }
+    .lp-card-cta a { font-size: 0.75rem; font-weight: 700; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; }
+    .lp-card-cta a:hover { color: #52b788; }
+    .lp-overall { display: flex; align-items: center; gap: 1rem; }
+    .lp-overall-left { flex: 1; }
+    .lp-overall-label { font-size: 0.72rem; color: rgba(255,255,255,0.4); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 0.4rem; }
+    .lp-overall-bar { height: 8px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; }
+    .lp-overall-fill { height: 100%; background: linear-gradient(to right, #2d6a4f, #52b788); border-radius: 4px; transition: width 0.8s ease; }
+    .lp-overall-right { text-align: right; white-space: nowrap; }
+    .lp-overall-num { font-size: 1.4rem; font-weight: 900; color: #52b788; font-family: monospace; }
+    .lp-overall-denom { font-size: 0.8rem; color: rgba(255,255,255,0.3); }
+
+    .progress-status { padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.78rem; font-weight: 700; flex-shrink: 0; }
     .status-done { background: #d5f5e3; color: #1e8449; }
     .status-progress { background: #fef9e7; color: #d4ac0d; }
-
-    .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; }
-    .badge-beginner { background: #d5f5e3; color: #1e8449; }
-    .badge-intermediate { background: #fef9e7; color: #d4ac0d; }
-    .badge-advanced { background: #fadbd8; color: #c0392b; }

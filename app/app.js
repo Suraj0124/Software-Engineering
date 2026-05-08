@@ -299,6 +299,26 @@ app.get("/lessons/:id", requireLogin, function(req, res) {
     });
 });
 
+app.post("/lessons/:id/notes", requireLogin, function(req, res) {
+    const lessonId = req.params.id;
+    const userId = req.session.user.id;
+    const noteText = req.body.note_text ? req.body.note_text.trim().slice(0, 1000) : '';
+    if (!noteText) {
+        return res.redirect('/lessons/' + lessonId);
+    }
+    const sql = `
+        INSERT INTO user_notes (user_id, lesson_id, note_text)
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE note_text = VALUES(note_text), updated_at = NOW()`;
+    db.query(sql, [userId, lessonId, noteText]).then(() => {
+        req.session.flash = { type: 'success', message: '📝 Note saved!' };
+        res.redirect('/lessons/' + lessonId);
+    }).catch(err => {
+        console.error('Note save error:', err);
+        res.redirect('/lessons/' + lessonId);
+    });
+});
+
 // 5. CATEGORIES PAGE
 app.get("/categories", requireLogin, function(req, res) {
     const sql = `SELECT categories.*, COUNT(lessons.id) AS lesson_count 
@@ -359,6 +379,94 @@ app.get("/my-profile", requireLogin, function(req, res) {
         });
     });
 });
+// ── CHAT ROUTES ──
+app.get("/chat/messages", requireLogin, function(req, res) {
+    const sql = `SELECT chat_messages.*, users.name AS username FROM chat_messages JOIN users ON chat_messages.user_id = users.id ORDER BY chat_messages.created_at DESC LIMIT 50`;
+    db.query(sql).then(results => {
+        res.json(results.reverse());
+    }).catch(() => res.json([]));
+});
+
+app.post("/chat/send", requireLogin, function(req, res) {
+    const userId = req.session.user.id;
+    const username = req.session.user.name;
+    const message = req.body.message ? req.body.message.trim().slice(0, 300) : '';
+    if (!message) return res.json({ success: false });
+    db.query('INSERT INTO chat_messages (user_id, username, message) VALUES (?, ?, ?)', [userId, username, message]).then(() => {
+        res.json({ success: true });
+    }).catch(err => {
+        console.error(err);
+        res.json({ success: false });
+    });
+});
+
+// ── LIVE ROUTES ──
+app.get("/live", requireLogin, function(req, res) {
+    const userId = req.session.user.id;
+    const activeSql = `SELECT users.name, TIMESTAMPDIFF(MINUTE, MAX(ps.last_active), NOW()) AS minutes_ago FROM practice_sessions ps JOIN users ON ps.user_id = users.id WHERE ps.last_active >= DATE_SUB(NOW(), INTERVAL 10 MINUTE) AND ps.user_id != ? GROUP BY ps.user_id, users.name ORDER BY minutes_ago ASC LIMIT 10`;
+    const liveSql = `SELECT * FROM live_sessions WHERE is_live = 1 ORDER BY created_at DESC LIMIT 1`;
+    const pastSql = `SELECT * FROM live_sessions WHERE is_live = 0 ORDER BY created_at DESC LIMIT 5`;
+    const todayPracticeSql = `SELECT COUNT(*) AS total FROM practice_sessions WHERE DATE(last_active) = CURDATE()`;
+    const todayCompletionsSql = `SELECT COUNT(*) AS total FROM lesson_completions WHERE DATE(completed_at) = CURDATE()`;
+    const totalUsersSql = `SELECT COUNT(*) AS total FROM users`;
+    db.query(activeSql, [userId]).then(activePracticers => {
+        db.query(liveSql).then(liveResults => {
+            db.query(pastSql).then(pastSessions => {
+                db.query(todayPracticeSql).then(todayPractice => {
+                    db.query(todayCompletionsSql).then(todayCompletions => {
+                        db.query(totalUsersSql).then(totalUsers => {
+                            res.render("live", {
+                                activePracticers: activePracticers,
+                                liveSession: liveResults[0] || null,
+                                pastSessions: pastSessions,
+                                todayPractice: todayPractice[0].total,
+                                todayCompletions: todayCompletions[0].total,
+                                totalUsers: totalUsers[0].total
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
+});
+
+app.get("/live/active-count", requireLogin, function(req, res) {
+    const sql = `SELECT COUNT(DISTINCT user_id) AS count FROM practice_sessions WHERE last_active >= DATE_SUB(NOW(), INTERVAL 10 MINUTE)`;
+    db.query(sql).then(results => {
+        res.json({ count: results[0].count });
+    }).catch(() => res.json({ count: 0 }));
+});
+
+app.get("/live/create", requireLogin, requireAdmin, function(req, res) {
+    const sql = `SELECT * FROM live_sessions WHERE is_live = 1 ORDER BY created_at DESC LIMIT 1`;
+    db.query(sql).then(results => {
+        res.render("liveCreate", { currentLive: results[0] || null });
+    });
+});
+
+app.post("/live/create", requireLogin, requireAdmin, function(req, res) {
+    const { title, stream_url, description, is_live } = req.body;
+    const userId = req.session.user.id;
+    db.query(`UPDATE live_sessions SET is_live = 0 WHERE is_live = 1`).then(() => {
+        return db.query(`INSERT INTO live_sessions (title, stream_url, description, is_live, created_by) VALUES (?, ?, ?, ?, ?)`, [title, stream_url || null, description || null, is_live == '1' ? 1 : 0, userId]);
+    }).then(() => {
+        req.session.flash = { type: 'success', message: is_live == '1' ? '🔴 You are now LIVE!' : '📅 Session saved!' };
+        res.redirect('/live');
+    }).catch(err => {
+        console.error('Live session error:', err);
+        res.redirect('/live/create');
+    });
+});
+
+app.post("/live/:id/end", requireLogin, requireAdmin, function(req, res) {
+    const sessionId = req.params.id;
+    db.query(`UPDATE live_sessions SET is_live = 0 WHERE id = ?`, [sessionId]).then(() => {
+        req.session.flash = { type: 'success', message: '⏹ Live session ended.' };
+        res.redirect('/live');
+    });
+});
+
 // 404 PAGE
 app.use(function(req, res) {
     res.status(404).render("404");

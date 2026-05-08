@@ -4,219 +4,345 @@ block content
   if lesson
     .lesson-detail-container
 
-      //- BACK BUTTON
-      a.back-btn(href="/lessons") ← Back to Lessons
+      .lesson-back
+        a(href="/lessons") ← Back to Lessons
 
-      //- LESSON HEADER
-      .lesson-header
-        .lesson-meta
-          span(class='badge badge-' + lesson.category_name.toLowerCase())= lesson.category_name
-          span.lesson-date 📅 #{new Date(lesson.created_at).toDateString()}
-        h1= lesson.title
-        p.lesson-desc= lesson.description
+      .lesson-hero
+        .lesson-hero-left
+          .lesson-hero-badge= lesson.category_name
+          h1= lesson.title
+          p.lesson-hero-desc= lesson.description
+          .lesson-hero-meta
+            span.lesson-meta-item 🎸 Guitar Lesson
+            span.lesson-meta-dot •
+            span.lesson-meta-item 📂 #{lesson.category_name}
+            if avgRating
+              span.lesson-meta-dot •
+              span.lesson-meta-item ⭐ #{avgRating} (#{totalRatings} ratings)
+        .lesson-hero-right
+          if isCompleted
+            .completed-badge
+              span.completed-icon ✅
+              span Lesson Completed!
+          else
+            .not-completed-badge
+              span.not-completed-icon 🎯
+              span Keep Going!
 
-      //- VIDEO SECTION
       .video-section
-        if lesson.video_url
+        - var videoId = ''
+        - if (lesson.video_url) { if (lesson.video_url.includes('youtu.be/')) { videoId = lesson.video_url.split('youtu.be/')[1].split('?')[0].split('&')[0] } else if (lesson.video_url.includes('watch?v=')) { videoId = lesson.video_url.split('watch?v=')[1].split('&')[0] } else if (lesson.video_url.includes('embed/')) { videoId = lesson.video_url.split('embed/')[1].split('?')[0] } }
+        if videoId
           .video-wrapper
-            iframe(src=lesson.video_url frameborder="0" allowfullscreen)
-          .video-actions
-            a.youtube-btn(href='https://www.youtube.com/@shaktiacharya3422' target='_blank') 🎬 Watch on YouTube
+            iframe(src='https://www.youtube.com/embed/' + videoId frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen)
+        else if lesson.video_url
+          .video-fallback
+            a.video-link(href=lesson.video_url target='_blank') 🎬 Watch on YouTube →
         else
-          .video-placeholder
-            span.placeholder-icon 🎬
-            p Video coming soon!
-            p.placeholder-sub Our instructor is working on this lesson video.
-          .video-actions
-            a.youtube-btn(href='https://www.youtube.com/@shaktiacharya3422' target='_blank') 🎬 Watch on YouTube
+          .video-fallback
+            span.video-icon 🎵
+            p No video available for this lesson yet.
 
-      //- RATING SECTION
-      .rating-section
-        h3 ⭐ Rate this Lesson
-        if avgRating
-          .avg-rating
-            span.avg-number #{avgRating}
-            span.avg-stars ⭐
-            span.avg-count (#{totalRatings} rating#{totalRatings !== 1 ? 's' : ''})
+      .lesson-actions
+        if isCompleted
+          form(action='/lessons/' + lesson.id + '/uncomplete' method='POST' style='display:inline')
+            button.uncomplete-btn(type='submit') ↩️ Mark as Incomplete
         else
-          p.no-rating No ratings yet — be the first!
+          form(action='/lessons/' + lesson.id + '/complete' method='POST' style='display:inline')
+            button.complete-btn(type='submit') ✅ Mark as Complete
+        a.lessons-link(href='/lessons') 📚 All Lessons
+        a.practice-link(href='/practice') 🥁 Go Practice
 
-        form.rating-form(method='POST' action='/lessons/' + lesson.id + '/rate')
-          p.rating-label Your rating:
-          .star-buttons
-            each val in [1, 2, 3, 4, 5]
-              button.star-btn(
-                type='submit'
-                name='rating'
-                value=val
-                class=userRating === val ? 'star-btn selected' : 'star-btn'
-              ) #{val === 1 ? '⭐' : val === 2 ? '⭐⭐' : val === 3 ? '⭐⭐⭐' : val === 4 ? '⭐⭐⭐⭐' : '⭐⭐⭐⭐⭐'}
 
-  else
-    .error-container
-      h1 😕 Lesson Not Found
-      p Sorry, we couldn't find that lesson.
-      a.back-btn(href="/lessons") ← Back to Lessons
+      //- ── PERSONAL NOTES ──
+      .notes-section
+        .notes-header
+          .notes-title-row
+            h2 📝 My Notes
+            span.notes-badge Private — only you can see these
+          p.notes-subtitle Write down anything you want to remember about this lesson
+
+        if userNote
+          .note-existing
+            .note-existing-top
+              span.note-last-updated Last updated: #{new Date(userNote.updated_at).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})}
+              button.note-edit-btn#note-edit-btn ✏️ Edit
+            p.note-display-text#note-display-text= userNote.note_text
+
+        .note-form-wrap#note-form-wrap(style=userNote ? 'display:none' : 'display:block')
+          form.note-form(action='/lessons/' + lesson.id + '/notes' method='POST')
+            textarea.note-textarea(
+              name='note_text'
+              rows='4'
+              placeholder='e.g. Remember to keep my wrist relaxed on chord G... practice slow then speed up...'
+              maxlength='1000'
+            )= userNote ? userNote.note_text : ''
+            .note-form-bottom
+              .note-char-info
+                span#note-char-count 0
+                span / 1000 characters
+              .note-form-btns
+                if userNote
+                  button.note-cancel-btn#note-cancel-btn(type='button') Cancel
+                button.note-save-btn(type='submit')
+                  = userNote ? '💾 Update Note' : '💾 Save Note'
+
+      //- ── RATING + REVIEW SECTION ──
+      .lesson-rating-section
+
+        //- Header with avg rating
+        .rating-header
+          h2 ⭐ Rate & Review This Lesson
+          if avgRating
+            .avg-rating-display
+              .avg-rating-stars
+                - var rounded = Math.round(avgRating)
+                - for (var i = 1; i <= 5; i++)
+                  span(class=i <= rounded ? 'star filled' : 'star empty') ★
+              span.avg-rating-num #{avgRating} out of 5
+              span.avg-rating-count (#{totalRatings} rating#{totalRatings !== 1 ? 's' : ''})
+          else
+            p.no-rating-yet No ratings yet — be the first!
+
+        //- Divider
+        .rating-divider
+
+        //- Rate + Review form
+        .review-form-wrap
+          h3.review-form-title
+            = userRating ? '✏️ Update Your Rating & Review' : '✍️ Leave Your Rating & Review'
+
+          form.rating-form(action='/lessons/' + lesson.id + '/rate' method='POST')
+            //- Star rating
+            .form-group
+              label.form-label Your Rating
+              .stars-input
+                - for (var i = 5; i >= 1; i--)
+                  input(type='radio' name='rating' id='star' + i value=i checked=(userRating == i))
+                  label(for='star' + i title=i + ' stars') ★
+
+            //- Written review
+            .form-group
+              label.form-label(for='review-text') Your Review
+                span.form-label-hint (optional)
+              textarea#review-text.review-textarea(
+                name='review'
+                rows='4'
+                placeholder='Share what you learned, what was helpful, or any tips for other students...'
+                maxlength='500'
+              )= userReview ? userReview : ''
+              .char-counter
+                span#char-count 0
+                span / 500
+
+            button.rate-btn(type='submit')
+              = userRating ? '✏️ Update My Review' : '⭐ Submit Review'
+
+            if userRating
+              .your-rating-row
+                span.your-rating Your current rating: #{userRating} ★
+                if userReview
+                  span.your-review-badge ✍️ Review submitted
+
+        //- ── ALL REVIEWS ──
+        if allReviews && allReviews.length > 0
+          .reviews-section
+            .reviews-header
+              h3 💬 Student Reviews
+              span.reviews-count #{allReviews.length} review#{allReviews.length !== 1 ? 's' : ''}
+
+            .reviews-list
+              each rev in allReviews
+                .review-card
+                  .review-card-top
+                    .reviewer-info
+                      .reviewer-avatar= rev.user_name ? rev.user_name.charAt(0).toUpperCase() : '?'
+                      .reviewer-details
+                        .reviewer-name= rev.user_name || 'Anonymous'
+                        .review-date= rev.created_at ? new Date(rev.created_at).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'}) : ''
+                    .review-stars
+                      - for (var i = 1; i <= 5; i++)
+                        span(class=i <= rev.rating ? 'rev-star filled' : 'rev-star empty') ★
+                  if rev.review
+                    p.review-text= rev.review
+                  else
+                    p.review-text.review-no-text (Rating only — no written review)
+        else
+          .no-reviews-yet
+            .no-reviews-icon 💬
+            p No written reviews yet. Be the first to share your thoughts!
 
   style.
-    .lesson-detail-container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-    .back-btn {
-      display: inline-block;
-      color: #2d6a4f;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      margin-bottom: 1.5rem;
-    }
-    .back-btn:hover { color: #1b4332; }
+    * { box-sizing: border-box; }
+    .lesson-detail-container { max-width: 900px; margin: 0 auto; padding: 1.5rem 2rem 4rem; }
 
-    .lesson-header {
-      margin-bottom: 2rem;
+    .lesson-back { margin-bottom: 1rem; }
+    .lesson-back a { color: #52b788; text-decoration: none; font-weight: 600; font-size: 0.9rem; padding: 0.4rem 0.8rem; background: rgba(82,183,136,0.1); border-radius: 8px; border: 1px solid rgba(82,183,136,0.2); transition: all 0.2s; display: inline-block; }
+    .lesson-back a:hover { background: rgba(82,183,136,0.2); }
+
+    .lesson-hero { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 20px; padding: 2.5rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem; border: 1px solid #2d6a4f; flex-wrap: wrap; }
+    .lesson-hero-left { flex: 1; }
+    .lesson-hero-badge { display: inline-block; background: rgba(82,183,136,0.2); color: #52b788; border: 1px solid #52b788; padding: 0.3rem 0.9rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .lesson-hero h1 { font-size: 1.9rem; color: white; font-weight: 800; margin-bottom: 0.75rem; line-height: 1.3; }
+    .lesson-hero-desc { color: rgba(255,255,255,0.7); font-size: 1rem; line-height: 1.6; margin-bottom: 1rem; }
+    .lesson-hero-meta { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .lesson-meta-item { color: rgba(255,255,255,0.5); font-size: 0.85rem; }
+    .lesson-meta-dot { color: rgba(255,255,255,0.3); }
+
+    .completed-badge { background: rgba(45,106,79,0.3); border: 2px solid #52b788; border-radius: 16px; padding: 1.2rem 1.5rem; text-align: center; color: #52b788; font-weight: 700; min-width: 160px; }
+    .completed-icon { display: block; font-size: 2.5rem; margin-bottom: 0.4rem; }
+    .not-completed-badge { background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 1.2rem 1.5rem; text-align: center; color: rgba(255,255,255,0.6); font-weight: 700; min-width: 160px; }
+    .not-completed-icon { display: block; font-size: 2.5rem; margin-bottom: 0.4rem; }
+
+    .video-section { margin-bottom: 1.5rem; background: #1a1a2e; border-radius: 16px; overflow: hidden; border: 1px solid #2d6a4f; box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+    .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+    .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    .video-fallback { text-align: center; padding: 4rem 2rem; }
+    .video-icon { font-size: 3rem; display: block; margin-bottom: 1rem; }
+    .video-fallback p { color: rgba(255,255,255,0.6); margin-bottom: 1rem; }
+    .video-link { display: inline-block; background: #e63946; color: white; padding: 0.75rem 2rem; border-radius: 12px; text-decoration: none; font-weight: 700; transition: all 0.2s; }
+    .video-link:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(230,57,70,0.4); color: white; }
+
+    .lesson-actions { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center; }
+    .complete-btn { background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; border: none; padding: 0.85rem 1.8rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 15px rgba(45,106,79,0.3); }
+    .complete-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(45,106,79,0.5); }
+    .uncomplete-btn { background: #f8f9fa; color: #888; border: 2px solid #e0e0e0; padding: 0.85rem 1.8rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .uncomplete-btn:hover { background: #e63946; color: white; border-color: #e63946; }
+    .lessons-link { display: inline-block; background: white; color: #1a1a2e; border: 2px solid #e8f5e9; padding: 0.85rem 1.5rem; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 0.95rem; transition: all 0.2s; }
+    .lessons-link:hover { background: #1a1a2e; color: white; border-color: #1a1a2e; }
+    .practice-link { display: inline-block; background: white; color: #1a1a2e; border: 2px solid #e8f5e9; padding: 0.85rem 1.5rem; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 0.95rem; transition: all 0.2s; }
+    .practice-link:hover { background: #2d6a4f; color: white; border-color: #2d6a4f; }
+
+    /* ── RATING + REVIEW SECTION ── */
+    .lesson-rating-section { background: white; border-radius: 20px; padding: 1.8rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); border: 1px solid #e8f5e9; }
+    .rating-header { margin-bottom: 1rem; }
+    .rating-header h2 { font-size: 1.2rem; color: #1a1a2e; font-weight: 800; margin-bottom: 0.75rem; }
+    .avg-rating-display { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+    .avg-rating-stars { display: flex; gap: 2px; }
+    .star { font-size: 1.3rem; }
+    .star.filled { color: #f39c12; }
+    .star.empty { color: #ddd; }
+    .avg-rating-num { font-size: 1.1rem; font-weight: 800; color: #1a1a2e; }
+    .avg-rating-count { color: #888; font-size: 0.9rem; }
+    .no-rating-yet { color: #888; font-size: 0.9rem; }
+    .rating-divider { height: 1px; background: #f0f0f0; margin: 1.2rem 0; }
+
+    /* Form */
+    .review-form-wrap { margin-bottom: 1.5rem; }
+    .review-form-title { font-size: 1rem; font-weight: 800; color: #1a1a2e; margin-bottom: 1rem; }
+    .rating-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-label { font-size: 0.82rem; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 0.4rem; }
+    .form-label-hint { font-size: 0.75rem; color: #aaa; font-weight: 400; text-transform: none; letter-spacing: 0; }
+    .stars-input { display: flex; flex-direction: row-reverse; gap: 4px; width: fit-content; }
+    .stars-input input { display: none; }
+    .stars-input label { font-size: 2rem; color: #ddd; cursor: pointer; transition: color 0.1s; }
+    .stars-input label:hover,
+    .stars-input label:hover ~ label,
+    .stars-input input:checked ~ label { color: #f39c12; }
+    .review-textarea { width: 100%; padding: 0.85rem 1rem; border: 2px solid #e8f5e9; border-radius: 12px; font-size: 0.95rem; font-family: inherit; color: #1a1a2e; resize: vertical; transition: border-color 0.2s; background: #fafffe; line-height: 1.6; }
+    .review-textarea:focus { outline: none; border-color: #52b788; background: white; }
+    .review-textarea::placeholder { color: #bbb; }
+    .char-counter { text-align: right; font-size: 0.75rem; color: #bbb; margin-top: 2px; }
+    .char-counter span:first-child { color: #888; font-weight: 700; }
+    .rate-btn { width: fit-content; background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; border: none; padding: 0.8rem 1.8rem; border-radius: 12px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .rate-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(45,106,79,0.4); }
+    .your-rating-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-top: 0.25rem; }
+    .your-rating { color: #2d6a4f; font-size: 0.88rem; font-weight: 600; }
+    .your-review-badge { background: #f0faf5; border: 1px solid #c8e6c9; color: #2d6a4f; font-size: 0.78rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 20px; }
+
+    /* Reviews list */
+    .reviews-section { border-top: 2px solid #f0faf5; padding-top: 1.5rem; }
+    .reviews-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+    .reviews-header h3 { font-size: 1rem; font-weight: 800; color: #1a1a2e; margin: 0; }
+    .reviews-count { background: #f0faf5; color: #2d6a4f; font-size: 0.78rem; font-weight: 700; padding: 0.25rem 0.7rem; border-radius: 20px; border: 1px solid #c8e6c9; }
+    .reviews-list { display: flex; flex-direction: column; gap: 1rem; }
+    .review-card { background: #fafffe; border: 1px solid #e8f5e9; border-radius: 14px; padding: 1.1rem 1.2rem; transition: box-shadow 0.2s; }
+    .review-card:hover { box-shadow: 0 4px 16px rgba(45,106,79,0.08); }
+    .review-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.7rem; flex-wrap: wrap; gap: 0.5rem; }
+    .reviewer-info { display: flex; align-items: center; gap: 0.7rem; }
+    .reviewer-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #1a1a2e, #2d6a4f); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 800; flex-shrink: 0; }
+    .reviewer-name { font-size: 0.9rem; font-weight: 700; color: #1a1a2e; }
+    .review-date { font-size: 0.75rem; color: #aaa; margin-top: 1px; }
+    .review-stars { display: flex; gap: 2px; }
+    .rev-star { font-size: 1rem; }
+    .rev-star.filled { color: #f39c12; }
+    .rev-star.empty { color: #ddd; }
+    .review-text { font-size: 0.9rem; color: #444; line-height: 1.6; margin: 0; }
+    .review-no-text { color: #bbb !important; font-style: italic; }
+    .no-reviews-yet { text-align: center; padding: 2rem 1rem; color: #bbb; }
+    .no-reviews-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .no-reviews-yet p { font-size: 0.9rem; margin: 0; }
+
+
+    /* ── NOTES SECTION ── */
+    .notes-section { background: #fffdf0; border-radius: 20px; padding: 1.8rem; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #fde68a; margin-bottom: 1.5rem; }
+    .notes-header { margin-bottom: 1.2rem; }
+    .notes-title-row { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 0.4rem; }
+    .notes-title-row h2 { font-size: 1.2rem; color: #1a1a2e; font-weight: 800; margin: 0; }
+    .notes-badge { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; border-radius: 20px; font-size: 0.72rem; font-weight: 700; padding: 0.2rem 0.6rem; }
+    .notes-subtitle { color: #888; font-size: 0.85rem; margin: 0; }
+    .note-existing { background: white; border-radius: 14px; padding: 1.2rem 1.4rem; border: 1px solid #fde68a; margin-bottom: 1rem; }
+    .note-existing-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; flex-wrap: wrap; gap: 0.5rem; }
+    .note-last-updated { font-size: 0.75rem; color: #aaa; }
+    .note-edit-btn { background: #fef3c7; border: 1px solid #fde68a; color: #92400e; padding: 0.3rem 0.8rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .note-edit-btn:hover { background: #fde68a; }
+    .note-display-text { color: #444; font-size: 0.92rem; line-height: 1.7; margin: 0; white-space: pre-wrap; }
+    .note-form-wrap { margin-top: 0.5rem; }
+    .note-form { display: flex; flex-direction: column; gap: 0.8rem; }
+    .note-textarea { width: 100%; padding: 0.9rem 1rem; border: 2px solid #fde68a; border-radius: 12px; font-size: 0.92rem; font-family: inherit; color: #1a1a2e; resize: vertical; transition: border-color 0.2s; background: white; line-height: 1.6; }
+    .note-textarea:focus { outline: none; border-color: #f59e0b; background: white; }
+    .note-textarea::placeholder { color: #bbb; font-style: italic; }
+    .note-form-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+    .note-char-info { font-size: 0.75rem; color: #bbb; }
+    .note-char-info span:first-child { font-weight: 700; color: #888; }
+    .note-form-btns { display: flex; gap: 0.6rem; }
+    .note-save-btn { background: linear-gradient(135deg, #d97706, #92400e); color: white; border: none; padding: 0.7rem 1.5rem; border-radius: 10px; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .note-save-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(217,119,6,0.4); }
+    .note-cancel-btn { background: #f8f9fa; color: #888; border: 1px solid #e0e0e0; padding: 0.7rem 1.2rem; border-radius: 10px; font-size: 0.88rem; font-weight: 700; cursor: pointer; }
+    .note-cancel-btn:hover { background: #e0e0e0; }
+
+  script.
+
+    // Notes section toggle edit
+    const noteEditBtn = document.getElementById('note-edit-btn');
+    const noteFormWrap = document.getElementById('note-form-wrap');
+    const noteCancelBtn = document.getElementById('note-cancel-btn');
+    const noteDisplayText = document.getElementById('note-display-text');
+    const noteTextarea = document.querySelector('.note-textarea');
+    const noteCharCount = document.getElementById('note-char-count');
+
+    if (noteEditBtn && noteFormWrap) {
+      noteEditBtn.addEventListener('click', () => {
+        noteFormWrap.style.display = 'block';
+        if (noteDisplayText) noteDisplayText.closest('.note-existing').style.display = 'none';
+        if (noteTextarea) {
+          noteTextarea.focus();
+          if (noteCharCount) noteCharCount.textContent = noteTextarea.value.length;
+        }
+      });
     }
-    .lesson-meta {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 0.75rem;
-      flex-wrap: wrap;
+    if (noteCancelBtn) {
+      noteCancelBtn.addEventListener('click', () => {
+        noteFormWrap.style.display = 'none';
+        if (noteDisplayText) noteDisplayText.closest('.note-existing').style.display = 'block';
+      });
     }
-    .lesson-date {
-      color: #888;
-      font-size: 0.9rem;
-    }
-    .lesson-header h1 {
-      font-size: 2rem;
-      color: #1a1a2e;
-      font-weight: 800;
-      margin-bottom: 0.75rem;
-    }
-    .lesson-desc {
-      color: #555;
-      font-size: 1.05rem;
-      line-height: 1.7;
+    if (noteTextarea && noteCharCount) {
+      noteCharCount.textContent = noteTextarea.value.length;
+      noteTextarea.addEventListener('input', () => {
+        noteCharCount.textContent = noteTextarea.value.length;
+        noteCharCount.style.color = noteTextarea.value.length > 900 ? '#e63946' : '#888';
+      });
     }
 
-    .video-section {
-      background: white;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      margin-bottom: 2rem;
+    // Character counter for review textarea
+    const textarea = document.getElementById('review-text');
+    const charCount = document.getElementById('char-count');
+    if (textarea && charCount) {
+      charCount.textContent = textarea.value.length;
+      textarea.addEventListener('input', () => {
+        charCount.textContent = textarea.value.length;
+        charCount.style.color = textarea.value.length > 450 ? '#e63946' : '#888';
+      });
     }
-    .video-wrapper {
-      position: relative;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-    }
-    .video-wrapper iframe {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-    .video-actions {
-      padding: 1rem 1.5rem;
-      border-top: 1px solid #f0f0f0;
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
-    .youtube-btn {
-      display: inline-block;
-      background: #ff0000;
-      color: white;
-      padding: 0.6rem 1.2rem;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      transition: background 0.2s;
-    }
-    .youtube-btn:hover { background: #cc0000; color: white; }
-
-    .video-placeholder {
-      background: linear-gradient(135deg, #1a1a2e, #16213e);
-      padding: 4rem 2rem;
-      text-align: center;
-      color: white;
-    }
-    .placeholder-icon { font-size: 4rem; display: block; margin-bottom: 1rem; }
-    .video-placeholder p { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; }
-    .placeholder-sub { font-size: 0.9rem; color: #aaa; }
-
-    .rating-section {
-      background: white;
-      border-radius: 14px;
-      padding: 2rem;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    }
-    .rating-section h3 {
-      font-size: 1.3rem;
-      color: #1a1a2e;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-    .avg-rating {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-      background: #f0faf5;
-      padding: 0.75rem 1rem;
-      border-radius: 8px;
-      border-left: 4px solid #2d6a4f;
-    }
-    .avg-number { font-size: 2rem; font-weight: 800; color: #1a1a2e; }
-    .avg-stars { font-size: 1.2rem; }
-    .avg-count { color: #666; font-size: 0.9rem; }
-    .no-rating { color: #888; font-size: 0.95rem; margin-bottom: 1rem; }
-
-    .rating-label { font-weight: 600; color: #333; margin-bottom: 0.75rem; }
-    .star-buttons {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-    .star-btn {
-      background: #f0f0f0;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      font-size: 0.9rem;
-      transition: all 0.2s;
-    }
-    .star-btn:hover {
-      background: #fff3cd;
-      border-color: #ffc107;
-    }
-    .star-btn.selected {
-      background: #fff3cd;
-      border-color: #ffc107;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 0.3rem 0.8rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 700;
-    }
-    .badge-beginner { background: #d5f5e3; color: #1e8449; }
-    .badge-intermediate { background: #fef9e7; color: #d4ac0d; }
-    .badge-advanced { background: #fadbd8; color: #c0392b; }
-    .badge-music.theory { background: #e8daef; color: #7d3c98; }
-    .badge-songs { background: #d6eaf8; color: #1a5276; }
-
-    .error-container {
-      text-align: center;
-      padding: 4rem 2rem;
-    }
-    .error-container h1 { font-size: 2rem; color: #1a1a2e; margin-bottom: 1rem; }
-    .error-container p { color: #666; margin-bottom: 1.5rem; }

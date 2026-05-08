@@ -6,12 +6,54 @@ block content
       h1 🎸 Practice Tools
       p Use our interactive tools to perfect your guitar playing
 
-    //- ── TAB NAVIGATION ──
-    .practice-tabs
-      button.tab-btn.active(onclick="switchTab('tools')") 🎵 Tools
-      button.tab-btn(onclick="switchTab('beginner')") 🌱 Beginner
-      button.tab-btn(onclick="switchTab('intermediate')") 🎸 Intermediate
-      button.tab-btn(onclick="switchTab('advanced')") 🔥 Advanced
+    //- ── PROGRESS INDICATOR ──
+    .progress-indicator
+      .progress-indicator-title 🏆 Your Progress
+      .progress-tools-grid
+        .progress-tool-item#prog-ind-metronome
+          span.progress-tool-icon 🥁
+          span.progress-tool-name Metronome
+        .progress-tool-item#prog-ind-pitch
+          span.progress-tool-icon 🎤
+          span.progress-tool-name Pitch Detect
+        .progress-tool-item#prog-ind-tuner
+          span.progress-tool-icon 🎵
+          span.progress-tool-name Tuner
+        .progress-tool-item#prog-ind-tuning
+          span.progress-tool-icon 🎛️
+          span.progress-tool-name Tuning Check
+        .progress-tool-item#prog-ind-chords
+          span.progress-tool-icon 🎸
+          span.progress-tool-name Chords
+        .progress-tool-item#prog-ind-quiz
+          span.progress-tool-icon 📚
+          span.progress-tool-name String Quiz
+        .progress-tool-item#prog-ind-scale
+          span.progress-tool-icon 🎵
+          span.progress-tool-name Scale
+        .progress-tool-item#prog-ind-progression
+          span.progress-tool-icon 🎶
+          span.progress-tool-name Progression
+        .progress-tool-item#prog-ind-rhythm
+          span.progress-tool-icon 🥁
+          span.progress-tool-name Rhythm
+        .progress-tool-item#prog-ind-fretboard
+          span.progress-tool-icon 🎮
+          span.progress-tool-name String Game
+        .progress-tool-item#prog-ind-strum
+          span.progress-tool-icon 🎤
+          span.progress-tool-name Chord Recog
+      .progress-bar-outer
+        .progress-bar-inner#progress-bar-inner
+        span.progress-bar-label#progress-bar-label 0 / 11 tools tried
+
+    //- ── TAB NAVIGATION (sticky) ──
+    .practice-tabs-wrapper
+      .practice-tabs
+        button.tab-btn.active(onclick="switchTab('tools', this)") 🎵 Tools
+        button.tab-btn(onclick="switchTab('beginner', this)") 🌱 Beginner
+        button.tab-btn(onclick="switchTab('intermediate', this)") 🎸 Intermediate
+        button.tab-btn(onclick="switchTab('advanced', this)") 🔥 Advanced
 
     //- ── TAB: TOOLS ──
     .tab-content#tab-tools
@@ -124,163 +166,281 @@ block content
           h2 Beginner Practice
           p Start your guitar journey — learn chords, strings and basic theory
 
-      //- ── CHORD LIBRARY ──
+      //- ── CHORD LIBRARY (expanded + dark mode fixed) ──
       .chord-section
         .chord-section-header
           h2 🎸 Chord Library
-          p Learn the most common guitar chords — click any chord to see finger positions
+          p Learn guitar chords — click any chord to see finger positions
         .chords-grid
+          //- G Major
           .chord-card(data-chord="G")
             .chord-name G
             svg.chord-diagram(viewBox="0 0 100 120")
-              line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
-              line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
-              line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
-              line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
-              line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
-              line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
-              line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
-              line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
-              line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
-              line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
-              line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
+              line(x1="10" y1="20" x2="90" y2="20" stroke="var(--chord-nut)" stroke-width="3")
+              line(x1="10" y1="40" x2="90" y2="40" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="60" x2="90" y2="60" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="80" x2="90" y2="80" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="100" x2="90" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="20" x2="10" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="26" y1="20" x2="26" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="42" y1="20" x2="42" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="58" y1="20" x2="58" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="74" y1="20" x2="74" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="90" y1="20" x2="90" y2="100" stroke="var(--chord-line)" stroke-width="1")
               circle(cx="10" cy="30" r="7" fill="#2d6a4f")
               circle(cx="42" cy="50" r="7" fill="#2d6a4f")
               circle(cx="90" cy="30" r="7" fill="#2d6a4f")
-            .chord-fingers
-              span 2-1-0-0-0-3
+              text(x="5" y="115" font-size="8" fill="var(--chord-text)") 2-1-0-0-0-3
             .chord-label G Major
 
+          //- C Major
           .chord-card(data-chord="C")
             .chord-name C
             svg.chord-diagram(viewBox="0 0 100 120")
-              line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
-              line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
-              line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
-              line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
-              line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
-              line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
-              line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
-              line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
-              line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
-              line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
-              line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
+              line(x1="10" y1="20" x2="90" y2="20" stroke="var(--chord-nut)" stroke-width="3")
+              line(x1="10" y1="40" x2="90" y2="40" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="60" x2="90" y2="60" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="80" x2="90" y2="80" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="100" x2="90" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="20" x2="10" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="26" y1="20" x2="26" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="42" y1="20" x2="42" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="58" y1="20" x2="58" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="74" y1="20" x2="74" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="90" y1="20" x2="90" y2="100" stroke="var(--chord-line)" stroke-width="1")
               circle(cx="26" cy="30" r="7" fill="#2d6a4f")
               circle(cx="58" cy="50" r="7" fill="#2d6a4f")
               circle(cx="74" cy="30" r="7" fill="#2d6a4f")
-              text(x="10" y="115" font-size="8" fill="#888") x
-            .chord-fingers
-              span x-3-2-0-1-0
+              text(x="10" y="115" font-size="8" fill="var(--chord-muted)") x
+              text(x="5" y="115" font-size="8" fill="var(--chord-text)") x-3-2-0-1-0
             .chord-label C Major
 
+          //- D Major
           .chord-card(data-chord="D")
             .chord-name D
             svg.chord-diagram(viewBox="0 0 100 120")
-              line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
-              line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
-              line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
-              line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
-              line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
-              line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
-              line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
-              line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
-              line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
-              line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
-              line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
+              line(x1="10" y1="20" x2="90" y2="20" stroke="var(--chord-nut)" stroke-width="3")
+              line(x1="10" y1="40" x2="90" y2="40" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="60" x2="90" y2="60" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="80" x2="90" y2="80" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="100" x2="90" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="20" x2="10" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="26" y1="20" x2="26" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="42" y1="20" x2="42" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="58" y1="20" x2="58" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="74" y1="20" x2="74" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="90" y1="20" x2="90" y2="100" stroke="var(--chord-line)" stroke-width="1")
               circle(cx="58" cy="30" r="7" fill="#2d6a4f")
               circle(cx="74" cy="50" r="7" fill="#2d6a4f")
               circle(cx="90" cy="30" r="7" fill="#2d6a4f")
-            .chord-fingers
-              span x-x-0-2-3-2
+              text(x="5" y="115" font-size="8" fill="var(--chord-text)") x-x-0-2-3-2
             .chord-label D Major
 
+          //- Am
           .chord-card(data-chord="Am")
             .chord-name Am
             svg.chord-diagram(viewBox="0 0 100 120")
-              line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
-              line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
-              line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
-              line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
-              line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
-              line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
-              line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
-              line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
-              line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
-              line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
-              line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
+              line(x1="10" y1="20" x2="90" y2="20" stroke="var(--chord-nut)" stroke-width="3")
+              line(x1="10" y1="40" x2="90" y2="40" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="60" x2="90" y2="60" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="80" x2="90" y2="80" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="100" x2="90" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="20" x2="10" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="26" y1="20" x2="26" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="42" y1="20" x2="42" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="58" y1="20" x2="58" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="74" y1="20" x2="74" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="90" y1="20" x2="90" y2="100" stroke="var(--chord-line)" stroke-width="1")
               circle(cx="26" cy="30" r="7" fill="#e63946")
               circle(cx="42" cy="50" r="7" fill="#e63946")
               circle(cx="58" cy="30" r="7" fill="#e63946")
-            .chord-fingers
-              span x-0-2-2-1-0
+              text(x="5" y="115" font-size="8" fill="var(--chord-text)") x-0-2-2-1-0
             .chord-label A Minor
 
+          //- Em
           .chord-card(data-chord="Em")
             .chord-name Em
             svg.chord-diagram(viewBox="0 0 100 120")
-              line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
-              line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
-              line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
-              line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
-              line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
-              line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
-              line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
-              line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
-              line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
-              line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
-              line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
+              line(x1="10" y1="20" x2="90" y2="20" stroke="var(--chord-nut)" stroke-width="3")
+              line(x1="10" y1="40" x2="90" y2="40" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="60" x2="90" y2="60" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="80" x2="90" y2="80" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="100" x2="90" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="20" x2="10" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="26" y1="20" x2="26" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="42" y1="20" x2="42" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="58" y1="20" x2="58" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="74" y1="20" x2="74" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="90" y1="20" x2="90" y2="100" stroke="var(--chord-line)" stroke-width="1")
               circle(cx="42" cy="30" r="7" fill="#e63946")
               circle(cx="58" cy="30" r="7" fill="#e63946")
-            .chord-fingers
-              span 0-2-2-0-0-0
+              text(x="5" y="115" font-size="8" fill="var(--chord-text)") 0-2-2-0-0-0
             .chord-label E Minor
 
+          //- F Major
           .chord-card(data-chord="F")
             .chord-name F
             svg.chord-diagram(viewBox="0 0 100 120")
-              line(x1="10" y1="20" x2="90" y2="20" stroke="#333" stroke-width="3")
-              line(x1="10" y1="40" x2="90" y2="40" stroke="#333" stroke-width="1")
-              line(x1="10" y1="60" x2="90" y2="60" stroke="#333" stroke-width="1")
-              line(x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="1")
-              line(x1="10" y1="100" x2="90" y2="100" stroke="#333" stroke-width="1")
-              line(x1="10" y1="20" x2="10" y2="100" stroke="#333" stroke-width="1")
-              line(x1="26" y1="20" x2="26" y2="100" stroke="#333" stroke-width="1")
-              line(x1="42" y1="20" x2="42" y2="100" stroke="#333" stroke-width="1")
-              line(x1="58" y1="20" x2="58" y2="100" stroke="#333" stroke-width="1")
-              line(x1="74" y1="20" x2="74" y2="100" stroke="#333" stroke-width="1")
-              line(x1="90" y1="20" x2="90" y2="100" stroke="#333" stroke-width="1")
+              line(x1="10" y1="20" x2="90" y2="20" stroke="var(--chord-nut)" stroke-width="3")
+              line(x1="10" y1="40" x2="90" y2="40" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="60" x2="90" y2="60" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="80" x2="90" y2="80" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="100" x2="90" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="20" x2="10" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="26" y1="20" x2="26" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="42" y1="20" x2="42" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="58" y1="20" x2="58" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="74" y1="20" x2="74" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="90" y1="20" x2="90" y2="100" stroke="var(--chord-line)" stroke-width="1")
               rect(x="3" y="23" width="94" height="14" rx="7" fill="#1a1a2e" opacity="0.8")
               circle(cx="42" cy="50" r="7" fill="#1a1a2e")
               circle(cx="58" cy="50" r="7" fill="#1a1a2e")
               circle(cx="74" cy="30" r="7" fill="#1a1a2e")
-            .chord-fingers
-              span 1-1-2-3-3-1
+              text(x="5" y="115" font-size="8" fill="var(--chord-text)") 1-1-2-3-3-1
             .chord-label F Major
 
-      //- ── STRING NAMING QUIZ ──
+          //- ── NEW CHORDS ──
+
+          //- Bm
+          .chord-card(data-chord="Bm")
+            .chord-name Bm
+            svg.chord-diagram(viewBox="0 0 100 120")
+              line(x1="10" y1="20" x2="90" y2="20" stroke="var(--chord-nut)" stroke-width="3")
+              line(x1="10" y1="40" x2="90" y2="40" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="60" x2="90" y2="60" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="80" x2="90" y2="80" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="100" x2="90" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="20" x2="10" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="26" y1="20" x2="26" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="42" y1="20" x2="42" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="58" y1="20" x2="58" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="74" y1="20" x2="74" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="90" y1="20" x2="90" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              rect(x="3" y="33" width="94" height="14" rx="7" fill="#4a1880" opacity="0.85")
+              circle(cx="26" cy="50" r="7" fill="#4a1880")
+              circle(cx="42" cy="70" r="7" fill="#4a1880")
+              circle(cx="58" cy="70" r="7" fill="#4a1880")
+              text(x="5" y="115" font-size="8" fill="var(--chord-text)") x-2-4-4-3-2
+            .chord-label B Minor
+
+          //- A Major
+          .chord-card(data-chord="A")
+            .chord-name A
+            svg.chord-diagram(viewBox="0 0 100 120")
+              line(x1="10" y1="20" x2="90" y2="20" stroke="var(--chord-nut)" stroke-width="3")
+              line(x1="10" y1="40" x2="90" y2="40" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="60" x2="90" y2="60" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="80" x2="90" y2="80" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="100" x2="90" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="20" x2="10" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="26" y1="20" x2="26" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="42" y1="20" x2="42" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="58" y1="20" x2="58" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="74" y1="20" x2="74" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="90" y1="20" x2="90" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              circle(cx="42" cy="30" r="7" fill="#f4a261")
+              circle(cx="58" cy="30" r="7" fill="#f4a261")
+              circle(cx="74" cy="30" r="7" fill="#f4a261")
+              text(x="5" y="115" font-size="8" fill="var(--chord-text)") x-0-2-2-2-0
+            .chord-label A Major
+
+          //- E Major
+          .chord-card(data-chord="E")
+            .chord-name E
+            svg.chord-diagram(viewBox="0 0 100 120")
+              line(x1="10" y1="20" x2="90" y2="20" stroke="var(--chord-nut)" stroke-width="3")
+              line(x1="10" y1="40" x2="90" y2="40" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="60" x2="90" y2="60" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="80" x2="90" y2="80" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="100" x2="90" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="20" x2="10" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="26" y1="20" x2="26" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="42" y1="20" x2="42" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="58" y1="20" x2="58" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="74" y1="20" x2="74" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="90" y1="20" x2="90" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              circle(cx="26" cy="30" r="7" fill="#52b788")
+              circle(cx="42" cy="50" r="7" fill="#52b788")
+              circle(cx="58" cy="50" r="7" fill="#52b788")
+              text(x="5" y="115" font-size="8" fill="var(--chord-text)") 0-2-2-1-0-0
+            .chord-label E Major
+
+          //- F#m
+          .chord-card(data-chord="F#m")
+            .chord-name F#m
+            svg.chord-diagram(viewBox="0 0 100 120")
+              line(x1="10" y1="20" x2="90" y2="20" stroke="var(--chord-nut)" stroke-width="3")
+              line(x1="10" y1="40" x2="90" y2="40" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="60" x2="90" y2="60" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="80" x2="90" y2="80" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="100" x2="90" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="10" y1="20" x2="10" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="26" y1="20" x2="26" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="42" y1="20" x2="42" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="58" y1="20" x2="58" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="74" y1="20" x2="74" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              line(x1="90" y1="20" x2="90" y2="100" stroke="var(--chord-line)" stroke-width="1")
+              rect(x="3" y="33" width="94" height="14" rx="7" fill="#c1121f" opacity="0.85")
+              circle(cx="42" cy="70" r="7" fill="#c1121f")
+              circle(cx="58" cy="50" r="7" fill="#c1121f")
+              circle(cx="74" cy="70" r="7" fill="#c1121f")
+              text(x="5" y="115" font-size="8" fill="var(--chord-text)") 2-4-4-2-2-2
+            .chord-label F# Minor
+
+      //- ── STRING NAMING QUIZ (redesigned) ──
       .quiz-section
-        .quiz-header
-          h2 📚 String Naming Quiz
-          p Test your knowledge — identify the correct string name!
-        .quiz-container
-          .quiz-score-bar
-            .quiz-stat
-              span.quiz-stat-label Score
-              span.quiz-stat-value#quiz-score 0
-            .quiz-stat
-              span.quiz-stat-label Streak
-              span.quiz-stat-value#quiz-streak 🔥 0
-            .quiz-stat
-              span.quiz-stat-label Best
-              span.quiz-stat-value#quiz-best 0
-          .quiz-question#quiz-question
-            .quiz-q-label Which string is this?
-            .quiz-q-number#quiz-q-number 3
-            .quiz-q-sub String number
-            svg#quiz-string-diagram(viewBox="0 0 260 90" width="260" height="90")
-          .quiz-options#quiz-options
-          .quiz-feedback#quiz-feedback
-          button#quiz-start-btn.quiz-start-btn 🎮 Start Quiz
+        .quiz-arcade-wrap
+          //- Header
+          .quiz-arcade-header
+            .quiz-arcade-title
+              span.quiz-arcade-icon 🎸
+              h2 String Naming Quiz
+            p.quiz-arcade-sub Identify the highlighted string as fast as you can!
+
+          //- Score bar
+          .quiz-hud
+            .quiz-hud-card
+              .quiz-hud-icon 🏆
+              .quiz-hud-val#quiz-score 0
+              .quiz-hud-lbl Score
+            .quiz-hud-card.quiz-hud-streak
+              .quiz-hud-icon 🔥
+              .quiz-hud-val#quiz-streak 0
+              .quiz-hud-lbl Streak
+            .quiz-hud-card
+              .quiz-hud-icon ⭐
+              .quiz-hud-val#quiz-best 0
+              .quiz-hud-lbl Best Streak
+            .quiz-hud-card
+              .quiz-hud-icon ❓
+              .quiz-hud-val#quiz-qcount 0
+              .quiz-hud-lbl Questions
+
+          //- Guitar visual + question
+          .quiz-stage
+            .quiz-stage-left
+              .quiz-question-label Which string is this?
+              .quiz-string-visual
+                canvas#quiz-canvas(width="320" height="160")
+              .quiz-string-hint#quiz-string-hint Pick the correct string name →
+
+            .quiz-stage-right
+              .quiz-options-grid#quiz-options
+
+          //- Feedback bar
+          .quiz-feedback-bar#quiz-feedback
+
+          //- Start button
+          .quiz-start-wrap
+            button#quiz-start-btn.quiz-arcade-start 🎮 Start Quiz
+
+        //- ── LEADERBOARD ──
+        .leaderboard-section
+          .leaderboard-header
+            h3 🏆 Quiz Leaderboard — Top Scores
+            button#leaderboard-clear-btn.leaderboard-clear-btn 🗑 Clear
+          .leaderboard-list#leaderboard-list
+            p.leaderboard-empty No scores yet — play the quiz!
 
       //- ── SCALE PRACTICE ──
       .scale-section
@@ -309,109 +469,172 @@ block content
     //- ── TAB: INTERMEDIATE ──
     .tab-content#tab-intermediate(style="display:none")
 
-      .level-banner.intermediate-banner
-        span.level-icon 🎸
-        .level-info
-          h2 Intermediate Practice
-          p Build your skills — chord changes, rhythm and string challenges
+      //- Hero banner
+      .inter-hero
+        .inter-hero-left
+          .inter-hero-badge 🎸 INTERMEDIATE
+          h2.inter-hero-title Build Your Skills
+          p.inter-hero-sub Chord changes · Rhythm · String challenge
+        .inter-hero-right
+          .inter-hero-stat
+            span.inter-hero-stat-val#inter-session-score 0
+            span.inter-hero-stat-lbl Session Points
+          .inter-hero-stat
+            span.inter-hero-stat-val#inter-tools-done 0/3
+            span.inter-hero-stat-lbl Tools Used
 
-      //- ── CHORD PROGRESSION PRACTICE ──
-      .progression-section
-        .progression-header
-          h2 🎶 Chord Progression Practice
-          p Practice switching between chords in time with the beat!
-        .progression-container
-          .prog-controls
-            .prog-control-group
-              label BPM
-              input#prog-bpm(type="range" min="40" max="120" value="60")
-              span#prog-bpm-label 60 BPM
-            .prog-control-group
-              label Progression
-              select#prog-select
-                option(value="G-C-D-Em") G → C → D → Em (Beginner)
-                option(value="Am-F-C-G") Am → F → C → G (Pop)
-                option(value="E-A-D-A") E → A → D → A (Rock)
-                option(value="C-G-Am-F") C → G → Am → F (Classic)
-          .prog-display
-            .prog-current
-              span.prog-label NOW PLAYING
-              span.prog-chord#prog-current-chord G
-            .prog-next
-              span.prog-label UP NEXT
-              span.prog-chord-next#prog-next-chord C
-          .prog-beats
-            .prog-beat#pb1
-            .prog-beat#pb2
-            .prog-beat#pb3
-            .prog-beat#pb4
-          .prog-progress-bar
-            .prog-progress-fill#prog-progress-fill
-          button#prog-start-btn.prog-start-btn 🎵 Start Practice
-          button#prog-stop-btn.prog-stop-btn(style="display:none") ⏹ Stop
+      //- ── CHORD PROGRESSION ──
+      .inter-section
+        .inter-section-header
+          .inter-section-icon 🎶
+          .inter-section-info
+            h3 Chord Progression Practice
+            p Switch chords in time with the beat
+          .inter-section-badge SECTION 1
+        .prog-arcade
+          .prog-top-bar
+            .prog-top-left
+              .prog-bpm-display
+                span#prog-bpm-num 60
+                span.prog-bpm-unit BPM
+              input#prog-bpm.prog-bpm-slider(type="range" min="40" max="180" value="60")
+            .prog-top-right
+              label.prog-select-label 🎵 Progression
+              select#prog-select.prog-select-styled
+                option(value="G-C-D-Em") G → C → D → Em
+                option(value="Am-F-C-G") Am → F → C → G
+                option(value="E-A-D-A") E → A → D → A
+                option(value="C-G-Am-F") C → G → Am → F
+                option(value="D-A-Bm-G") D → A → Bm → G
+          .prog-stage
+            .prog-chord-now
+              .prog-chord-badge NOW
+              .prog-chord-big#prog-current-chord —
+              .prog-chord-sub Current Chord
+            .prog-divider
+              .prog-arrow ▶
+            .prog-chord-next-wrap
+              .prog-chord-badge.next-badge NEXT
+              .prog-chord-med#prog-next-chord —
+              .prog-chord-sub Up Next
+          .prog-beat-row
+            .prog-beat-cell#pb1
+              .prog-beat-inner 1
+            .prog-beat-cell#pb2
+              .prog-beat-inner 2
+            .prog-beat-cell#pb3
+              .prog-beat-inner 3
+            .prog-beat-cell#pb4
+              .prog-beat-inner 4
+          .prog-bottom-bar
+            .prog-progress-track2
+              .prog-progress-fill2#prog-progress-fill
+            .prog-btn-row
+              button#prog-start-btn.prog-btn-start 🎵 Start Practice
+              button#prog-stop-btn.prog-btn-stop(style="display:none") ⏹ Stop
 
       //- ── RHYTHM TAPPING GAME ──
-      .rhythm-section
-        .rhythm-header
-          h2 🥁 Rhythm Tapping Game
-          p Tap the spacebar or button in time with the rhythm pattern!
-        .rhythm-container
-          .rhythm-score-bar
-            .rhythm-stat
-              span.rhythm-stat-label Score
-              span.rhythm-stat-value#rhythm-score 0
-            .rhythm-stat
-              span.rhythm-stat-label Accuracy
-              span.rhythm-stat-value#rhythm-accuracy 0%
-            .rhythm-stat
-              span.rhythm-stat-label Level
-              span.rhythm-stat-value#rhythm-level 1
-          .rhythm-pattern#rhythm-pattern
+      .inter-section
+        .inter-section-header
+          .inter-section-icon 🥁
+          .inter-section-info
+            h3 Rhythm Tapping Game
+            p Tap in time with the beat pattern
+          .inter-section-badge SECTION 2
+        .rhythm-arcade
+          .rhythm-hud
+            .rhythm-hud-card
+              .rhythm-hud-val#rhythm-score 0
+              .rhythm-hud-lbl 🏆 Score
+            .rhythm-hud-card.rh-accent
+              .rhythm-hud-val#rhythm-accuracy 0%
+              .rhythm-hud-lbl 🎯 Accuracy
+            .rhythm-hud-card
+              .rhythm-hud-val#rhythm-level 1
+              .rhythm-hud-lbl ⚡ Level
+            .rhythm-hud-card
+              .rhythm-hud-val#rhythm-combo 0
+              .rhythm-hud-lbl 🔥 Combo
+          .rhythm-pattern-wrap
+            .rhythm-pattern-label BEAT PATTERN
+            .rhythm-pattern#rhythm-pattern
           .rhythm-feedback#rhythm-feedback
-          button#rhythm-tap-btn.rhythm-tap-btn 🥁 TAP (or Spacebar)
-          .rhythm-controls
-            button#rhythm-start-btn.rhythm-start-btn 🎮 Start Rhythm Game
-            button#rhythm-stop-btn.rhythm-stop-btn(style="display:none") ⏹ Stop
+          button#rhythm-tap-btn.rhythm-tap-arcade 🥁 TAP
+          p.rhythm-tap-hint Press SPACEBAR or tap the button above
+          .rhythm-ctrl-row
+            button#rhythm-start-btn.rhythm-btn-start 🎮 Start Game
+            button#rhythm-stop-btn.rhythm-btn-stop(style="display:none") ⏹ Stop Game
 
-      //- ── YOUSICIAN-STYLE FRETBOARD GAME ──
-      .fretboard-section
-        .fretboard-header
-          h2 🎸 String Challenge
-          p Play the string shown — microphone detects your guitar in real time!
-        .fretboard-wrapper
-          .fb-topbar
-            .fb-left
-              span.fb-multiplier#fb-multiplier 1×
-              .fb-lives
+      //- ── STRING CHALLENGE ──
+      .inter-section
+        .inter-section-header
+          .inter-section-icon 🎯
+          .inter-section-info
+            h3 String Challenge
+            p Play the string shown — mic detects your guitar!
+          .inter-section-badge SECTION 3
+        .fb-arcade-wrap
+          .fb-arcade-hud
+            .fb-hud-left
+              .fb-lives-row
                 span.fb-heart#heart1 ♥
                 span.fb-heart#heart2 ♥
                 span.fb-heart#heart3 ♥
                 span.fb-heart#heart4 ♥
                 span.fb-heart#heart5 ♥
-            .fb-center
-              span.fb-instruction#fb-instruction Press Start to Play!
-            .fb-right
-              .fb-score-box
-                span.fb-score-label SCORE
-                span.fb-score#fb-score 0
-          canvas#fretboard-canvas
-          .fb-bottombar
-            button#fb-pause-btn.fb-icon-btn ⏸
-            .fb-progress-track
-              .fb-progress-fill#fb-progress-fill
-            button#fb-hand-btn.fb-icon-btn 🖐
-        .fb-controls
-          button#fb-start-btn.fb-start-button 🎸 Start Game
-          button#fb-stop-btn.fb-stop-button(style="display:none") ⏹ Stop Game
-          .fb-mic-status#fb-mic-status 🎤 Microphone not active
-        .fb-string-guide
-          h3 String Reference Guide
-          .fb-strings-ref
-            each s in [{n:'6',name:'E',note:'Low E — 82 Hz'},{n:'5',name:'A',note:'A — 110 Hz'},{n:'4',name:'D',note:'D — 147 Hz'},{n:'3',name:'G',note:'G — 196 Hz'},{n:'2',name:'B',note:'B — 247 Hz'},{n:'1',name:'E',note:'High E — 330 Hz'}]
-              .fb-str-item
-                span.fb-str-num= s.n
-                span.fb-str-name= s.name
-                span.fb-str-note= s.note
+              .fb-multiplier-badge
+                span#fb-multiplier 1×
+            .fb-hud-center
+              .fb-instruction-pill#fb-instruction Press Start!
+            .fb-hud-right
+              .fb-score-display
+                .fb-score-lbl SCORE
+                .fb-score-big#fb-score 0
+          canvas#fretboard-canvas.fb-canvas-full
+          .fb-arcade-bottom
+            button#fb-pause-btn.fb-ctrl-btn ⏸
+            .fb-prog-track
+              .fb-prog-fill#fb-progress-fill
+            button#fb-hand-btn.fb-ctrl-btn 🖐
+        .fb-arcade-controls
+          .fb-ctrl-left
+            button#fb-start-btn.fb-btn-start 🎸 Start Game
+            button#fb-stop-btn.fb-btn-stop(style="display:none") ⏹ Stop
+          .fb-mic-badge#fb-mic-status 🎤 Mic not active
+
+        //- ── MIC DETECTION PANEL ──
+        .fb-detect-panel
+          .fb-detect-left
+            .fb-detect-label 🎤 MICROPHONE HEARING
+            .fb-detect-freq#fb-detect-freq — Hz
+            .fb-detect-note#fb-detect-note Waiting...
+          .fb-detect-right
+            .fb-detect-strings
+              .fb-detect-string-pill(data-string="1" style="border-color:#e63946")
+                .fb-detect-pill-num(style="background:#e63946") 1
+                span E
+              .fb-detect-string-pill(data-string="2" style="border-color:#f4a261")
+                .fb-detect-pill-num(style="background:#f4a261") 2
+                span B
+              .fb-detect-string-pill(data-string="3" style="border-color:#52b788")
+                .fb-detect-pill-num(style="background:#52b788") 3
+                span G
+              .fb-detect-string-pill(data-string="4" style="border-color:#4cc9f0")
+                .fb-detect-pill-num(style="background:#4cc9f0") 4
+                span D
+              .fb-detect-string-pill(data-string="5" style="border-color:#a78bfa")
+                .fb-detect-pill-num(style="background:#a78bfa") 5
+                span A
+              .fb-detect-string-pill(data-string="6" style="border-color:#ffd166")
+                .fb-detect-pill-num(style="background:#ffd166") 6
+                span E
+        .fb-guide-grid
+          each s in [{n:"1",name:"E",note:"High E",freq:"330 Hz",color:"#e63946"},{n:"2",name:"B",note:"B",freq:"247 Hz",color:"#f4a261"},{n:"3",name:"G",note:"G",freq:"196 Hz",color:"#52b788"},{n:"4",name:"D",note:"D",freq:"147 Hz",color:"#4cc9f0"},{n:"5",name:"A",note:"A",freq:"110 Hz",color:"#a78bfa"},{n:"6",name:"E",note:"Low E",freq:"82 Hz",color:"#ffd166"}]
+            .fb-guide-card(style="border-left: 3px solid " + s.color)
+              .fb-guide-num(style="background:" + s.color)= s.n
+              .fb-guide-info
+                .fb-guide-name(style="color:" + s.color)= s.name
+                .fb-guide-note= s.note + " — " + s.freq
 
     //- ── TAB: ADVANCED ──
     .tab-content#tab-advanced(style="display:none")
@@ -441,12 +664,46 @@ block content
 
   style.
     * { box-sizing: border-box; }
+
+    /* ── DARK MODE CHORD DIAGRAM VARS ── */
+    :root {
+      --chord-nut: #333;
+      --chord-line: #555;
+      --chord-text: #666;
+      --chord-muted: #999;
+      --chord-bg: #ffffff;
+      --chord-name-color: #1a1a2e;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --chord-nut: #aaa;
+        --chord-line: #888;
+        --chord-text: #ccc;
+        --chord-muted: #aaa;
+        --chord-bg: #1e2a3a;
+        --chord-name-color: #ffffff;
+      }
+    }
+
     .practice-container { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem; }
     .practice-header { text-align: center; margin-bottom: 1.5rem; padding: 2rem; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 20px; border: 1px solid #2d6a4f; }
     .practice-header h1 { font-size: 2.4rem; color: #ffffff; font-weight: 800; margin-bottom: 0.5rem; }
     .practice-header p { color: #52b788; font-size: 1rem; }
 
-    .practice-tabs { display: flex; gap: 0.5rem; margin-bottom: 2rem; background: #f0faf5; padding: 0.5rem; border-radius: 16px; border: 1px solid #c8e6c9; flex-wrap: wrap; }
+    /* ── PROGRESS INDICATOR ── */
+    .progress-indicator { background: white; border-radius: 16px; padding: 1.2rem 1.5rem; margin-bottom: 1.5rem; border: 1px solid #e8f5e9; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
+    .progress-indicator-title { font-size: 0.85rem; font-weight: 800; color: #1a1a2e; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.8rem; }
+    .progress-tools-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.8rem; }
+    .progress-tool-item { display: flex; align-items: center; gap: 0.3rem; background: #f0faf5; border: 2px solid #e8f5e9; border-radius: 20px; padding: 0.3rem 0.7rem; font-size: 0.75rem; font-weight: 700; color: #aaa; transition: all 0.3s; }
+    .progress-tool-item.tried { background: #2d6a4f; border-color: #2d6a4f; color: white; }
+    .progress-tool-icon { font-size: 0.85rem; }
+    .progress-bar-outer { height: 10px; background: #e8f5e9; border-radius: 5px; overflow: hidden; margin-bottom: 0.4rem; }
+    .progress-bar-inner { height: 100%; width: 0%; background: linear-gradient(to right, #2d6a4f, #52b788); border-radius: 5px; transition: width 0.4s ease; }
+    .progress-bar-label { font-size: 0.78rem; color: #888; font-weight: 600; }
+
+    /* ── STICKY TABS ── */
+    .practice-tabs-wrapper { position: sticky; top: 0; z-index: 100; background: white; padding: 0.5rem 0; margin-bottom: 1.5rem; border-bottom: 2px solid #e8f5e9; }
+    .practice-tabs { display: flex; gap: 0.5rem; background: #f0faf5; padding: 0.5rem; border-radius: 16px; border: 1px solid #c8e6c9; flex-wrap: wrap; }
     .tab-btn { flex: 1; padding: 0.75rem 1rem; border: none; border-radius: 12px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.2s; background: transparent; color: #2d6a4f; min-width: 120px; }
     .tab-btn:hover { background: rgba(45,106,79,0.1); }
     .tab-btn.active { background: linear-gradient(135deg, #1a1a2e, #16213e); color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
@@ -499,18 +756,37 @@ block content
     .string-btn.playing .string-note, .string-btn.playing .string-label { color: white; }
     .string-note { font-size: 1.4rem; font-weight: 900; color: #1a1a2e; }
     .string-label { font-size: 0.65rem; color: #888; font-weight: 600; }
+
+    /* ── CHORD LIBRARY (dark mode fixed) ── */
     .chord-section { margin-top: 0; }
     .chord-section-header { text-align: center; margin-bottom: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; border: 1px solid #2d6a4f; }
     .chord-section-header h2 { font-size: 1.8rem; color: white; font-weight: 800; margin-bottom: 0.3rem; }
     .chord-section-header p { color: #52b788; font-size: 0.95rem; }
-    .chords-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
-    .chord-card { background: white; border-radius: 16px; padding: 1.2rem; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.07); border: 2px solid #e8f5e9; cursor: pointer; transition: all 0.2s; }
+    .chords-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+    .chord-card { background: var(--chord-bg, white); border-radius: 16px; padding: 1rem; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.07); border: 2px solid #e8f5e9; cursor: pointer; transition: all 0.2s; }
     .chord-card:hover { border-color: #2d6a4f; transform: translateY(-5px); box-shadow: 0 10px 30px rgba(45,106,79,0.15); }
     .chord-card.active { border-color: #2d6a4f; background: #f0faf5; }
-    .chord-name { font-size: 2rem; font-weight: 900; color: #1a1a2e; margin-bottom: 0.5rem; }
-    .chord-diagram { width: 100%; max-width: 100px; margin: 0 auto; display: block; }
-    .chord-fingers { font-size: 0.72rem; color: #999; margin-top: 0.5rem; font-family: monospace; }
-    .chord-label { font-size: 0.82rem; color: #2d6a4f; font-weight: 700; margin-top: 0.3rem; }
+    .chord-name { font-size: 1.8rem; font-weight: 900; color: var(--chord-name-color, #1a1a2e); margin-bottom: 0.4rem; }
+    .chord-diagram { width: 100%; max-width: 90px; margin: 0 auto; display: block; background: var(--chord-bg, white); border-radius: 6px; }
+    .chord-label { font-size: 0.78rem; color: #2d6a4f; font-weight: 700; margin-top: 0.4rem; }
+
+    /* ── LEADERBOARD ── */
+    .leaderboard-section { margin-top: 1.5rem; background: white; border-radius: 16px; padding: 1.5rem; border: 1px solid #e8f5e9; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
+    .leaderboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .leaderboard-header h3 { font-size: 1rem; font-weight: 800; color: #1a1a2e; margin: 0; text-transform: uppercase; letter-spacing: 0.5px; }
+    .leaderboard-clear-btn { background: #f8f9fa; border: 1px solid #e8f5e9; color: #888; padding: 0.3rem 0.7rem; border-radius: 8px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
+    .leaderboard-clear-btn:hover { background: #e63946; color: white; border-color: #e63946; }
+    .leaderboard-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .leaderboard-empty { color: #aaa; font-size: 0.85rem; text-align: center; padding: 1rem; }
+    .leaderboard-entry { display: flex; align-items: center; gap: 0.8rem; padding: 0.6rem 1rem; background: #f8f9fa; border-radius: 10px; border: 1px solid #e8f5e9; }
+    .leaderboard-rank { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 800; flex-shrink: 0; }
+    .leaderboard-rank.rank-1 { background: #ffd700; color: #7a6000; }
+    .leaderboard-rank.rank-2 { background: #c0c0c0; color: #555; }
+    .leaderboard-rank.rank-3 { background: #cd7f32; color: #fff; }
+    .leaderboard-rank.rank-other { background: #e8f5e9; color: #2d6a4f; }
+    .leaderboard-score { font-size: 1.2rem; font-weight: 900; color: #1a1a2e; margin-left: auto; }
+    .leaderboard-date { font-size: 0.72rem; color: #aaa; }
+
     .tuning-section { margin-top: 2rem; }
     .tuning-header { text-align: center; margin-bottom: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; border: 1px solid #2d6a4f; }
     .tuning-header h2 { font-size: 1.8rem; color: white; font-weight: 800; margin-bottom: 0.3rem; }
@@ -534,62 +810,174 @@ block content
     .tuning-start-btn:hover { transform: translateY(-2px); }
     .tuning-stop-btn { background: linear-gradient(135deg, #e63946, #c1121f); color: white; border: none; padding: 0.85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; }
     .tuning-mic-info { font-size: 0.85rem; color: #888; font-weight: 600; }
-    .fretboard-section { margin-top: 2rem; }
-    .fretboard-header { text-align: center; margin-bottom: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; border: 1px solid #2d6a4f; }
-    .fretboard-header h2 { font-size: 1.8rem; color: white; font-weight: 800; margin-bottom: 0.3rem; }
-    .fretboard-header p { color: #52b788; font-size: 0.95rem; }
-    .fretboard-wrapper { background: #1a2a3a; border-radius: 16px; overflow: hidden; border: 2px solid #2d6a4f; box-shadow: 0 8px 40px rgba(0,0,0,0.4); }
-    .fb-topbar { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1.2rem; background: #111a27; border-bottom: 1px solid #2d3748; }
-    .fb-left { display: flex; align-items: center; gap: 1rem; }
-    .fb-multiplier { font-size: 1.4rem; font-weight: 800; color: #52b788; font-family: monospace; }
-    .fb-lives { display: flex; gap: 4px; }
+    /* ── INTERMEDIATE ARCADE ── */
+    .inter-hero { display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg, #0d1f3c, #1a2a5e, #0d3320); border-radius: 20px; padding: 2rem 2.5rem; margin-bottom: 2rem; border: 1px solid rgba(82,183,136,0.3); box-shadow: 0 8px 40px rgba(0,0,0,0.3); }
+    .inter-hero-badge { font-size: 0.7rem; font-weight: 800; letter-spacing: 3px; color: #52b788; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .inter-hero-title { font-size: 2rem; font-weight: 900; color: white; margin: 0 0 0.3rem; }
+    .inter-hero-sub { color: rgba(255,255,255,0.5); font-size: 0.9rem; margin: 0; }
+    .inter-hero-right { display: flex; gap: 1.5rem; }
+    .inter-hero-stat { text-align: center; background: rgba(255,255,255,0.06); border: 1px solid rgba(82,183,136,0.2); border-radius: 14px; padding: 1rem 1.5rem; }
+    .inter-hero-stat-val { display: block; font-size: 2rem; font-weight: 900; color: #52b788; font-family: monospace; line-height: 1; }
+    .inter-hero-stat-lbl { display: block; font-size: 0.6rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+    .inter-section { background: linear-gradient(160deg, #0d1b2a, #111827); border-radius: 20px; border: 1px solid rgba(82,183,136,0.15); margin-bottom: 2rem; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.25); }
+    .inter-section-header { display: flex; align-items: center; gap: 1rem; padding: 1.2rem 1.8rem; background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(82,183,136,0.15); }
+    .inter-section-icon { font-size: 1.8rem; }
+    .inter-section-info h3 { color: white; font-size: 1.2rem; font-weight: 800; margin: 0 0 0.15rem; }
+    .inter-section-info p { color: rgba(255,255,255,0.4); font-size: 0.8rem; margin: 0; }
+    .inter-section-badge { margin-left: auto; font-size: 0.65rem; font-weight: 800; letter-spacing: 2px; color: #52b788; background: rgba(82,183,136,0.1); border: 1px solid rgba(82,183,136,0.3); border-radius: 20px; padding: 0.3rem 0.8rem; }
+    /* Chord Progression */
+    .prog-arcade { padding: 1.5rem 1.8rem 1.8rem; }
+    .prog-top-bar { display: flex; gap: 2rem; align-items: flex-end; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .prog-top-left { display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
+    .prog-top-right { display: flex; flex-direction: column; gap: 0.4rem; flex: 1; }
+    .prog-bpm-display { display: flex; align-items: baseline; gap: 0.3rem; }
+    .prog-bpm-display span:first-child { font-size: 3rem; font-weight: 900; color: #52b788; font-family: monospace; line-height: 1; }
+    .prog-bpm-unit { font-size: 0.9rem; color: rgba(255,255,255,0.4); font-weight: 700; }
+    .prog-bpm-slider { width: 100%; accent-color: #52b788; cursor: pointer; }
+    .prog-select-label { font-size: 0.7rem; color: rgba(255,255,255,0.4); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    .prog-select-styled { width: 100%; background: rgba(255,255,255,0.08); border: 1px solid rgba(82,183,136,0.3); border-radius: 10px; padding: 0.6rem 1rem; color: white; font-size: 0.95rem; font-weight: 600; cursor: pointer; }
+    .prog-stage { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1rem; background: rgba(0,0,0,0.3); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid rgba(82,183,136,0.1); }
+    .prog-chord-now, .prog-chord-next-wrap { text-align: center; }
+    .prog-chord-badge { font-size: 0.6rem; font-weight: 800; letter-spacing: 2px; color: #52b788; margin-bottom: 0.5rem; }
+    .prog-chord-badge.next-badge { color: rgba(255,255,255,0.3); }
+    .prog-chord-big { font-size: 4.5rem; font-weight: 900; color: white; font-family: monospace; line-height: 1; text-shadow: 0 0 30px rgba(82,183,136,0.5); }
+    .prog-chord-med { font-size: 2.8rem; font-weight: 900; color: rgba(255,255,255,0.3); font-family: monospace; line-height: 1; }
+    .prog-chord-sub { font-size: 0.65rem; color: rgba(255,255,255,0.25); text-transform: uppercase; letter-spacing: 1px; margin-top: 0.4rem; }
+    .prog-divider { text-align: center; }
+    .prog-arrow { font-size: 1.5rem; color: rgba(82,183,136,0.4); }
+    .prog-beat-row { display: flex; justify-content: center; gap: 1rem; margin-bottom: 1.2rem; }
+    .prog-beat-cell { width: 52px; height: 52px; border-radius: 12px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; transition: all 0.06s; }
+    .prog-beat-inner { font-size: 1rem; font-weight: 800; color: rgba(255,255,255,0.25); }
+    .prog-beat-cell.active { background: #2d6a4f; border-color: #52b788; box-shadow: 0 0 20px rgba(82,183,136,0.5); transform: scale(1.15); }
+    .prog-beat-cell.active .prog-beat-inner { color: white; }
+    .prog-bottom-bar { display: flex; flex-direction: column; gap: 1rem; }
+    .prog-progress-track2 { height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; }
+    .prog-progress-fill2 { height: 100%; width: 0%; background: linear-gradient(to right, #2d6a4f, #52b788); border-radius: 3px; transition: width 0.1s; }
+    .prog-btn-row { display: flex; gap: 0.8rem; }
+    .prog-btn-start { background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; border: none; padding: 0.9rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 15px rgba(45,106,79,0.4); }
+    .prog-btn-start:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(45,106,79,0.5); }
+    .prog-btn-stop { background: linear-gradient(135deg, #e63946, #c1121f); color: white; border: none; padding: 0.9rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; }
+    /* Rhythm game */
+    .rhythm-arcade { padding: 1.5rem 1.8rem 1.8rem; }
+    .rhythm-hud { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .rhythm-hud-card { flex: 1; min-width: 80px; text-align: center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 0.8rem; }
+    .rhythm-hud-card.rh-accent { border-color: rgba(82,183,136,0.4); background: rgba(82,183,136,0.08); }
+    .rhythm-hud-val { display: block; font-size: 1.8rem; font-weight: 900; color: white; font-family: monospace; line-height: 1; }
+    .rhythm-hud-lbl { display: block; font-size: 0.65rem; color: rgba(255,255,255,0.4); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: 3px; }
+    .rhythm-pattern-wrap { background: rgba(0,0,0,0.3); border-radius: 14px; padding: 1rem 1.5rem; margin-bottom: 1rem; border: 1px solid rgba(255,255,255,0.06); }
+    .rhythm-pattern-label { font-size: 0.6rem; color: rgba(255,255,255,0.3); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.8rem; }
+    .rhythm-pattern { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; min-height: 60px; align-items: center; }
+    .rhythm-beat-box { width: 52px; height: 52px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; transition: all 0.08s; }
+    .rhythm-beat-box.active { background: rgba(82,183,136,0.3); border-color: #52b788; transform: scale(1.1); box-shadow: 0 0 15px rgba(82,183,136,0.4); }
+    .rhythm-beat-box.hit { background: #2d6a4f; border-color: #52b788; color: white; }
+    .rhythm-beat-box.miss { background: rgba(230,57,70,0.3); border-color: #e63946; }
+    .rhythm-feedback { text-align: center; font-size: 1.1rem; font-weight: 800; min-height: 36px; margin-bottom: 1rem; color: rgba(255,255,255,0.5); }
+    .rhythm-tap-arcade { width: 100%; background: rgba(255,255,255,0.06); color: white; border: 2px solid rgba(82,183,136,0.4); padding: 1.4rem; border-radius: 16px; font-size: 1.4rem; font-weight: 900; cursor: pointer; transition: all 0.08s; margin-bottom: 0.5rem; letter-spacing: 1px; }
+    .rhythm-tap-arcade:active { transform: scale(0.97); background: rgba(82,183,136,0.25); border-color: #52b788; box-shadow: 0 0 30px rgba(82,183,136,0.4); }
+    .rhythm-tap-hint { text-align: center; font-size: 0.75rem; color: rgba(255,255,255,0.25); margin: 0 0 1rem; }
+    .rhythm-ctrl-row { display: flex; gap: 0.8rem; }
+    .rhythm-btn-start { flex: 1; background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; border: none; padding: 0.9rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; }
+    .rhythm-btn-stop { flex: 1; background: linear-gradient(135deg, #e63946, #c1121f); color: white; border: none; padding: 0.9rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; }
+    /* String challenge / fretboard */
+    .fb-arcade-wrap { background: #0d1a28; border-bottom: 1px solid rgba(82,183,136,0.15); }
+    .fb-arcade-hud { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1.2rem; background: rgba(0,0,0,0.4); border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .fb-hud-left { display: flex; align-items: center; gap: 1rem; }
+    .fb-lives-row { display: flex; gap: 4px; }
     .fb-heart { font-size: 1.2rem; color: #e63946; transition: all 0.3s; }
-    .fb-heart.lost { color: #444; }
-    .fb-center { flex: 1; text-align: center; }
-    .fb-instruction { font-size: 1rem; font-weight: 700; color: white; background: rgba(45,106,79,0.3); border: 1px solid rgba(82,183,136,0.4); padding: 0.4rem 1.2rem; border-radius: 20px; }
-    .fb-score-box { text-align: right; }
-    .fb-score-label { display: block; font-size: 0.65rem; color: #52b788; letter-spacing: 2px; font-weight: 700; }
-    .fb-score { display: block; font-size: 1.8rem; font-weight: 900; color: white; font-family: monospace; }
-    #fretboard-canvas { width: 100%; height: 200px; display: block; cursor: default; }
-    .fb-bottombar { display: flex; align-items: center; gap: 1rem; padding: 0.6rem 1rem; background: #111a27; border-top: 1px solid #2d3748; }
-    .fb-icon-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: white; width: 36px; height: 36px; border-radius: 8px; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .fb-progress-track { flex: 1; height: 8px; background: #2d3748; border-radius: 4px; overflow: hidden; }
-    .fb-progress-fill { height: 100%; width: 0%; background: linear-gradient(to right, #2d6a4f, #52b788); border-radius: 4px; transition: width 0.3s ease; }
-    .fb-controls { display: flex; align-items: center; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
-    .fb-start-button { background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; border: none; padding: 0.85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 15px rgba(45,106,79,0.4); }
-    .fb-start-button:hover { transform: translateY(-2px); }
-    .fb-stop-button { background: linear-gradient(135deg, #e63946, #c1121f); color: white; border: none; padding: 0.85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; }
-    .fb-mic-status { font-size: 0.85rem; color: #888; font-weight: 600; }
+    .fb-heart.lost { color: #333; }
+    .fb-multiplier-badge { background: rgba(82,183,136,0.15); border: 1px solid rgba(82,183,136,0.3); border-radius: 8px; padding: 0.2rem 0.6rem; font-size: 1.1rem; font-weight: 900; color: #52b788; font-family: monospace; }
+    .fb-hud-center { flex: 1; text-align: center; }
+    .fb-instruction-pill { display: inline-block; font-size: 0.95rem; font-weight: 700; color: white; background: rgba(45,106,79,0.3); border: 1px solid rgba(82,183,136,0.35); padding: 0.4rem 1.2rem; border-radius: 20px; }
+    .fb-hud-right { text-align: right; }
+    .fb-score-lbl { display: block; font-size: 0.6rem; color: #52b788; letter-spacing: 2px; font-weight: 700; }
+    .fb-score-big { display: block; font-size: 2rem; font-weight: 900; color: white; font-family: monospace; line-height: 1; }
+    .fb-canvas-full { width: 100%; height: 220px; display: block; }
+    .fb-arcade-bottom { display: flex; align-items: center; gap: 1rem; padding: 0.6rem 1rem; background: rgba(0,0,0,0.4); border-top: 1px solid rgba(255,255,255,0.06); }
+    .fb-ctrl-btn { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); color: white; width: 36px; height: 36px; border-radius: 8px; font-size: 1rem; cursor: pointer; flex-shrink: 0; }
+    .fb-prog-track { flex: 1; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; }
+    .fb-prog-fill { height: 100%; width: 0%; background: linear-gradient(to right, #2d6a4f, #52b788); border-radius: 3px; transition: width 0.3s; }
+    .fb-arcade-controls { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; }
+    .fb-ctrl-left { display: flex; gap: 0.8rem; }
+    .fb-btn-start { background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; border: none; padding: 0.8rem 1.8rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .fb-btn-start:hover { transform: translateY(-2px); }
+    .fb-btn-stop { background: linear-gradient(135deg, #e63946, #c1121f); color: white; border: none; padding: 0.8rem 1.8rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; }
+    .fb-mic-badge { font-size: 0.82rem; color: rgba(255,255,255,0.3); font-weight: 600; }
+    .fb-mic-badge.active { color: #52b788; }
+    .fb-mic-badge.error { color: #e63946; }
+    /* Detection panel */
+    .fb-detect-panel { display: flex; gap: 1.5rem; align-items: center; padding: 1rem 1.5rem; background: rgba(0,0,0,0.25); border-top: 1px solid rgba(82,183,136,0.1); border-bottom: 1px solid rgba(82,183,136,0.1); flex-wrap: wrap; }
+    .fb-detect-left { min-width: 160px; }
+    .fb-detect-label { font-size: 0.6rem; font-weight: 800; letter-spacing: 2px; color: rgba(255,255,255,0.3); text-transform: uppercase; margin-bottom: 0.4rem; }
+    .fb-detect-freq { font-size: 1.5rem; font-weight: 900; color: #52b788; font-family: monospace; line-height: 1; }
+    .fb-detect-note { font-size: 0.78rem; color: rgba(255,255,255,0.35); margin-top: 3px; }
+    .fb-detect-right { flex: 1; }
+    .fb-detect-strings { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .fb-detect-string-pill { display: flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.04); border: 2px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 0.3rem 0.7rem; font-size: 0.85rem; font-weight: 800; color: rgba(255,255,255,0.35); transition: all 0.15s; }
+    .fb-detect-string-pill.detected { background: rgba(82,183,136,0.15); color: white; transform: scale(1.08); box-shadow: 0 0 16px rgba(82,183,136,0.3); }
+    .fb-detect-pill-num { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 900; color: #0d1a28; }
+    .fb-guide-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.6rem; padding: 1rem 1.5rem 1.5rem; }
+    .fb-guide-card { display: flex; align-items: center; gap: 0.8rem; background: rgba(255,255,255,0.04); border-radius: 10px; padding: 0.6rem 0.8rem; border-left-width: 3px; border-left-style: solid; border-top: 1px solid rgba(255,255,255,0.06); border-right: 1px solid rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .fb-guide-num { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 900; color: #0d1a28; flex-shrink: 0; }
+    .fb-guide-name { font-size: 1.1rem; font-weight: 900; line-height: 1; }
+    .fb-guide-note { font-size: 0.72rem; color: rgba(255,255,255,0.35); margin-top: 2px; }
+    /* fb-mic-status aliases (used in JS) */
+    .fb-mic-status { font-size: 0.82rem; color: rgba(255,255,255,0.3); font-weight: 600; }
     .fb-mic-status.active { color: #52b788; }
     .fb-mic-status.error { color: #e63946; }
-    .fb-string-guide { margin-top: 1.5rem; background: white; border-radius: 16px; padding: 1.5rem; border: 1px solid #e8f5e9; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
-    .fb-string-guide h3 { font-size: 1rem; color: #1a1a2e; font-weight: 800; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px; }
-    .fb-strings-ref { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.6rem; }
-    .fb-str-item { display: flex; align-items: center; gap: 0.6rem; background: #f8f9fa; padding: 0.5rem 0.8rem; border-radius: 8px; border: 1px solid #e8f5e9; }
-    .fb-str-num { width: 24px; height: 24px; background: #1a1a2e; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; flex-shrink: 0; }
-    .fb-str-name { font-size: 1.1rem; font-weight: 900; color: #2d6a4f; min-width: 20px; }
-    .fb-str-note { font-size: 0.78rem; color: #888; }
-    .quiz-section, .progression-section, .scale-section, .rhythm-section, .strum-section { margin-top: 2rem; }
-    .quiz-header, .progression-header, .scale-header, .rhythm-header, .strum-header { text-align: center; margin-bottom: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; border: 1px solid #2d6a4f; }
-    .quiz-header h2, .progression-header h2, .scale-header h2, .rhythm-header h2, .strum-header h2 { font-size: 1.8rem; color: white; font-weight: 800; margin-bottom: 0.3rem; }
-    .quiz-header p, .progression-header p, .scale-header p, .rhythm-header p, .strum-header p { color: #52b788; font-size: 0.95rem; }
-    .quiz-container, .progression-container, .scale-container, .rhythm-container, .strum-container { background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 8px 30px rgba(0,0,0,0.08); border: 1px solid #e8f5e9; }
-    .quiz-score-bar, .rhythm-score-bar { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
-    .quiz-stat, .rhythm-stat { text-align: center; background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 0.7rem 1.5rem; border-radius: 12px; border: 1px solid #2d6a4f; }
-    .quiz-stat-label, .rhythm-stat-label { display: block; font-size: 0.65rem; color: #52b788; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-    .quiz-stat-value, .rhythm-stat-value { display: block; font-size: 1.6rem; font-weight: 900; color: white; }
-    .quiz-question { text-align: center; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; padding: 2rem; margin-bottom: 1.5rem; border: 2px solid #2d6a4f; }
-    .quiz-q-label { font-size: 0.9rem; color: #52b788; margin-bottom: 0.5rem; }
-    .quiz-q-number { font-size: 5rem; font-weight: 900; color: white; font-family: monospace; line-height: 1; }
-    .quiz-q-sub { font-size: 0.85rem; color: #a0aec0; margin-top: 0.3rem; }
-    #quiz-string-diagram { display: block; margin: 1rem auto 0; }
-    .quiz-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem; margin-bottom: 1rem; }
-    .quiz-option { background: #f8f9fa; border: 2px solid #e8f5e9; border-radius: 12px; padding: 1rem; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.15s; color: #1a1a2e; }
-    .quiz-option:hover { background: #1a1a2e; color: white; border-color: #1a1a2e; }
-    .quiz-option.correct { background: #2d6a4f; color: white; border-color: #2d6a4f; }
-    .quiz-option.wrong { background: #e63946; color: white; border-color: #e63946; }
-    .quiz-feedback { text-align: center; min-height: 40px; font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; }
-    .quiz-start-btn { width: 100%; background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; border: none; padding: 0.85rem; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    /* ── QUIZ ARCADE ── */
+    .quiz-section { margin-top: 2rem; }
+    .quiz-arcade-wrap { background: linear-gradient(160deg, #0d1b2a 0%, #1a1a2e 50%, #0d2318 100%); border-radius: 24px; overflow: hidden; border: 2px solid #2d6a4f; box-shadow: 0 20px 60px rgba(0,0,0,0.3), inset 0 1px 0 rgba(82,183,136,0.2); }
+    .quiz-arcade-header { text-align: center; padding: 1.8rem 2rem 1rem; border-bottom: 1px solid rgba(45,106,79,0.3); }
+    .quiz-arcade-title { display: flex; align-items: center; justify-content: center; gap: 0.7rem; margin-bottom: 0.4rem; }
+    .quiz-arcade-icon { font-size: 2rem; }
+    .quiz-arcade-title h2 { font-size: 2rem; font-weight: 900; color: white; margin: 0; letter-spacing: -0.5px; }
+    .quiz-arcade-sub { color: #52b788; font-size: 0.9rem; margin: 0; }
+    /* HUD */
+    .quiz-hud { display: flex; justify-content: center; gap: 1rem; padding: 1rem 2rem; flex-wrap: wrap; border-bottom: 1px solid rgba(45,106,79,0.2); }
+    .quiz-hud-card { display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,0.05); border: 1px solid rgba(82,183,136,0.2); border-radius: 14px; padding: 0.7rem 1.4rem; min-width: 80px; transition: all 0.3s; }
+    .quiz-hud-card.quiz-hud-streak { border-color: rgba(230,57,70,0.4); background: rgba(230,57,70,0.08); }
+    .quiz-hud-icon { font-size: 1.2rem; margin-bottom: 0.1rem; }
+    .quiz-hud-val { font-size: 1.8rem; font-weight: 900; color: white; font-family: monospace; line-height: 1; }
+    .quiz-hud-lbl { font-size: 0.6rem; color: #52b788; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+    .quiz-hud-card.quiz-hud-streak .quiz-hud-lbl { color: #f4a261; }
+    /* Stage */
+    .quiz-stage { display: grid; grid-template-columns: 1fr 1fr; gap: 0; min-height: 260px; }
+    .quiz-stage-left { padding: 1.5rem 1rem 1.5rem 2rem; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid rgba(45,106,79,0.2); }
+    .quiz-stage-right { padding: 1.5rem 2rem 1.5rem 1.5rem; display: flex; align-items: center; }
+    .quiz-question-label { font-size: 0.8rem; color: #52b788; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.8rem; }
+    .quiz-string-visual { background: rgba(0,0,0,0.3); border-radius: 14px; padding: 0.5rem; border: 1px solid rgba(82,183,136,0.15); margin-bottom: 0.8rem; }
+    #quiz-canvas { display: block; width: 100%; border-radius: 10px; }
+    .quiz-string-hint { font-size: 0.78rem; color: rgba(255,255,255,0.4); font-style: italic; }
+    /* Options */
+    .quiz-options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; width: 100%; }
+    .quiz-opt-btn { background: rgba(255,255,255,0.06); border: 2px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 1rem 0.8rem; font-size: 1rem; font-weight: 800; cursor: pointer; transition: all 0.15s; color: white; text-align: center; letter-spacing: 0.3px; position: relative; overflow: hidden; }
+    .quiz-opt-btn::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent); }
+    .quiz-opt-btn:hover:not(:disabled) { background: rgba(82,183,136,0.2); border-color: #52b788; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(82,183,136,0.2); color: #52b788; }
+    .quiz-opt-btn.correct { background: linear-gradient(135deg, #2d6a4f, #1b4332) !important; border-color: #52b788 !important; color: white !important; box-shadow: 0 0 30px rgba(82,183,136,0.4); animation: correctPop 0.3s ease; }
+    .quiz-opt-btn.wrong { background: linear-gradient(135deg, #c1121f, #7a0d15) !important; border-color: #e63946 !important; color: white !important; animation: wrongShake 0.3s ease; }
+    .quiz-opt-btn:disabled { cursor: default; }
+    @keyframes correctPop { 0% { transform: scale(1); } 50% { transform: scale(1.06); } 100% { transform: scale(1); } }
+    @keyframes wrongShake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+    /* Feedback bar */
+    .quiz-feedback-bar { text-align: center; padding: 0.9rem 2rem; font-size: 1rem; font-weight: 700; min-height: 48px; border-top: 1px solid rgba(45,106,79,0.2); transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+    .quiz-feedback-bar.fb-correct { background: rgba(45,106,79,0.2); color: #52b788; }
+    .quiz-feedback-bar.fb-wrong { background: rgba(198,28,35,0.15); color: #e63946; }
+    .quiz-feedback-bar.fb-idle { color: rgba(255,255,255,0.3); }
+    /* Start */
+    .quiz-start-wrap { padding: 1.2rem 2rem 1.8rem; }
+    .quiz-arcade-start { width: 100%; background: linear-gradient(135deg, #2d6a4f, #1b4332); color: white; border: none; padding: 1rem; border-radius: 14px; font-size: 1.05rem; font-weight: 800; cursor: pointer; transition: all 0.2s; letter-spacing: 0.3px; box-shadow: 0 4px 20px rgba(45,106,79,0.4); }
+    .quiz-arcade-start:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(45,106,79,0.5); }
+
+    /* ── OTHER SECTIONS ── */
+    .progression-section, .scale-section, .rhythm-section, .strum-section { margin-top: 2rem; }
+    .progression-header, .scale-header, .rhythm-header, .strum-header { text-align: center; margin-bottom: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; border: 1px solid #2d6a4f; }
+    .progression-header h2, .scale-header h2, .rhythm-header h2, .strum-header h2 { font-size: 1.8rem; color: white; font-weight: 800; margin-bottom: 0.3rem; }
+    .progression-header p, .scale-header p, .rhythm-header p, .strum-header p { color: #52b788; font-size: 0.95rem; }
+    .rhythm-score-bar { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .rhythm-stat { text-align: center; background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 0.7rem 1.5rem; border-radius: 12px; border: 1px solid #2d6a4f; }
+    .rhythm-stat-label { display: block; font-size: 0.65rem; color: #52b788; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    .rhythm-stat-value { display: block; font-size: 1.6rem; font-weight: 900; color: white; }
+    .progression-container, .scale-container, .rhythm-container, .strum-container { background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 8px 30px rgba(0,0,0,0.08); border: 1px solid #e8f5e9; }
     .prog-controls { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
     .prog-control-group { display: flex; flex-direction: column; gap: 0.4rem; flex: 1; }
     .prog-control-group label { font-size: 0.8rem; font-weight: 700; color: #1a1a2e; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -651,16 +1039,77 @@ block content
     .strum-stop-btn { background: linear-gradient(135deg, #e63946, #c1121f); color: white; }
 
   script.
-    // ── TAB SWITCHING ──
-    function switchTab(tab) {
+    // ── PROGRESS TRACKER ──
+    const TOTAL_TOOLS = 11;
+    const toolsTriedKey = 'hami_tools_tried';
+    let toolsTried = JSON.parse(localStorage.getItem(toolsTriedKey) || '[]');
+    function markToolTried(toolId) {
+      if (!toolsTried.includes(toolId)) {
+        toolsTried.push(toolId);
+        localStorage.setItem(toolsTriedKey, JSON.stringify(toolsTried));
+        updateProgressUI();
+      }
+    }
+    function updateProgressUI() {
+      toolsTried.forEach(id => {
+        const el = document.getElementById('prog-ind-' + id);
+        if (el) el.classList.add('tried');
+      });
+      const count = toolsTried.length;
+      const bar = document.getElementById('progress-bar-inner');
+      const label = document.getElementById('progress-bar-label');
+      if (bar) bar.style.width = Math.round((count / TOTAL_TOOLS) * 100) + '%';
+      if (label) label.textContent = count + ' / ' + TOTAL_TOOLS + ' tools tried';
+    }
+    updateProgressUI();
+
+    // ── TAB SWITCHING (updated) ──
+    function switchTab(tab, btn) {
       document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.getElementById('tab-' + tab).style.display = 'block';
-      event.target.classList.add('active');
+      if (btn) btn.classList.add('active');
+      else { document.querySelectorAll('.tab-btn').forEach(b => { if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + tab + "'")) b.classList.add('active'); }); }
       if (tab === 'intermediate') {
         setTimeout(() => { resizeCanvas(); drawFretboard(); drawHitZone(); }, 100);
       }
     }
+
+    // ── LEADERBOARD (localStorage) ──
+    const LEADERBOARD_KEY = 'hami_quiz_leaderboard';
+    function getLeaderboard() { return JSON.parse(localStorage.getItem(LEADERBOARD_KEY) || '[]'); }
+    function saveToLeaderboard(score) {
+      const board = getLeaderboard();
+      board.push({ score, date: new Date().toLocaleDateString() });
+      board.sort((a, b) => b.score - a.score);
+      const top10 = board.slice(0, 10);
+      localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(top10));
+      renderLeaderboard();
+      // Also save to DATABASE so profile page shows scores
+      // Save score to database
+      fetch('/quiz/save-score', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ score: score, streak: quizBest })
+      }).then(r => r.json()).then(data => {
+        if (!data.success) console.warn('Score save failed:', data);
+      }).catch(err => console.warn('Score save error:', err));
+    }
+    function renderLeaderboard() {
+      const board = getLeaderboard();
+      const list = document.getElementById('leaderboard-list');
+      if (!list) return;
+      if (board.length === 0) { list.innerHTML = '<p class="leaderboard-empty">No scores yet — play the quiz!</p>'; return; }
+      list.innerHTML = board.map((entry, i) => {
+        const rankClass = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : 'rank-other';
+        const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1);
+        return '<div class="leaderboard-entry"><span class="leaderboard-rank ' + rankClass + '">' + medal + '</span><span class="leaderboard-date">' + entry.date + '</span><span class="leaderboard-score">' + entry.score + ' pts</span></div>';
+      }).join('');
+    }
+    document.getElementById('leaderboard-clear-btn').addEventListener('click', () => {
+      if (confirm('Clear all leaderboard scores?')) { localStorage.removeItem(LEADERBOARD_KEY); renderLeaderboard(); }
+    });
+    renderLeaderboard();
 
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
@@ -685,7 +1134,12 @@ block content
       osc.start(); osc.stop(audioCtx.currentTime + 0.08);
     }
     function tick() { dots.forEach(d => d.classList.remove('active')); dots[currentBeat].classList.add('active'); playClick(currentBeat === 0); currentBeat = (currentBeat + 1) % 4; }
-    function startMetro() { if (!audioCtx) audioCtx = new AudioCtx(); const bpm = parseInt(bpmSlider.value); metroInterval = setInterval(tick, (60 / bpm) * 1000); currentBeat = 0; tick(); isRunning = true; metroBtn.textContent = '⏹ Stop'; metroBtn.classList.add('running'); }
+    function startMetro() {
+      if (!audioCtx) audioCtx = new AudioCtx();
+      const bpm = parseInt(bpmSlider.value); metroInterval = setInterval(tick, (60 / bpm) * 1000);
+      currentBeat = 0; tick(); isRunning = true; metroBtn.textContent = '⏹ Stop'; metroBtn.classList.add('running');
+      markToolTried('metronome');
+    }
     function stopMetro() { clearInterval(metroInterval); isRunning = false; metroBtn.textContent = '▶ Start'; metroBtn.classList.remove('running'); dots.forEach(d => d.classList.remove('active')); }
     metroBtn.addEventListener('click', () => { isRunning ? stopMetro() : startMetro(); });
 
@@ -730,10 +1184,10 @@ block content
       if (freq > 60 && freq < 1200) {
         const note = getNoteName(freq); const cents = getCents(freq);
         pitchNote.textContent = note;
-        pitchCents.textContent = cents === 0 ? '✅ In Tune!' : cents > 0 ? `+${cents} cents sharp` : `${cents} cents flat`;
+        pitchCents.textContent = cents === 0 ? '✅ In Tune!' : cents > 0 ? '+' + cents + ' cents sharp' : cents + ' cents flat';
         let closest = 0, minDiff = Math.abs(freq - guitarFreqs[0]);
         for (let i = 1; i < guitarFreqs.length; i++) { const diff = Math.abs(freq - guitarFreqs[i]); if (diff < minDiff) { minDiff = diff; closest = i; } }
-        pitchStatus.textContent = `🎸 Closest string: ${guitarNotes[closest]} — ${freq.toFixed(1)} Hz`;
+        pitchStatus.textContent = '🎸 Closest string: ' + guitarNotes[closest] + ' — ' + freq.toFixed(1) + ' Hz';
         pitchNeedle.style.left = Math.min(Math.max(50 + cents * 0.5, 5), 95) + '%';
       } else { pitchNote.textContent = '--'; pitchCents.textContent = 'Play a string...'; pitchNeedle.style.left = '50%'; }
       pitchAnimFrame = requestAnimationFrame(detectPitch);
@@ -753,7 +1207,9 @@ block content
           pitchAnalyser = audioCtx.createAnalyser(); pitchAnalyser.fftSize = 2048;
           source.connect(pitchAnalyser); pitchRunning = true;
           pitchBtn.textContent = '⏹ Stop Listening'; pitchBtn.classList.add('running');
-          pitchStatus.textContent = '🎤 Listening... play a string!'; detectPitch();
+          pitchStatus.textContent = '🎤 Listening... play a string!';
+          markToolTried('pitch');
+          detectPitch();
         } catch(e) { pitchStatus.textContent = '❌ Microphone access denied!'; }
       }
     });
@@ -794,9 +1250,9 @@ block content
           const note = frequencyToNote(freq); const exactFreq = noteToFreq(note);
           const cents = Math.floor(1200 * Math.log(freq / exactFreq) / Math.log(2));
           updateTuningBar(closest.id, cents);
-          if (Math.abs(cents) < 8) { tuningOverall.textContent = `✅ ${closest.name} string is in tune!`; tuningOverall.style.color = '#2d6a4f'; }
-          else if (cents < 0) { tuningOverall.textContent = `♭ ${closest.name} is flat — tune up slightly`; tuningOverall.style.color = '#3498db'; }
-          else { tuningOverall.textContent = `♯ ${closest.name} is sharp — tune down slightly`; tuningOverall.style.color = '#e63946'; }
+          if (Math.abs(cents) < 8) { tuningOverall.textContent = '✅ ' + closest.name + ' string is in tune!'; tuningOverall.style.color = '#2d6a4f'; }
+          else if (cents < 0) { tuningOverall.textContent = '♭ ' + closest.name + ' is flat — tune up slightly'; tuningOverall.style.color = '#3498db'; }
+          else { tuningOverall.textContent = '♯ ' + closest.name + ' is sharp — tune down slightly'; tuningOverall.style.color = '#e63946'; }
         }
       }
       tuningFrame = requestAnimationFrame(detectTuning);
@@ -808,7 +1264,9 @@ block content
         const source = tuningCtx.createMediaStreamSource(tuningStream);
         tuningAnalyser = tuningCtx.createAnalyser(); tuningAnalyser.fftSize = 4096; source.connect(tuningAnalyser);
         tuningRunning = true; tuningStartBtn.style.display = 'none'; tuningStopBtn.style.display = 'inline-block';
-        tuningOverall.textContent = '🎤 Listening... play a string!'; tuningMicInfo.textContent = '🎤 Microphone active'; detectTuning();
+        tuningOverall.textContent = '🎤 Listening... play a string!'; tuningMicInfo.textContent = '🎤 Microphone active';
+        markToolTried('tuning');
+        detectTuning();
       } catch(e) { tuningMicInfo.textContent = '❌ Microphone access denied!'; }
     });
     tuningStopBtn.addEventListener('click', () => {
@@ -835,12 +1293,17 @@ block content
         gain.gain.setValueAtTime((tunerVolume.value / 100) * 0.4, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.5);
         osc.start(); osc.stop(audioCtx.currentTime + 2.5);
+        markToolTried('tuner');
         setTimeout(() => { btn.classList.remove('playing'); tunerHint.textContent = 'Click a string to hear the reference note'; }, 2500);
       });
     });
 
     document.querySelectorAll('.chord-card').forEach(card => {
-      card.addEventListener('click', () => { document.querySelectorAll('.chord-card').forEach(c => c.classList.remove('active')); card.classList.add('active'); });
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.chord-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        markToolTried('chords');
+      });
     });
 
     // ── FRETBOARD GAME ──
@@ -906,7 +1369,7 @@ block content
       const si = Math.floor(Math.random() * 6);
       notes.push({ stringIndex: si, x: canvas.width + 40, speed: 1.5, hit: false, missed: false });
       currentTargetNote = notes[notes.length - 1];
-      fbInstruction.textContent = `Play string ${6 - si} — ${STRING_NAMES[si]} open!`;
+      fbInstruction.textContent = 'Play string ' + (6 - si) + ' — ' + STRING_NAMES[si] + ' open!';
     }
     function updateNotes() {
       notes.forEach(n => { n.x -= n.speed; });
@@ -937,6 +1400,16 @@ block content
       const a = (x1+x3-2*x2)/2, b = (x3-x1)/2; if (a) T0 = T0 - b/(2*a);
       return sampleRate / T0;
     }
+    const fbDetectFreq = document.getElementById('fb-detect-freq');
+    const fbDetectNote = document.getElementById('fb-detect-note');
+    const STRING_NOTE_NAMES = ['High E (1st)', 'B (2nd)', 'G (3rd)', 'D (4th)', 'A (5th)', 'Low E (6th)'];
+    function updateDetectPanel(freq, closestIdx) {
+      if (fbDetectFreq) fbDetectFreq.textContent = freq > 0 ? freq.toFixed(1) + ' Hz' : '— Hz';
+      if (fbDetectNote) fbDetectNote.textContent = freq > 0 ? '🎸 Hearing: ' + STRING_NOTE_NAMES[closestIdx] : 'Waiting for sound...';
+      document.querySelectorAll('.fb-detect-string-pill').forEach((pill, i) => {
+        pill.classList.toggle('detected', i === closestIdx && freq > 0);
+      });
+    }
     function detectAndCheck() {
       if (!gameActive || gamePaused) { detectFrame = requestAnimationFrame(detectAndCheck); return; }
       const buf = new Float32Array(fbAnalyser.fftSize); fbAnalyser.getFloatTimeDomainData(buf);
@@ -944,12 +1417,13 @@ block content
       if (freq > 60 && freq < 400 && now - lastDetectTime > 600) {
         let closest = 0, minDiff = Infinity;
         STRING_FREQS.forEach((f, i) => { const d = Math.abs(freq-f); if (d < minDiff) { minDiff = d; closest = i; } });
+        updateDetectPanel(freq, closest);
         const hitNote = notes.find(n => n.stringIndex === closest && Math.abs(n.x - 80) < 70 && !n.hit && !n.missed);
         if (hitNote && minDiff < 12) {
           hitNote.hit = true; lastDetectTime = now; score += 100 * multiplier;
           multiplier = Math.min(multiplier + 1, 8); fbScore.textContent = score; fbMultiplier.textContent = multiplier + '×';
           fbInstruction.textContent = '✅ Great job!';
-          setTimeout(() => { if (gameActive) fbInstruction.textContent = `Play string ${6 - (currentTargetNote ? currentTargetNote.stringIndex : 0)} open!`; }, 600);
+          setTimeout(() => { if (gameActive) fbInstruction.textContent = 'Play string ' + (6 - (currentTargetNote ? currentTargetNote.stringIndex : 0)) + ' open!'; }, 600);
         }
       }
       detectFrame = requestAnimationFrame(detectAndCheck);
@@ -960,28 +1434,91 @@ block content
         fbStream = await navigator.mediaDevices.getUserMedia({ audio: true });
         const source = audioCtxFB.createMediaStreamSource(fbStream);
         fbAnalyser = audioCtxFB.createAnalyser(); fbAnalyser.fftSize = 2048; source.connect(fbAnalyser);
-        fbMicStatus.textContent = '🎤 Microphone active — play your guitar!'; fbMicStatus.className = 'fb-mic-status active';
-      } catch(e) { fbMicStatus.textContent = '❌ Microphone denied — visual only mode'; fbMicStatus.className = 'fb-mic-status error'; }
+        fbMicStatus.textContent = '🎤 Microphone active — play your guitar!'; fbMicStatus.className = 'fb-mic-badge active';
+      } catch(e) { fbMicStatus.textContent = '❌ Microphone denied — visual only mode'; fbMicStatus.className = 'fb-mic-badge error'; }
       gameActive = true; gamePaused = false; score = 0; multiplier = 1; lives = 5;
       notes = []; noteSpawnTimer = 150; lastDetectTime = 0;
       hearts.forEach(h => h.classList.remove('lost')); fbScore.textContent = '0'; fbMultiplier.textContent = '1×';
       fbProgressFill.style.width = '0%'; fbInstruction.textContent = 'Get ready...';
       fbStartBtn.style.display = 'none'; fbStopBtn.style.display = 'inline-block';
+      markToolTried('fretboard');
       resizeCanvas(); gameLoop(); if (fbAnalyser) detectAndCheck();
     }
     function stopFBGame() {
       gameActive = false; cancelAnimationFrame(animFrame); cancelAnimationFrame(detectFrame);
       if (fbStream) fbStream.getTracks().forEach(t => t.stop());
-      fbInstruction.textContent = `Game Over! Final Score: ${score} 🎸`;
+      fbInstruction.textContent = 'Game Over! Final Score: ' + score + ' 🎸';
       fbStartBtn.style.display = 'inline-block'; fbStopBtn.style.display = 'none';
-      fbMicStatus.textContent = '🎤 Microphone not active'; fbMicStatus.className = 'fb-mic-status';
+      fbMicStatus.textContent = '🎤 Microphone not active'; fbMicStatus.className = 'fb-mic-badge';
+      updateDetectPanel(0, -1);
       ctx.clearRect(0, 0, canvas.width, canvas.height); drawFretboard(); drawHitZone();
     }
     fbStartBtn.addEventListener('click', startFBGame);
     fbStopBtn.addEventListener('click', stopFBGame);
     fbPauseBtn.addEventListener('click', () => { gamePaused = !gamePaused; fbPauseBtn.textContent = gamePaused ? '▶' : '⏸'; fbInstruction.textContent = gamePaused ? '⏸ Paused' : 'Keep playing!'; });
+    // alias mic status to new class
+    function updateFbMic(text, cls) {
+      const el = document.getElementById('fb-mic-status');
+      if (!el) return;
+      el.textContent = text; el.className = 'fb-mic-badge ' + (cls || '');
+    }
 
-    // ── STRING NAMING QUIZ ──
+    // ── QUIZ SOUND ENGINE ──
+    function playStringPluck(stringIndex) {
+      try {
+        if (!audioCtx) audioCtx = new AudioCtx();
+        const freqs = [329.63, 246.94, 196.00, 146.83, 110.00, 82.41];
+        const freq = freqs[stringIndex];
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.value = freq;
+        const osc2 = audioCtx.createOscillator();
+        const gain2 = audioCtx.createGain();
+        osc2.type = 'sawtooth';
+        osc2.frequency.value = freq * 1.002;
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc2.connect(gain2); gain2.connect(audioCtx.destination);
+        const now = audioCtx.currentTime;
+        gain.gain.setValueAtTime(0.35, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 1.8);
+        gain2.gain.setValueAtTime(0.12, now);
+        gain2.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+        osc.start(now); osc.stop(now + 1.8);
+        osc2.start(now); osc2.stop(now + 1.2);
+      } catch(e) {}
+    }
+    function playQuizCorrect() {
+      try {
+        if (!audioCtx) audioCtx = new AudioCtx();
+        const now = audioCtx.currentTime;
+        [523.25, 659.25, 783.99].forEach((f, i) => {
+          const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+          o.type = 'sine'; o.frequency.value = f;
+          o.connect(g); g.connect(audioCtx.destination);
+          g.gain.setValueAtTime(0, now + i * 0.1);
+          g.gain.linearRampToValueAtTime(0.25, now + i * 0.1 + 0.02);
+          g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.1 + 0.4);
+          o.start(now + i * 0.1); o.stop(now + i * 0.1 + 0.4);
+        });
+      } catch(e) {}
+    }
+    function playQuizWrong() {
+      try {
+        if (!audioCtx) audioCtx = new AudioCtx();
+        const now = audioCtx.currentTime;
+        [220, 196].forEach((f, i) => {
+          const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+          o.type = 'sawtooth'; o.frequency.value = f;
+          o.connect(g); g.connect(audioCtx.destination);
+          g.gain.setValueAtTime(0.2, now + i * 0.18);
+          g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.18 + 0.3);
+          o.start(now + i * 0.18); o.stop(now + i * 0.18 + 0.3);
+        });
+      } catch(e) {}
+    }
+
+    // ── STRING NAMING QUIZ (redesigned) ──
     const quizData = [
       { string: 1, answer: 'High E', options: ['High E', 'B', 'G', 'D'] },
       { string: 2, answer: 'B', options: ['A', 'B', 'G', 'D'] },
@@ -992,66 +1529,190 @@ block content
     ];
     const QUIZ_COLORS = ['#e63946','#f4a261','#52b788','#4cc9f0','#a78bfa','#ffd166'];
     const QUIZ_STRING_NAMES = ['High E','B','G','D','A','Low E'];
-    let quizScore = 0, quizStreak = 0, quizBest = 0;
+    const QUIZ_THICKNESSES = [1, 1.5, 2, 2.8, 3.5, 4.5];
+    let quizScore = 0, quizStreak = 0, quizBest = 0, quizQCount = 0, quizActive = false;
     const quizScoreEl = document.getElementById('quiz-score');
     const quizStreakEl = document.getElementById('quiz-streak');
     const quizBestEl = document.getElementById('quiz-best');
-    const quizQNum = document.getElementById('quiz-q-number');
+    const quizQCountEl = document.getElementById('quiz-qcount');
     const quizOptionsEl = document.getElementById('quiz-options');
     const quizFeedback = document.getElementById('quiz-feedback');
     const quizStartBtn = document.getElementById('quiz-start-btn');
-    const quizDiagram = document.getElementById('quiz-string-diagram');
-    function drawQuizDiagram(stringNumber) {
-      const ns = 'http://www.w3.org/2000/svg'; quizDiagram.innerHTML = '';
+    const quizHint = document.getElementById('quiz-string-hint');
+    const qCanvas = document.getElementById('quiz-canvas');
+    const qCtx = qCanvas.getContext('2d');
+
+    function drawQuizCanvas(activeString) {
+      const W = qCanvas.width, H = qCanvas.height;
+      qCtx.clearRect(0, 0, W, H);
+      // Dark background with fret lines
+      qCtx.fillStyle = '#0a1628';
+      qCtx.fillRect(0, 0, W, H);
+      // Fret lines
+      qCtx.strokeStyle = 'rgba(100,120,150,0.25)';
+      qCtx.lineWidth = 1;
+      for (let i = 0; i <= 5; i++) {
+        const x = 40 + (i / 5) * (W - 60);
+        qCtx.beginPath(); qCtx.moveTo(x, 10); qCtx.lineTo(x, H - 10); qCtx.stroke();
+      }
+      // Nut
+      qCtx.fillStyle = '#c4a35a';
+      qCtx.fillRect(36, 10, 5, H - 20);
+      // Draw all 6 strings
       for (let i = 0; i < 6; i++) {
-        const y = 12 + i * 13; const isActive = (i + 1) === stringNumber;
-        const color = isActive ? QUIZ_COLORS[i] : 'rgba(255,255,255,0.2)';
-        const line = document.createElementNS(ns, 'line');
-        line.setAttribute('x1', '10'); line.setAttribute('x2', '200'); line.setAttribute('y1', y); line.setAttribute('y2', y);
-        line.setAttribute('stroke', color); line.setAttribute('stroke-width', isActive ? 4 : 1 + (5-i)*0.3);
-        quizDiagram.appendChild(line);
+        const y = 18 + (i / 5) * (H - 36);
+        const isActive = (i + 1) === activeString;
+        const color = QUIZ_COLORS[i];
+        const thick = QUIZ_THICKNESSES[i];
         if (isActive) {
-          const circle = document.createElementNS(ns, 'circle');
-          circle.setAttribute('cx', '105'); circle.setAttribute('cy', y); circle.setAttribute('r', '8'); circle.setAttribute('fill', color);
-          quizDiagram.appendChild(circle);
-          const label = document.createElementNS(ns, 'text');
-          label.setAttribute('x', '215'); label.setAttribute('y', y+4); label.setAttribute('fill', color);
-          label.setAttribute('font-size', '11'); label.setAttribute('font-weight', 'bold'); label.setAttribute('font-family', 'monospace');
-          label.textContent = QUIZ_STRING_NAMES[i]; quizDiagram.appendChild(label);
+          // Glow effect for active string
+          qCtx.shadowColor = color; qCtx.shadowBlur = 18;
+          qCtx.strokeStyle = color; qCtx.lineWidth = thick + 2; qCtx.globalAlpha = 0.5;
+          qCtx.beginPath(); qCtx.moveTo(40, y); qCtx.lineTo(W - 10, y); qCtx.stroke();
+          qCtx.globalAlpha = 1; qCtx.shadowBlur = 0;
+          qCtx.strokeStyle = color; qCtx.lineWidth = thick + 1;
+          qCtx.beginPath(); qCtx.moveTo(40, y); qCtx.lineTo(W - 10, y); qCtx.stroke();
+          // Dot indicator
+          qCtx.shadowColor = color; qCtx.shadowBlur = 12;
+          qCtx.fillStyle = color;
+          qCtx.beginPath(); qCtx.arc(W / 2, y, 8, 0, Math.PI * 2); qCtx.fill();
+          qCtx.shadowBlur = 0;
+          // String number badge
+          qCtx.fillStyle = '#1a1a2e';
+          qCtx.font = 'bold 9px monospace'; qCtx.textAlign = 'center'; qCtx.textBaseline = 'middle';
+          qCtx.fillText(activeString, W / 2, y);
+          // String name at right edge
+          qCtx.font = 'bold 11px sans-serif'; qCtx.fillStyle = color; qCtx.textAlign = 'left';
+          qCtx.fillText('?', W - 22, y + 1);
+        } else {
+          qCtx.shadowBlur = 0;
+          qCtx.strokeStyle = 'rgba(180,180,180,0.2)'; qCtx.lineWidth = thick * 0.6;
+          qCtx.beginPath(); qCtx.moveTo(40, y); qCtx.lineTo(W - 10, y); qCtx.stroke();
         }
       }
+      qCtx.shadowBlur = 0; qCtx.globalAlpha = 1;
     }
+
+    // Animate the active string (vibration effect)
+    let quizAnimFrame = null, quizAnimTime = 0, quizCurrentQ = null;
+    function animateQuizString() {
+      if (!quizCurrentQ) return;
+      quizAnimTime += 0.15;
+      const W = qCanvas.width, H = qCanvas.height;
+      qCtx.clearRect(0, 0, W, H);
+      // Bg + frets
+      qCtx.fillStyle = '#0a1628'; qCtx.fillRect(0, 0, W, H);
+      qCtx.strokeStyle = 'rgba(100,120,150,0.25)'; qCtx.lineWidth = 1;
+      for (let i = 0; i <= 5; i++) {
+        const x = 40 + (i / 5) * (W - 60);
+        qCtx.beginPath(); qCtx.moveTo(x, 10); qCtx.lineTo(x, H - 10); qCtx.stroke();
+      }
+      qCtx.fillStyle = '#c4a35a'; qCtx.fillRect(36, 10, 5, H - 20);
+      // Strings
+      for (let i = 0; i < 6; i++) {
+        const baseY = 18 + (i / 5) * (H - 36);
+        const isActive = (i + 1) === quizCurrentQ.string;
+        const color = QUIZ_COLORS[i];
+        const thick = QUIZ_THICKNESSES[i];
+        if (isActive) {
+          const amp = 3 * Math.sin(quizAnimTime * 2.5);
+          qCtx.shadowColor = color; qCtx.shadowBlur = 14;
+          qCtx.strokeStyle = color; qCtx.lineWidth = thick + 1; qCtx.globalAlpha = 0.6;
+          qCtx.beginPath(); qCtx.moveTo(40, baseY);
+          for (let x = 40; x <= W - 10; x += 2) {
+            const wave = amp * Math.sin(((x - 40) / (W - 50)) * Math.PI * 4 + quizAnimTime * 3);
+            qCtx.lineTo(x, baseY + wave);
+          }
+          qCtx.stroke();
+          qCtx.globalAlpha = 1; qCtx.shadowBlur = 8; qCtx.lineWidth = thick;
+          qCtx.beginPath(); qCtx.moveTo(40, baseY);
+          for (let x = 40; x <= W - 10; x += 2) {
+            const wave = amp * Math.sin(((x - 40) / (W - 50)) * Math.PI * 4 + quizAnimTime * 3);
+            qCtx.lineTo(x, baseY + wave);
+          }
+          qCtx.stroke();
+          qCtx.shadowBlur = 0;
+          // Dot
+          const midWave = amp * Math.sin(Math.PI * 2 + quizAnimTime * 3);
+          qCtx.fillStyle = color; qCtx.beginPath(); qCtx.arc(W / 2, baseY + midWave, 8, 0, Math.PI * 2); qCtx.fill();
+          qCtx.fillStyle = '#0a1628'; qCtx.font = 'bold 9px monospace'; qCtx.textAlign = 'center'; qCtx.textBaseline = 'middle';
+          qCtx.fillText(quizCurrentQ.string, W / 2, baseY + midWave);
+          qCtx.fillStyle = color; qCtx.font = 'bold 12px sans-serif'; qCtx.textAlign = 'left';
+          qCtx.fillText('?', W - 22, baseY + 1);
+        } else {
+          qCtx.shadowBlur = 0; qCtx.globalAlpha = 1;
+          qCtx.strokeStyle = 'rgba(180,180,180,0.18)'; qCtx.lineWidth = thick * 0.6;
+          qCtx.beginPath(); qCtx.moveTo(40, baseY); qCtx.lineTo(W - 10, baseY); qCtx.stroke();
+        }
+      }
+      qCtx.shadowBlur = 0; qCtx.globalAlpha = 1;
+      quizAnimFrame = requestAnimationFrame(animateQuizString);
+    }
+
     function shuffleArr(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+
     function showQuizQ() {
       const q = quizData[Math.floor(Math.random() * quizData.length)];
-      quizQNum.textContent = q.string; drawQuizDiagram(q.string);
-      quizFeedback.textContent = ''; quizOptionsEl.innerHTML = '';
+      quizCurrentQ = q;
+      quizQCount++;
+      if (quizQCountEl) quizQCountEl.textContent = quizQCount;
+      if (quizHint) quizHint.textContent = 'String ' + q.string + ' of 6 — pick the name →';
+      cancelAnimationFrame(quizAnimFrame);
+      animateQuizString();
+      playStringPluck(q.string - 1);
+      quizFeedback.className = 'quiz-feedback-bar fb-idle';
+      quizFeedback.textContent = 'Pick the correct string name!';
+      quizOptionsEl.innerHTML = '';
       shuffleArr(q.options).forEach(opt => {
-        const btn = document.createElement('button'); btn.className = 'quiz-option'; btn.textContent = opt;
+        const btn = document.createElement('button');
+        btn.className = 'quiz-opt-btn'; btn.textContent = opt;
         btn.addEventListener('click', () => {
-          document.querySelectorAll('.quiz-option').forEach(b => b.disabled = true);
+          cancelAnimationFrame(quizAnimFrame);
+          drawQuizCanvas(q.string);
+          document.querySelectorAll('.quiz-opt-btn').forEach(b => b.disabled = true);
           if (opt === q.answer) {
             btn.classList.add('correct'); quizScore += 10; quizStreak++;
             if (quizStreak > quizBest) { quizBest = quizStreak; quizBestEl.textContent = quizBest; }
-            quizFeedback.textContent = '✅ Correct!'; quizFeedback.style.color = '#2d6a4f';
+            quizFeedback.className = 'quiz-feedback-bar fb-correct';
+            quizFeedback.textContent = '✅ Correct! +10 pts';
+            playQuizCorrect();
+            document.querySelectorAll('.quiz-hud-card')[1].style.background = 'rgba(45,106,79,0.3)';
           } else {
             btn.classList.add('wrong');
-            document.querySelectorAll('.quiz-option').forEach(b => { if (b.textContent === q.answer) b.classList.add('correct'); });
-            quizStreak = 0; quizFeedback.textContent = `❌ Wrong! It was ${q.answer}`; quizFeedback.style.color = '#e63946';
+            document.querySelectorAll('.quiz-opt-btn').forEach(b => { if (b.textContent === q.answer) b.classList.add('correct'); });
+            if (quizScore > 0) saveToLeaderboard(quizScore);
+            quizStreak = 0;
+            quizFeedback.className = 'quiz-feedback-bar fb-wrong';
+            quizFeedback.textContent = '❌ It was ' + q.answer + '! Score saved to leaderboard.';
+            playQuizWrong();
+            document.querySelectorAll('.quiz-hud-card')[1].style.background = 'rgba(198,28,35,0.15)';
           }
-          quizScoreEl.textContent = quizScore; quizStreakEl.textContent = '🔥 ' + quizStreak;
-          setTimeout(showQuizQ, 1400);
+          quizScoreEl.textContent = quizScore;
+          quizStreakEl.textContent = quizStreak;
+          setTimeout(() => {
+            document.querySelectorAll('.quiz-hud-card')[1].style.background = '';
+            showQuizQ();
+          }, 1400);
         });
         quizOptionsEl.appendChild(btn);
       });
     }
-    quizStartBtn.addEventListener('click', () => { quizScore = 0; quizStreak = 0; quizScoreEl.textContent = '0'; quizStreakEl.textContent = '🔥 0'; quizStartBtn.textContent = '🔄 Restart'; showQuizQ(); });
+
+    quizStartBtn.addEventListener('click', () => {
+      if (quizScore > 0) saveToLeaderboard(quizScore);
+      quizScore = 0; quizStreak = 0; quizQCount = 0;
+      quizScoreEl.textContent = '0'; quizStreakEl.textContent = '0';
+      if (quizQCountEl) quizQCountEl.textContent = '0';
+      quizStartBtn.textContent = '🔄 Restart Quiz';
+      markToolTried('quiz');
+      showQuizQ();
+    });
 
     // ── CHORD PROGRESSION ──
-    const progressions = { 'G-C-D-Em': ['G','C','D','Em'], 'Am-F-C-G': ['Am','F','C','G'], 'E-A-D-A': ['E','A','D','A'], 'C-G-Am-F': ['C','G','Am','F'] };
+    const progressions = { 'G-C-D-Em': ['G','C','D','Em'], 'Am-F-C-G': ['Am','F','C','G'], 'E-A-D-A': ['E','A','D','A'], 'C-G-Am-F': ['C','G','Am','F'], 'D-A-Bm-G': ['D','A','Bm','G'] };
     let progRunning = false, progInterval = null, progBeat = 0, progChordIndex = 0, progCurrentBeats = 0;
     const progBpmSlider = document.getElementById('prog-bpm');
-    const progBpmLabel = document.getElementById('prog-bpm-label');
+    const progBpmNum = document.getElementById('prog-bpm-num');
     const progSelect = document.getElementById('prog-select');
     const progCurrentChord = document.getElementById('prog-current-chord');
     const progNextChord = document.getElementById('prog-next-chord');
@@ -1059,28 +1720,42 @@ block content
     const progProgressFill = document.getElementById('prog-progress-fill');
     const progStartBtn = document.getElementById('prog-start-btn');
     const progStopBtn = document.getElementById('prog-stop-btn');
-    progBpmSlider.addEventListener('input', () => { progBpmLabel.textContent = progBpmSlider.value + ' BPM'; });
+    if (progBpmSlider) progBpmSlider.addEventListener('input', () => { if(progBpmNum) progBpmNum.textContent = progBpmSlider.value; });
+    function playProgClick(isAccent) {
+      try {
+        if (!audioCtx) audioCtx = new AudioCtx();
+        const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+        o.frequency.value = isAccent ? 1000 : 700; o.type = 'sine';
+        o.connect(g); g.connect(audioCtx.destination);
+        g.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.07);
+        o.start(); o.stop(audioCtx.currentTime + 0.07);
+      } catch(e) {}
+    }
     function progTick() {
       progBeats.forEach(b => b.classList.remove('active')); progBeats[progBeat].classList.add('active');
+      playProgClick(progBeat === 0);
       progBeat = (progBeat + 1) % 4; progCurrentBeats++;
-      progProgressFill.style.width = Math.min(100, (progCurrentBeats / 4) * 100) + '%';
+      const fill = document.getElementById('prog-progress-fill');
+      if (fill) fill.style.width = Math.min(100, (progCurrentBeats / 4) * 100) + '%';
       if (progCurrentBeats >= 4) {
-        progCurrentBeats = 0; progProgressFill.style.width = '0%';
+        progCurrentBeats = 0; if (fill) fill.style.width = '0%';
         const chords = progressions[progSelect.value] || ['G','C','D','Em'];
         progChordIndex = (progChordIndex + 1) % chords.length;
         progCurrentChord.textContent = chords[progChordIndex];
         progNextChord.textContent = chords[(progChordIndex + 1) % chords.length];
       }
     }
-    progStartBtn.addEventListener('click', () => {
+    if (progStartBtn) progStartBtn.addEventListener('click', () => {
       const chords = progressions[progSelect.value] || ['G','C','D','Em'];
       progChordIndex = 0; progBeat = 0; progCurrentBeats = 0;
       progCurrentChord.textContent = chords[0]; progNextChord.textContent = chords[1];
-      progProgressFill.style.width = '0%'; progRunning = true;
+      progRunning = true;
       progInterval = setInterval(progTick, (60 / parseInt(progBpmSlider.value)) * 1000);
       progStartBtn.style.display = 'none'; progStopBtn.style.display = 'inline-block';
+      markToolTried('progression');
     });
-    progStopBtn.addEventListener('click', () => {
+    if (progStopBtn) progStopBtn.addEventListener('click', () => {
       clearInterval(progInterval); progRunning = false; progBeats.forEach(b => b.classList.remove('active'));
       progStartBtn.style.display = 'inline-block'; progStopBtn.style.display = 'none';
       progCurrentChord.textContent = '—'; progNextChord.textContent = '—';
@@ -1106,6 +1781,7 @@ block content
       const scale = scaleSelect.value; const scaleNotes = scales[scale]; const frets = scaleFrets[scale];
       buildScaleRow(scale); scaleIndex = 0; scaleRunning = true;
       scaleStartBtn.style.display = 'none'; scaleStopBtn.style.display = 'inline-block';
+      markToolTried('scale');
       function showNext() {
         document.querySelectorAll('.scale-note-pill').forEach(p => p.className = 'scale-note-pill');
         for (let i = 0; i < scaleIndex; i++) { const el = document.getElementById('sp' + i); if (el) el.classList.add('done'); }
@@ -1124,11 +1800,12 @@ block content
 
     // ── RHYTHM TAPPING GAME ──
     const rhythmPatterns = [[1,0,1,0,1,0,1,0],[1,0,0,1,0,0,1,0],[1,1,0,1,1,0,1,0],[1,0,1,1,0,1,0,1],[1,0,0,0,1,0,1,0]];
-    let rhythmActive = false, rhythmScore = 0, rhythmHits = 0, rhythmTotal = 0;
+    let rhythmActive = false, rhythmScore = 0, rhythmHits = 0, rhythmTotal = 0, rhythmCombo = 0;
     let rhythmBeatIndex = 0, rhythmPattern = [], rhythmInterval = null, rhythmLevel = 1;
     const rhythmScoreEl = document.getElementById('rhythm-score');
     const rhythmAccuracyEl = document.getElementById('rhythm-accuracy');
     const rhythmLevelEl = document.getElementById('rhythm-level');
+    const rhythmComboEl = document.getElementById('rhythm-combo');
     const rhythmPatternEl = document.getElementById('rhythm-pattern');
     const rhythmFeedback = document.getElementById('rhythm-feedback');
     const rhythmTapBtn = document.getElementById('rhythm-tap-btn');
@@ -1139,32 +1816,52 @@ block content
       rhythmPattern.forEach((beat, i) => { const box = document.createElement('div'); box.className = 'rhythm-beat-box'; box.id = 'rb' + i; box.textContent = beat === 1 ? '●' : '○'; rhythmPatternEl.appendChild(box); });
     }
     function rhythmTick() { document.querySelectorAll('.rhythm-beat-box').forEach(b => b.classList.remove('active')); const box = document.getElementById('rb' + rhythmBeatIndex); if (box) box.classList.add('active'); rhythmBeatIndex = (rhythmBeatIndex + 1) % rhythmPattern.length; }
+    function playRhythmTap(hit) {
+      try {
+        if (!audioCtx) audioCtx = new AudioCtx();
+        const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+        o.frequency.value = hit ? 600 : 200; o.type = hit ? 'sine' : 'sawtooth';
+        o.connect(g); g.connect(audioCtx.destination);
+        g.gain.setValueAtTime(0.25, audioCtx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (hit ? 0.15 : 0.2));
+        o.start(); o.stop(audioCtx.currentTime + 0.2);
+      } catch(e) {}
+    }
     function handleRhythmTap() {
       if (!rhythmActive) return;
       const currentBeat = rhythmBeatIndex === 0 ? rhythmPattern.length - 1 : rhythmBeatIndex - 1;
       const box = document.getElementById('rb' + currentBeat); rhythmTotal++;
       if (rhythmPattern[currentBeat] === 1) {
-        rhythmHits++; rhythmScore += 10 * rhythmLevel;
+        rhythmHits++; rhythmCombo++; rhythmScore += 10 * rhythmLevel * (rhythmCombo >= 5 ? 2 : 1);
         if (box) { box.classList.add('hit'); setTimeout(() => box && box.classList.remove('hit'), 200); }
-        rhythmFeedback.textContent = '✅ On beat!'; rhythmFeedback.style.color = '#2d6a4f';
-      } else { rhythmFeedback.textContent = '❌ Off beat!'; rhythmFeedback.style.color = '#e63946'; }
+        playRhythmTap(true);
+        const msg = rhythmCombo >= 10 ? '🔥 ON FIRE! ×' + rhythmCombo : rhythmCombo >= 5 ? '⚡ Combo ×' + rhythmCombo + '!' : '✅ On beat!';
+        rhythmFeedback.textContent = msg; rhythmFeedback.style.color = rhythmCombo >= 5 ? '#f4a261' : '#52b788';
+      } else {
+        rhythmCombo = 0; playRhythmTap(false);
+        rhythmFeedback.textContent = '❌ Off beat!'; rhythmFeedback.style.color = '#e63946';
+      }
       rhythmScoreEl.textContent = rhythmScore;
       rhythmAccuracyEl.textContent = Math.round((rhythmHits / rhythmTotal) * 100) + '%';
+      if (rhythmComboEl) rhythmComboEl.textContent = rhythmCombo;
       if (rhythmTotal % 16 === 0) { rhythmLevel++; rhythmLevelEl.textContent = rhythmLevel; buildRhythmPattern(); }
     }
-    rhythmTapBtn.addEventListener('click', handleRhythmTap);
+    if (rhythmTapBtn) rhythmTapBtn.addEventListener('click', handleRhythmTap);
     document.addEventListener('keydown', (e) => { if (e.code === 'Space' && rhythmActive) { e.preventDefault(); handleRhythmTap(); } });
-    rhythmStartBtn.addEventListener('click', () => {
-      rhythmActive = true; rhythmScore = 0; rhythmHits = 0; rhythmTotal = 0; rhythmBeatIndex = 0; rhythmLevel = 1;
+    if (rhythmStartBtn) rhythmStartBtn.addEventListener('click', () => {
+      rhythmActive = true; rhythmScore = 0; rhythmHits = 0; rhythmTotal = 0; rhythmBeatIndex = 0; rhythmLevel = 1; rhythmCombo = 0;
       rhythmScoreEl.textContent = '0'; rhythmAccuracyEl.textContent = '0%'; rhythmLevelEl.textContent = '1';
+      if (rhythmComboEl) rhythmComboEl.textContent = '0';
       buildRhythmPattern(); rhythmInterval = setInterval(rhythmTick, 500);
       rhythmStartBtn.style.display = 'none'; rhythmStopBtn.style.display = 'inline-block';
-      rhythmFeedback.textContent = 'Tap in time with the ● beats!';
+      rhythmFeedback.textContent = 'Tap the ● beats in time!'; rhythmFeedback.style.color = 'rgba(255,255,255,0.5)';
+      markToolTried('rhythm');
     });
-    rhythmStopBtn.addEventListener('click', () => {
+    if (rhythmStopBtn) rhythmStopBtn.addEventListener('click', () => {
       rhythmActive = false; clearInterval(rhythmInterval);
       rhythmStartBtn.style.display = 'inline-block'; rhythmStopBtn.style.display = 'none';
-      rhythmFeedback.textContent = `Final Score: ${rhythmScore} | Accuracy: ${rhythmTotal > 0 ? Math.round((rhythmHits/rhythmTotal)*100) : 0}%`;
+      rhythmFeedback.textContent = 'Final: ' + rhythmScore + ' pts | Accuracy: ' + (rhythmTotal > 0 ? Math.round((rhythmHits/rhythmTotal)*100) : 0) + '%';
+      rhythmFeedback.style.color = '#52b788';
     });
 
     // ── FREE STRUM CHORD RECOGNISER ──
@@ -1185,9 +1882,9 @@ block content
         Object.entries(CHORD_FREQS).forEach(([chord, f]) => { const diff = Math.abs(freq - f); if (diff < minDiff) { minDiff = diff; closest = chord; } });
         if (minDiff < 20) {
           lastStrumTime = now; strumChordEl.textContent = closest;
-          strumFreqInfo.textContent = `Detected: ${freq.toFixed(1)} Hz`;
+          strumFreqInfo.textContent = 'Detected: ' + freq.toFixed(1) + ' Hz';
           strumHistory.unshift(closest); if (strumHistory.length > 8) strumHistory.pop();
-          strumHistoryList.innerHTML = strumHistory.map(c => `<span class="strum-history-pill">${c}</span>`).join('');
+          strumHistoryList.innerHTML = strumHistory.map(c => '<span class="strum-history-pill">' + c + '</span>').join('');
         }
       }
       strumFrame = requestAnimationFrame(detectStrumChord);
@@ -1202,6 +1899,7 @@ block content
         strumFreqInfo.textContent = 'Listening... strum your guitar!';
         strumHistoryList.innerHTML = '<p class="strum-no-history">Waiting for guitar...</p>';
         strumStartBtn.style.display = 'none'; strumStopBtn.style.display = 'inline-block';
+        markToolTried('strum');
         detectStrumChord();
       } catch(e) { strumFreqInfo.textContent = '❌ Microphone access denied!'; }
     });
